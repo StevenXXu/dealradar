@@ -34,7 +34,8 @@ class NotionClient:
         }
         props["Domain"] = {"url": company.get("domain", "")}
         props["VC Source"] = {"rich_text": [{"text": {"content": company.get("vc_source", "")}}]}
-        props["Sector"] = {"rich_text": [{"text": {"content": company.get("sector", "Unknown")}}]}
+        sector = company.get("sector") or "Unknown"
+        props["Sector"] = {"rich_text": [{"text": {"content": sector}}]}
         props["One-liner"] = {"rich_text": [{"text": {"content": company.get("one_liner", "")[:2000]}}]}
         props["Signal Score"] = {"number": company.get("signal_score", 0)}
 

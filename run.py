@@ -66,6 +66,9 @@ def run_digest(enriched_path: str = "data/enriched_companies.json"):
     digest.run(enriched_path)
 
 
+import sys
+sys.stdout.reconfigure(encoding='utf-8')
+
 def main():
     parser = argparse.ArgumentParser(description="DealRadar MVP CLI")
     parser.add_argument(

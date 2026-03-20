@@ -172,11 +172,28 @@ class PlaywrightScraper:
             "read more", "view all", "our portfolio", "why founders",
             "the flock", "meet our", "want to join", "researcher",
             "overview", "what we do", "conclusion", "introduction",
+            "back to top", "get directions", "site by", "reset filters",
+            "open in a new tab", "view website", "view site",
+            "privacy policy", "terms of use", "disclaimer", "legal notice",
+            "about us", "approach", "insights", "jobs", "connect",
+            "lp portal", "investor portal", "investor log", "foundation",
+            "acquired", "ipo", "acquired by",
+            # Portfolio page section names
+            "people", "community", "perspectives", "close", "privacy policy",
+            "fintech", "edtech", "healthtech", "cleantech", "cybersecurity",
+            "ai & robotics", "hr tech", "legal tech", "real estate",
+            "marketplace", "construction", "manufacturing", "consumer",
+            "open source", "it operations", "marketing", "gaming",
+            "volunteer management", "end of life management", "enterprise",
+            "saas", "b2b", "b2c", "deep tech", "web3", "blockchain",
         }
         text_lower = text.lower().strip()
         if len(text) < 3 or len(text) > 80:
             return False
         if any(s in text_lower for s in skip):
+            return False
+        # Skip all-uppercase menu items
+        if text.isupper():
             return False
         if not any(c.isupper() for c in text):
             return False
@@ -190,10 +207,25 @@ class PlaywrightScraper:
             "mseq.vc", "blackbird.vc", "squarepeg.vc", "airtree.vc",
             "folklore.vc", "sprintajax.com", "ten13.com", "alto.capital",
             "rampersand.com", "basecapital.com.au", "candour.vc",
+            # Blockchain / crypto
+            "solana.com", "sui.io", "polkadot.com", "fantom.foundation",
+            "avax.network", "algorand.com", "binance.com", "near.org",
+            "filecoin.io", "thegraph.com", "0x.org", "zilliqa.com",
+            "loopring.org", "thorchain.org", "oasisprotocol.org",
+            "skale.network", "ankr.com", "tezos.com", "nkn.org",
+            "cere.network", "agoric.com", "aergo.io", "singularitynet.io",
+            "minaprotocol.com", "sui.io", "peaq.network", "holyheld.com",
+            "nabit.org", "razor.network", "bluzelle.com", "bnb.com",
+            # Noise domains
+            "webqem.com", "mailchi.mp", "getro.com", "fundpanel.io",
+            "investorvision.intralinks.com", "dynamo.dynamosoftware.com",
+            "share.hsforms.com", "goo.gl", "maps.app.goo.gl",
+            "fund", "vc-portal", "lp-portal",
         }
         if not href.startswith("http"):
             return False
-        if any(ex in href.lower() for ex in excluded):
+        href_lower = href.lower()
+        if any(ex in href_lower for ex in excluded):
             return False
         if text and len(text) > 2:
             return True
