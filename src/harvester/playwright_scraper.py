@@ -1,0 +1,233 @@
+# src/harvester/playwright_scraper.py
+"""Playwright-based scraper for JavaScript-rendered VC portfolio pages."""
+import random
+import time
+import re
+from datetime import datetime, timezone
+from urllib.parse import urljoin, urlparse
+
+from playwright.sync_api import sync_playwright
+
+
+class PlaywrightScraper:
+    """
+    Uses Playwright to scrape JS-rendered portfolio pages.
+    Handles the common case where VC portfolio data is loaded via API/JS.
+    """
+
+    def __init__(self, headless: bool = True, timeout: int = 30000):
+        self.headless = headless
+        self.timeout = timeout
+
+    def scrape(self, url: str) -> list[dict]:
+        """
+        Scrape a VC portfolio page using Playwright.
+        Returns list of {company_name, domain, vc_source} dicts.
+        """
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=self.headless)
+            page = browser.new_page()
+
+            # Block heavy resources to speed up
+            page.route("**/*.woff2", lambda route: route.abort())
+            page.route("**/*.font", lambda route: route.abort())
+            page.route("**/*.png", lambda route: route.abort())
+            page.route("**/*.jpg", lambda route: route.abort())
+            page.route("**/*.avif", lambda route: route.abort())
+
+            page.goto(url, timeout=self.timeout, wait_until="domcontentloaded")
+            page.wait_for_timeout(5000)
+
+            # Scroll to trigger lazy loading
+            for _ in range(5):
+                page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+                page.wait_for_timeout(2000)
+
+            current_url = page.url
+
+            # Strategy 1: /all-companies pattern (e.g. Main Sequence)
+            if "/all-companies" in current_url or "/all-companies" in url:
+                companies = self._scrape_msv_style(browser, page, url)
+            else:
+                # Fallback: generic heading + link extraction
+                companies = self._scrape_generic(page, url)
+
+            browser.close()
+            return companies
+
+    def _scrape_msv_style(self, browser, page, base_url: str) -> list[dict]:
+        """Extract companies from pages like mseq.vc/all-companies. Reuses the given browser."""
+        links = page.query_selector_all("a[href]")
+        seen_slugs = set()
+        slug_map = {}  # slug -> (name, company_page_url)
+
+        for link in links:
+            href = link.get_attribute("href") or ""
+            text = link.inner_text().strip()
+            if "/msv-company-page/" in href and text:
+                slug = href.split("/msv-company-page/")[-1].split("?")[0]
+                name = text.split("\n")[0].strip()
+                # Skip if slug looks malformed (has description appended)
+                if " " in slug or any(c in slug for c in ["?", "#"]):
+                    continue
+                if name and len(name) > 1 and len(name) < 100 and slug not in seen_slugs:
+                    seen_slugs.add(slug)
+                    slug_map[slug] = (name, urljoin("https://www.mseq.vc", href))
+
+        # Visit each company page to get the actual domain (reuses the browser)
+        companies = []
+        for slug, (name, page_url) in slug_map.items():
+            domain = self._get_company_domain_from_page(browser, page_url, slug)
+            companies.append({
+                "company_name": name,
+                "domain": domain or f"https://{slug}.com",
+                "vc_source": "Main Sequence",
+                "scraped_at": datetime.now(timezone.utc).isoformat(),
+            })
+            time.sleep(random.uniform(0.5, 1.5))
+
+        return companies
+
+    def _get_company_domain_from_page(self, browser, company_page_url: str, slug: str) -> str | None:
+        """Visit a company page and extract the company's external website URL. Reuses browser."""
+        page = browser.new_page()
+        page.goto(company_page_url, timeout=self.timeout, wait_until="domcontentloaded")
+        page.wait_for_timeout(3000)
+
+        links = page.query_selector_all("a[href]")
+
+        # Priority 1: "View Website" link
+        for link in links:
+            href = link.get_attribute("href") or ""
+            text = link.inner_text().strip().lower()
+            if "view website" in text or "view site" in text:
+                if href.startswith("http") and "mseq" not in href.lower():
+                    page.close()
+                    return href
+
+        # Priority 2: any external link (skip social media, jobs, etc.)
+        excluded = {
+            "linkedin.com/company/mainsequence",
+            "medium.com/main-sequence",
+            "jobs.mseq.vc",
+            "twitter.com", "youtube.com", "facebook.com",
+            "instagram.com", "github.com", "crunchbase.com",
+            "pitchbook.com", "wikipedia.org",
+        }
+        for link in links:
+            href = link.get_attribute("href") or ""
+            text = link.inner_text().strip()
+            if href.startswith("http") and "mseq" not in href.lower():
+                if any(ex in href.lower() for ex in excluded):
+                    continue
+                if text and len(text) > 3:
+                    page.close()
+                    return href
+
+        page.close()
+        return None
+
+    def _scrape_generic(self, page, base_url: str) -> list[dict]:
+        """
+        Generic extraction: collect company name + domain from external links.
+        Company names come from link text (first line), domains from href.
+        """
+        vc_source = self._vc_name_from_url(base_url)
+        companies = []
+        seen_names = set()
+
+        links = page.query_selector_all("a[href]")
+        for link in links:
+            href = link.get_attribute("href") or ""
+            text = link.inner_text().strip()
+            if not href.startswith("http"):
+                href = urljoin(base_url, href)
+            if not self._is_external_company_link(href, text):
+                continue
+
+            # Company name is first line of link text
+            name = text.split("\n")[0].strip()
+            name = self._clean_company_name(name)
+            if not name or len(name) < 2 or len(name) > 80:
+                continue
+            if name.lower() in seen_names:
+                continue
+
+            seen_names.add(name.lower())
+            companies.append({
+                "company_name": name,
+                "domain": href,
+                "vc_source": vc_source,
+                "scraped_at": datetime.now(timezone.utc).isoformat(),
+            })
+
+        return companies
+
+    def _is_likely_company_name(self, text: str) -> bool:
+        skip = {
+            "portfolio", "investment", "about", "team", "careers", "contact",
+            "founder", "founders", "stories", "blog", "news", "events",
+            "community", "programs", "search", "get investment", "for investors",
+            "join", "home", "homepage", "back", "next", "learn more",
+            "read more", "view all", "our portfolio", "why founders",
+            "the flock", "meet our", "want to join", "researcher",
+            "overview", "what we do", "conclusion", "introduction",
+        }
+        text_lower = text.lower().strip()
+        if len(text) < 3 or len(text) > 80:
+            return False
+        if any(s in text_lower for s in skip):
+            return False
+        if not any(c.isupper() for c in text):
+            return False
+        return True
+
+    def _is_external_company_link(self, href: str, text: str) -> bool:
+        excluded = {
+            "linkedin.com", "twitter.com", "youtube.com", "facebook.com",
+            "instagram.com", "github.com", "crunchbase.com", "pitchbook.com",
+            "wikipedia.org", "google.com", "googletagmanager.com",
+            "mseq.vc", "blackbird.vc", "squarepeg.vc", "airtree.vc",
+            "folklore.vc", "sprintajax.com", "ten13.com", "alto.capital",
+            "rampersand.com", "basecapital.com.au", "candour.vc",
+        }
+        if not href.startswith("http"):
+            return False
+        if any(ex in href.lower() for ex in excluded):
+            return False
+        if text and len(text) > 2:
+            return True
+        return False
+
+    def _extract_domain(self, url: str) -> str | None:
+        try:
+            parsed = urlparse(url)
+            domain = parsed.netloc.lower()
+            if domain.startswith("www."):
+                domain = domain[4:]
+            if not domain:
+                return None
+            return f"{parsed.scheme}://{domain}/"
+        except Exception:
+            return None
+
+    def _clean_company_name(self, text: str) -> str:
+        name = text.split("\n")[0].strip()
+        for suffix in [" - Wikipedia", " | Crunchbase", " - LinkedIn"]:
+            if name.endswith(suffix):
+                name = name[: -len(suffix)].strip()
+        if len(name) < 2:
+            return ""
+        return name[:200]
+
+    def _vc_name_from_url(self, url: str) -> str:
+        try:
+            parsed = urlparse(url)
+            netloc = parsed.netloc.lower()
+            parts = netloc.replace("www.", "").split(".")
+            if len(parts) >= 2:
+                return parts[-2].replace("-", " ").title()
+            return netloc
+        except Exception:
+            return "Unknown VC"
+

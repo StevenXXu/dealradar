@@ -6,12 +6,12 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from datetime import date
 
-SMTP_HOST = os.getenv("SMTP_HOST", "smtp.sendgrid.net")
+SMTP_HOST = os.getenv("SMTP_HOST", "smtp.gmail.com")
 SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
-SMTP_USER = os.getenv("SMTP_USER", "")
-SMTP_PASS = os.getenv("SMTP_PASS", "")
+SMTP_USER = os.getenv("FROM_EMAIL", "")
+SMTP_PASS = os.getenv("EMAIL_PASSWORD", "")
 FROM_EMAIL = os.getenv("FROM_EMAIL", "dealradar@dealradar.ai")
-TO_EMAIL = os.getenv("TO_EMAIL", "steven@inpcapital.com")
+TO_EMAIL = os.getenv("TO_EMAIL", "steven@inp-capital.com")
 
 
 def format_top_companies(companies: list[dict]) -> str:

@@ -29,7 +29,7 @@ class NotionClient:
         """Convert a company dict to Notion page properties."""
         props = {}
 
-        props["Company"] = {
+        props["Name"] = {
             "title": [{"text": {"content": company["company_name"][:200]}}]
         }
         props["Domain"] = {"url": company.get("domain", "")}

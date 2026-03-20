@@ -84,16 +84,15 @@ class ModelChain:
         raise RuntimeError("All AI providers failed")
 
     def _call_gemini(self, prompt: str, system_prompt: str, max_tokens: int) -> ModelResponse:
-        genai.configure(api_key=_get_api_keys()["gemini"])
         model_name = self.models[ModelProvider.GEMINI]
-        client = genai.Client()
+        client = genai.Client(api_key=_get_api_keys()["gemini"])
         full_prompt = f"{system_prompt}\n\n{prompt}" if system_prompt else prompt
         response = client.models.generate_content(model=model_name, contents=full_prompt)
         return ModelResponse(text=response.text, provider=ModelProvider.GEMINI, model_name=model_name)
 
     def _call_kimi(self, prompt: str, system_prompt: str, max_tokens: int) -> ModelResponse:
         import requests
-        headers = {"Authorization": f"Bearer {API_KEYS['kimi']}", "Content-Type": "application/json"}
+        headers = {"Authorization": f"Bearer {_get_api_keys()['kimi']}", "Content-Type": "application/json"}
         payload = {
             "model": self.models[ModelProvider.KIMI],
             "messages": (
@@ -113,7 +112,7 @@ class ModelChain:
 
     def _call_glm(self, prompt: str, system_prompt: str, max_tokens: int) -> ModelResponse:
         import requests
-        headers = {"Authorization": f"Bearer {API_KEYS['glm']}", "Content-Type": "application/json"}
+        headers = {"Authorization": f"Bearer {_get_api_keys()['glm']}", "Content-Type": "application/json"}
         payload = {
             "model": self.models[ModelProvider.GLM],
             "messages": (

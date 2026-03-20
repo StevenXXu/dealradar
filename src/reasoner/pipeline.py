@@ -36,10 +36,10 @@ class ReasonerPipeline:
         with open(self.raw_companies_path) as f:
             return json.load(f)
 
-    def process_company(self, company: dict) -> dict:
+    def process_company(self, company: dict, idx: int, total: int) -> dict:
         """Enrich a single company with AI analysis."""
         domain = company["domain"]
-        print(f"  Processing: {company['company_name']} ({domain})...")
+        print(f"  [{idx}/{total}] Processing: {company['company_name']} ({domain})...", flush=True)
 
         try:
             time.sleep(random.uniform(2, 5))
@@ -109,8 +109,9 @@ class ReasonerPipeline:
     def run(self) -> list[dict]:
         """Process all companies."""
         self._enriched = []
-        for company in self.companies:
-            enriched = self.process_company(company)
+        total = len(self.companies)
+        for idx, company in enumerate(self.companies, 1):
+            enriched = self.process_company(company, idx, total)
             self._enriched.append(enriched)
             time.sleep(random.uniform(2, 5))
 

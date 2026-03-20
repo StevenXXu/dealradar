@@ -18,11 +18,11 @@ class JinaClient:
         if self.api_key:
             self.session.headers["Authorization"] = f"Bearer {self.api_key}"
 
-    def build_url(self, target_url: str) -> str:
+    def build_url(self, target_url: str, mode: str = "html") -> str:
         """Convert a target URL to a Jina Reader URL."""
         # URL-encode the target to handle spaces and special chars
         encoded_url = quote(target_url, safe="://")
-        return f"{self.BASE_URL}{encoded_url}"
+        return f"{self.BASE_URL}{encoded_url}?mode={mode}"
 
     def fetch(self, url: str, timeout: int = 30) -> str:
         """

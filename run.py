@@ -15,9 +15,9 @@ from src.commander.digest import WeeklyDigest
 
 
 def run_harvest(output_path: str = "data/raw_companies.json"):
-    print("=" * 60)
-    print("PHASE 1: HARVEST — Scraping VC portfolios")
-    print("=" * 60)
+    print("=" * 60, flush=True)
+    print("PHASE 1: HARVEST — Scraping VC portfolios", flush=True)
+    print("=" * 60, flush=True)
     pipeline = HarvesterPipeline(
         vc_seeds_path="config/vc_seeds.json",
         output_path=output_path,

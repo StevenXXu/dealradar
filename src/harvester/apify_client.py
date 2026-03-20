@@ -8,7 +8,7 @@ import requests
 class ApifyClient:
     """Client for Apify API (apify.com) — fallback for JS-rendered pages."""
 
-    ACTOR_URL = "https://api.apify.com/v2/acts/apify~website-scraper/run-sync"
+    ACTOR_URL = "https://api.apify.com/v2/acts/apify/web-scraper/run-sync"
 
     def __init__(self, api_token: str | None = None):
         self.actor_url = self.ACTOR_URL  # Expose as instance attribute for tests
