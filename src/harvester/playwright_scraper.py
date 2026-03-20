@@ -130,12 +130,56 @@ class PlaywrightScraper:
     def _scrape_generic(self, page, base_url: str) -> list[dict]:
         """
         Generic extraction: collect company name + domain from external links.
-        Company names come from link text (first line), domains from href.
+        Also handles pagination (_page=N query param) to scrape all pages.
         """
         vc_source = self._vc_name_from_url(base_url)
         companies = []
         seen_names = set()
 
+        # Collect companies from current page
+        companies, seen_names = self._collect_from_page(page, base_url, vc_source, seen_names)
+
+        # Handle pagination — look for _page=N links
+        pagination_links = page.query_selector_all("a[href]")
+        page_urls = set()
+        for link in pagination_links:
+            href = link.get_attribute("href") or ""
+            # Match pagination pattern: ?{anything}_page=N
+            if "_page=" in href and "portfolio" in href.lower():
+                if not href.startswith("http"):
+                    href = urljoin(base_url, href)
+                page_urls.add(href)
+
+        # Also check for page links in the URL pattern
+        current_base = base_url.split("?")[0]
+
+        if page_urls:
+            print(f"  Found {len(page_urls)} pagination pages, scraping all...", flush=True)
+            for page_url in sorted(page_urls):
+                try:
+                    new_page = page.browser.new_page()
+                    new_page.goto(page_url, timeout=self.timeout, wait_until="domcontentloaded")
+                    new_page.wait_for_timeout(3000)
+                    # Scroll
+                    for _ in range(3):
+                        new_page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+                        new_page.wait_for_timeout(1500)
+                    companies, seen_names = self._collect_from_page(
+                        new_page, page_url, vc_source, seen_names
+                    )
+                    new_page.close()
+                except Exception as e:
+                    print(f"  Pagination page failed: {e}", flush=True)
+                    try:
+                        new_page.close()
+                    except:
+                        pass
+
+        return companies
+
+    def _collect_from_page(self, page, base_url: str, vc_source: str, seen_names: set) -> tuple:
+        """Collect company links from a single page."""
+        companies = []
         links = page.query_selector_all("a[href]")
         for link in links:
             href = link.get_attribute("href") or ""
@@ -150,6 +194,8 @@ class PlaywrightScraper:
             name = self._clean_company_name(name)
             if not name or len(name) < 2 or len(name) > 80:
                 continue
+            if not self._is_likely_company_name(name):
+                continue
             if name.lower() in seen_names:
                 continue
 
@@ -160,8 +206,7 @@ class PlaywrightScraper:
                 "vc_source": vc_source,
                 "scraped_at": datetime.now(timezone.utc).isoformat(),
             })
-
-        return companies
+        return companies, seen_names
 
     def _is_likely_company_name(self, text: str) -> bool:
         skip = {
