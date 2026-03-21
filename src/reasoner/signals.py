@@ -127,8 +127,8 @@ Be precise. Only set a field to true if there is clear evidence."""
             if text_response.endswith("```"):
                 text_response = text_response[:-3]
             return json.loads(text_response)
-        except json.JSONDecodeError:
-            return {"error": "Failed to parse AI response"}
+        except json.JSONDecodeError as e:
+            raise ValueError(f"Failed to parse AI response: {e}")
 
     def _truncate_text(self, text: str, max_chars: int = 4000) -> str:
         """Hard truncate to max_chars for token control."""
