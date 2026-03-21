@@ -48,6 +48,9 @@ class PlaywrightScraper:
             # Strategy 1: /all-companies pattern (e.g. Main Sequence)
             if "/all-companies" in current_url or "/all-companies" in url:
                 companies = self._scrape_msv_style(browser, page, url)
+            # Strategy 2: Blackbird /portfolio/{slug} pattern — internal page links + VISIT WEBSITE
+            elif "blackbird.vc" in current_url.lower() and "/portfolio" in current_url:
+                companies = self._scrape_blackbird_style(browser, page, url)
             else:
                 # Fallback: generic heading + link extraction
                 companies = self._scrape_generic(page, url)
@@ -86,6 +89,86 @@ class PlaywrightScraper:
             })
             time.sleep(random.uniform(0.5, 1.5))
 
+        return companies
+
+    def _scrape_blackbird_style(self, browser, page, base_url: str) -> list[dict]:
+        """
+        Extract companies from Blackbird portfolio pages.
+        Blackbird uses /portfolio/{slug} internal pages with VISIT WEBSITE links.
+        """
+        print("  Using Blackbird strategy (internal page traversal)...", flush=True)
+        companies = []
+        seen_domains = set()
+        seen_slugs = set()
+
+        # Find all /portfolio/{slug} links on the main page
+        all_links = page.query_selector_all("a[href]")
+        slug_map = {}  # slug -> (name_placeholder, page_url)
+
+        for link in all_links:
+            href = link.get_attribute("href") or ""
+            text = link.inner_text().strip()
+            # Match /portfolio/{slug} but not /portfolio itself
+            if "/portfolio/" in href:
+                slug = href.split("/portfolio/")[-1].split("?")[0].split("#")[0]
+                if slug and slug not in seen_slugs:
+                    seen_slugs.add(slug)
+                    # Name will be extracted from the company page
+                    slug_map[slug] = (None, f"https://www.blackbird.vc/portfolio/{slug}")
+
+        print(f"  Found {len(slug_map)} company slugs, scraping each page...", flush=True)
+
+        for slug, (_, page_url) in slug_map.items():
+            try:
+                company_page = browser.new_page()
+                company_page.goto(page_url, timeout=self.timeout, wait_until="domcontentloaded")
+                company_page.wait_for_timeout(3000)
+
+                # Extract company name from h1
+                name = None
+                try:
+                    h1 = company_page.query_selector("h1")
+                    if h1:
+                        name = h1.inner_text().strip()
+                except:
+                    pass
+
+                # Find VISIT WEBSITE link
+                domain = None
+                links = company_page.query_selector_all("a[href]")
+                for link in links:
+                    text = link.inner_text().strip().lower()
+                    href = link.get_attribute("href") or ""
+                    if "visit website" in text or "view website" in text:
+                        if href.startswith("http") and "blackbird" not in href.lower():
+                            domain = href
+                            break
+
+                if name and domain:
+                    # Dedupe by domain
+                    parsed = urlparse(domain)
+                    netloc = parsed.netloc.lower().replace("www.", "")
+                    if netloc not in seen_domains:
+                        seen_domains.add(netloc)
+                        companies.append({
+                            "company_name": name[:200],
+                            "domain": domain,
+                            "vc_source": "Blackbird",
+                            "scraped_at": datetime.now(timezone.utc).isoformat(),
+                        })
+                        print(f"    {name} -> {domain}", flush=True)
+
+                company_page.close()
+            except Exception as e:
+                try:
+                    company_page.close()
+                except:
+                    pass
+                print(f"    Failed to scrape /portfolio/{slug}: {e}", flush=True)
+
+            time.sleep(random.uniform(0.5, 1.5))
+
+        print(f"  Blackbird found {len(companies)} companies", flush=True)
         return companies
 
     def _get_company_domain_from_page(self, browser, company_page_url: str, slug: str) -> str | None:
