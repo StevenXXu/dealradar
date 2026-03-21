@@ -92,3 +92,34 @@ Create a Notion database with these properties:
 - Last Scraped (Date)
 - Source URL (URL)
 - Model Used (Text)
+
+## Web Browsing (gstack)
+
+For all web browsing tasks, use the `/browse` skill from gstack (installed at `.claude/skills/gstack`).
+
+**Never use** `mcp__claude-in-chrome__*` tools for web browsing.
+
+If gstack skills aren't working, run: `cd .claude/skills/gstack && ./setup` to build the binary and register skills.
+
+Available gstack skills:
+- `/office-hours` — YC Office Hours brainstorming
+- `/plan-ceo-review` — CEO/founder plan review
+- `/plan-eng-review` — Engineering plan review
+- `/plan-design-review` — Design plan review
+- `/design-consultation` — Design system creation
+- `/review` — Pre-landing PR review
+- `/ship` — Ship/deploy workflow
+- `/browse` — Headless browser for QA testing
+- `/qa` — Full QA test + fix loop
+- `/qa-only` — QA report only (no fixes)
+- `/design-review` — Visual design audit
+- `/setup-browser-cookies` — Import real browser cookies
+- `/retro` — Weekly engineering retrospective
+- `/investigate` — Root cause debugging
+- `/document-release` — Post-ship documentation
+- `/codex` — OpenAI Codex second opinion
+- `/careful` — Safety guardrails
+- `/freeze` — Restrict edits to directory
+- `/guard` — Full safety mode
+- `/unfreeze` — Remove edit restrictions
+- `/gstack-upgrade` — Upgrade gstack
