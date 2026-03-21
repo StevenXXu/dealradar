@@ -1,7 +1,10 @@
 """Jina-based detail-page scraper for Faction B VC sites."""
+import logging
 import re
 from urllib.parse import urlparse
 from src.harvester.jina_client import JinaClient
+
+logger = logging.getLogger(__name__)
 
 EXCLUDED_DOMAINS = {
     "twitter.com", "x.com", "linkedin.com", "instagram.com",
@@ -21,7 +24,7 @@ class JinaDetailScraper:
             markdown = self.jina.fetch_with_retry(detail_url)
             return self._extract_from_markdown(markdown)
         except Exception as e:
-            print(f"  [WARN] Jina detail fetch failed for {detail_url}: {e}")
+            logger.warning("Jina detail fetch failed for %s: %s", detail_url, e)
             return None
 
     def fetch_details_parallel(self, detail_urls: list[str]) -> list[dict]:
@@ -34,32 +37,32 @@ class JinaDetailScraper:
         return results
 
     def _extract_from_markdown(self, text: str) -> dict | None:
-        """Extract company name (from first heading) and domain (first non-excluded URL) from Jina markdown."""
-        # Extract first ATX heading as company name
-        heading_match = re.search(r'^#+\s*(.+)$', text, re.MULTILINE)
-        company_name = heading_match.group(1).strip()[:200] if heading_match else None
+        """Extract company name (from first non-excluded link text) and domain from Jina markdown."""
         # Match markdown links [text](url) but not image links ![...](...)
         for match in re.finditer(r'\[(?!!)([^\]]+)\]\((https?://[^)]+)\)', text):
+            link_text = match.group(1).strip()
             url = match.group(2).strip()
             domain = self._extract_domain(url)
             if not domain:
                 continue
             if self._is_excluded(domain):
                 continue
-            return {"company_name": company_name, "domain": domain}
+            return {"company_name": link_text, "domain": domain}
         return None
+
+    def _strip_www(self, netloc: str) -> str:
+        """Strip leading www. from a netloc (host) string."""
+        return netloc.lower().replace("www.", "")
 
     def _extract_domain(self, url: str) -> str | None:
         try:
             parsed = urlparse(url)
-            domain = parsed.netloc.lower()
-            if domain.startswith("www."):
-                domain = domain[4:]
-            return f"{parsed.scheme}://{domain}/"
+            netloc = self._strip_www(parsed.netloc)
+            return f"{parsed.scheme}://{netloc}/"
         except Exception:
             return None
 
     def _is_excluded(self, domain: str) -> bool:
         # Strip trailing slash so netloc comparison works correctly
-        netloc = urlparse(domain.rstrip("/")).netloc.replace("www.", "")
-        return netloc in EXCLUDED_DOMAINS
+        netloc = urlparse(domain.rstrip("/")).netloc
+        return self._strip_www(netloc) in EXCLUDED_DOMAINS
