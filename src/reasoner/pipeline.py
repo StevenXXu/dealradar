@@ -101,7 +101,7 @@ class ReasonerPipeline:
             "funding_clock": funding_clock.isoformat() if funding_clock else None,
             "tags": tags,
             "last_raise_amount": f"${last_raise/1_000_000:.0f}M" if last_raise else "Unknown",
-            "last_raise_date": None,
+            "last_raise_date": signal_data.get("last_raise_date"),
             "ai_model_used": model_name,
             "source_citation": domain,
         }

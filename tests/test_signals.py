@@ -52,3 +52,7 @@ def test_extract_tags():
     assert "Pre-IPO Watch" in tags
     assert "Cross-Border Target" in tags
     assert "Unicorn" in tags
+
+def test_analyze_text_extracts_last_raise_date():
+    detector = SignalDetector()
+    assert '"last_raise_date"' in detector.SYSTEM_PROMPT

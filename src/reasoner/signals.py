@@ -38,6 +38,7 @@ Return a JSON object with these fields ONLY (no other text):
   "valuation_over_1b": true/false,
   "last_raise_amount_usd": number or null,
   "months_since_raise": number or null,
+  "last_raise_date": "string or null",
   "sector": "string"
 }
 Be precise. Only set a field to true if there is clear evidence."""
