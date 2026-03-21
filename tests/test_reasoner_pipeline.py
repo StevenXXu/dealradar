@@ -1,5 +1,6 @@
 # tests/test_reasoner_pipeline.py
 import json
+import re
 from pathlib import Path
 from unittest.mock import patch, MagicMock
 from src.reasoner.pipeline import ReasonerPipeline
@@ -29,10 +30,25 @@ def test_reasoner_pipeline_output_schema(tmp_path):
                 raw_companies_path=str(raw_file),
                 output_path=str(out_file)
             )
-            result = pipeline.process_company(pipeline.companies[0])
+            result = pipeline.process_company(pipeline.companies[0], idx=1, total=1)
 
     assert "company_name" in result
     assert "signal_score" in result
     assert "tags" in result
     assert "funding_clock" in result
     assert isinstance(result["signal_score"], int)
+
+def test_pipeline_uses_last_raise_date_from_signal_data():
+    pipeline_src = Path("src/reasoner/pipeline.py").read_text()
+    # Find the line that sets last_raise_date
+    lines = pipeline_src.splitlines()
+    last_raise_line = None
+    for line in lines:
+        if "last_raise_date" in line:
+            last_raise_line = line
+            break
+    assert last_raise_line is not None, "last_raise_date not found in pipeline.py"
+    # The line must reference signal_data, not hardcoded None
+    assert "signal_data" in last_raise_line, (
+        f"last_raise_date line does not use signal_data: {last_raise_line!r}"
+    )

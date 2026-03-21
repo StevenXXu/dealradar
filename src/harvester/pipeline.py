@@ -1,14 +1,17 @@
 # src/harvester/pipeline.py
 """Harvester pipeline — orchestrates scraping of all VC portfolios."""
+import asyncio
 import json
 import random
+import re
 import time
 from pathlib import Path
 
 from src.harvester.jina_client import JinaClient
 from src.harvester.apify_client import ApifyClient
+from src.harvester.jina_detail import JinaDetailScraper
 from src.harvester.playwright_scraper import PlaywrightScraper
-from src.harvester.extractor import extract_companies_from_html, filter_dead_companies
+from src.harvester.extractor import extract_companies_from_html, async_filter_dead_companies
 
 
 class HarvesterPipeline:
@@ -31,6 +34,52 @@ class HarvesterPipeline:
     def _load_seeds(self, path: str) -> list[dict]:
         with open(path) as f:
             return json.load(f)
+
+    def _scrape_faction_b(self, vc_entry: dict) -> list[dict]:
+        """Faction B: Jina portfolio → extract slugs → JinaDetailScraper for each detail page."""
+        vc_name = vc_entry["name"]
+        portfolio_url = vc_entry["url"]
+        slug = vc_entry.get("slug", vc_name.lower().replace(" ", "-"))
+
+        print(f"  [{vc_name}] Faction B: fetching portfolio via Jina...", flush=True)
+        try:
+            portfolio_markdown = self.jina.fetch_with_retry(portfolio_url)
+        except Exception as e:
+            print(f"  [WARN] Jina portfolio fetch failed for {vc_name}: {e}", flush=True)
+            return []
+
+        # Extract slugs from markdown links like /company/{slug} or /portfolio/{slug}
+        slugs = re.findall(r'/(?:company|portfolio)/([a-z0-9-]+)', portfolio_markdown)
+        slugs = list(set(slugs))
+
+        if not slugs:
+            print(f"  [WARN] No slugs found in {vc_name} portfolio page", flush=True)
+            return []
+
+        # Build detail URLs based on VC
+        if "investible" in slug.lower():
+            detail_urls = [f"https://www.investible.com/company/{s}" for s in slugs]
+        elif "archangel" in slug.lower():
+            detail_urls = [f"https://www.archangel.vc/portfolio/{s}" for s in slugs]
+        else:
+            detail_urls = [f"{portfolio_url.rstrip('/')}/{s}" for s in slugs]
+
+        print(f"  [{vc_name}] Faction B: fetching {len(detail_urls)} detail pages via JinaDetailScraper...", flush=True)
+        scraper = JinaDetailScraper(self.jina)
+        companies = scraper.fetch_details_parallel(detail_urls)
+
+        for company in companies:
+            company["vc_source"] = vc_name
+            company["source_url"] = portfolio_url
+
+        return companies
+
+    def _scrape_vc(self, vc_entry: dict) -> list[dict]:
+        """Route to Faction B handler or Faction A (Playwright-first) handler."""
+        faction = vc_entry.get("faction_hint", "a")
+        if faction == "b":
+            return self._scrape_faction_b(vc_entry)
+        return self._scrape_vc_portfolio(vc_entry)
 
     def _scrape_vc_portfolio(self, seed: dict) -> list[dict]:
         """Scrape a single VC portfolio page. Try Playwright first (JS-rendered), then Jina+Apify."""
@@ -74,15 +123,27 @@ class HarvesterPipeline:
     def run(self) -> list[dict]:
         """Run the full harvest pipeline for all VC seeds."""
         self._all_companies = []
+        vc_results = []
 
         for seed in self.vc_seeds:
             time.sleep(random.uniform(2, 5))  # Rate limit between VCs
-            companies = self._scrape_vc_portfolio(seed)
+            companies = self._scrape_vc(seed)
+            vc_results.append(companies)
             self._all_companies.extend(companies)
+
+            # Sanity check: warn if VC returned fewer than 3 companies
+            if len(companies) < 3:
+                print(f"  [WARN] {seed['name']} returned only {len(companies)} companies — below minimum threshold (3)", flush=True)
+
+        # Sanity check: warn if >50% of VCs returned 0 companies
+        failed_vcs = sum(1 for c in vc_results if len(c) == 0)
+        total_vcs = len(vc_results)
+        if total_vcs > 0 and failed_vcs > total_vcs / 2:
+            print(f"  [CRITICAL] {failed_vcs}/{total_vcs} VCs returned 0 companies — pipeline may need attention", flush=True)
 
         # Filter dead companies
         print(f"\nFiltering dead companies ({len(self._all_companies)} total before filter)...", flush=True)
-        self._all_companies = filter_dead_companies(self._all_companies, self.jina)
+        self._all_companies = asyncio.run(async_filter_dead_companies(self._all_companies))
 
         # Deduplicate by domain
         seen = set()

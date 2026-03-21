@@ -1,5 +1,7 @@
 # tests/test_signals.py
 from src.reasoner.signals import SignalDetector, SignalScore
+from unittest.mock import MagicMock
+import pytest
 
 def test_score_cfo_hire_is_highest():
     detector = SignalDetector()
@@ -52,3 +54,17 @@ def test_extract_tags():
     assert "Pre-IPO Watch" in tags
     assert "Cross-Border Target" in tags
     assert "Unicorn" in tags
+
+def test_analyze_text_extracts_last_raise_date():
+    detector = SignalDetector()
+    assert '"last_raise_date"' in detector.SYSTEM_PROMPT
+
+
+def test_analyze_text_raises_on_invalid_json():
+    """JSON parse error in AI response must raise, not return error dict."""
+    detector = SignalDetector()
+    mock_chain = MagicMock()
+    mock_chain.complete.return_value = MagicMock(text="{ not valid json")
+
+    with pytest.raises(ValueError, match="Failed to parse AI response"):
+        detector.analyze_text("any text", mock_chain)

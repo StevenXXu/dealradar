@@ -6,6 +6,13 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from datetime import date
 
+try:
+    import sendgrid
+    from sendgrid.helpers.mail import Mail
+    HAS_SENDGRID = bool(os.getenv("SENDGRID_API_KEY"))
+except ImportError:
+    HAS_SENDGRID = False
+
 SMTP_HOST = os.getenv("SMTP_HOST", "smtp.gmail.com")
 SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
 SMTP_USER = os.getenv("FROM_EMAIL", "")
@@ -88,7 +95,7 @@ class WeeklyDigest:
             print(f"Digest preview:\n{self.build_html(companies)}")
             return False
 
-        to = TO_EMAIL or os.getenv("TO_EMAIL", "")
+        to = TO_EMAIL
         if not to:
             print("[WARN] TO_EMAIL not configured")
             return False
@@ -102,12 +109,28 @@ class WeeklyDigest:
         msg["To"] = to
         msg.attach(MIMEText(html_body, "html"))
 
+        if HAS_SENDGRID:
+            try:
+                sg = sendgrid.SendGridAPIClient(api_key=os.getenv("SENDGRID_API_KEY"))
+                message = Mail(
+                    from_email=FROM_EMAIL,
+                    to_emails=to,
+                    subject=subject,
+                    html_content=html_body,
+                )
+                sg.send(message)
+                print(f"  Digest sent to {to} via SendGrid")
+                return True
+            except Exception as e:
+                print(f"  [WARN] SendGrid failed, falling back to SMTP: {e}")
+
+        # Fallback: SMTP
         try:
             with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as server:
                 server.starttls()
                 server.login(SMTP_USER, SMTP_PASS)
                 server.send_message(msg)
-            print(f"  Digest sent to {to}")
+            print(f"  Digest sent to {to} via SMTP")
             return True
         except Exception as e:
             print(f"  [ERROR] Failed to send email: {e}")

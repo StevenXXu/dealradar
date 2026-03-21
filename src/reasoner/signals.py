@@ -38,6 +38,7 @@ Return a JSON object with these fields ONLY (no other text):
   "valuation_over_1b": true/false,
   "last_raise_amount_usd": number or null,
   "months_since_raise": number or null,
+  "last_raise_date": "string or null",
   "sector": "string"
 }
 Be precise. Only set a field to true if there is clear evidence."""
@@ -126,8 +127,8 @@ Be precise. Only set a field to true if there is clear evidence."""
             if text_response.endswith("```"):
                 text_response = text_response[:-3]
             return json.loads(text_response)
-        except json.JSONDecodeError:
-            return {"error": "Failed to parse AI response"}
+        except json.JSONDecodeError as e:
+            raise ValueError(f"Failed to parse AI response: {e}")
 
     def _truncate_text(self, text: str, max_chars: int = 4000) -> str:
         """Hard truncate to max_chars for token control."""
