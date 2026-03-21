@@ -95,7 +95,7 @@ class WeeklyDigest:
             print(f"Digest preview:\n{self.build_html(companies)}")
             return False
 
-        to = TO_EMAIL or os.getenv("TO_EMAIL", "")
+        to = TO_EMAIL
         if not to:
             print("[WARN] TO_EMAIL not configured")
             return False
@@ -109,7 +109,7 @@ class WeeklyDigest:
         msg["To"] = to
         msg.attach(MIMEText(html_body, "html"))
 
-        if HAS_SENDGRID and os.getenv("SENDGRID_API_KEY"):
+        if HAS_SENDGRID:
             try:
                 sg = sendgrid.SendGridAPIClient(api_key=os.getenv("SENDGRID_API_KEY"))
                 message = Mail(
