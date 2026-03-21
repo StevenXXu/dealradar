@@ -1,6 +1,7 @@
 """Raise alerting module — SendGrid email + SerpAPI corroboration + Notion update."""
 import os
 import requests
+from datetime import datetime
 
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY", "")
 SERPAPI_API_KEY = os.getenv("SERPAPI_API_KEY", "")
@@ -34,7 +35,7 @@ def check_serpapi(domain: str, company_name: str) -> bool:
 
     try:
         params = {
-            "q": f"{company_name} raised funding 2024 2025",
+            "q": f"{company_name} raised funding {datetime.now().year - 1} {datetime.now().year}",
             "api_key": SERPAPI_API_KEY,
             "engine": "google",
         }
@@ -54,7 +55,7 @@ def send_raise_alert_email(raise_event: dict) -> bool:
     """Send raise alert email via SendGrid. Returns True if sent."""
     if not HAS_SENDGRID:
         print("[WARN] SendGrid not configured — skipping raise alert email")
-        print(f"  Alert preview: {raise_event['company_name']} raised {raise_event.get('last_raise_amount', 'Unknown')}")
+        print(f"  Alert preview: {raise_event.get('company_name', 'Unknown Company')} raised {raise_event.get('last_raise_amount', 'Unknown')}")
         return False
 
     if not ALERT_EMAIL:
@@ -103,3 +104,45 @@ def send_raise_alert_email(raise_event: dict) -> bool:
     except Exception as e:
         print(f"  [ERROR] SendGrid send failed: {e}")
         return False
+
+
+def process_raise_events(
+    raise_events: list[dict],
+    history_module,  # src.commander.history
+    send_alert_email: bool = True,
+) -> dict:
+    """
+    Process a list of raise events: suppress-check → SerpAPI → alert email → Notion tag.
+    Returns {"alerts_sent": N, "alerts_suppressed": N, "alerts_degraded": N}.
+    """
+    from src.commander.history import should_suppress_alert, record_alert_fired, purge_old_alerts
+
+    purge_old_alerts()  # Clean up old entries on each run
+    results = {"alerts_sent": 0, "alerts_suppressed": 0, "alerts_degraded": 0}
+
+    for event in raise_events:
+        domain = event["domain"]
+
+        # Step 1: Suppression check
+        if should_suppress_alert(domain):
+            print(f"  [SKIP] Alert suppressed for {event.get('company_name', domain)} (fired within 30 days)")
+            results["alerts_suppressed"] += 1
+            continue
+
+        # Step 2: SerpAPI corroboration
+        has_news = check_serpapi(domain, event.get("company_name", ""))
+
+        if has_news and send_alert_email:
+            # Step 3: Send email
+            sent = send_raise_alert_email(event)
+            if sent:
+                record_alert_fired(domain, event.get("company_name", domain))
+                results["alerts_sent"] += 1
+            else:
+                results["alerts_degraded"] += 1
+        else:
+            # No corroboration or disabled — just tag in Notion (handled elsewhere)
+            print(f"  [INFO] No SerpAPI corroboration for {event.get('company_name', domain)} — skipping email")
+            results["alerts_degraded"] += 1
+
+    return results
