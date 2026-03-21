@@ -3,6 +3,8 @@
 import argparse
 import json
 import os
+import sys
+from datetime import datetime
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -77,8 +79,6 @@ def run_archive_and_raise(enriched_path: str) -> list[dict]:
     Archive runs AFTER push (push wrote to Notion without raise flags this cycle).
     Raise detection uses the previous archive as the baseline.
     """
-    from datetime import datetime
-
     with open(enriched_path) as f:
         companies = json.load(f)
 
@@ -122,9 +122,6 @@ def run_alerts(raise_events: list[dict]) -> dict:
     For each raise event: check suppression → SerpAPI → update Notion + send email.
     Notion update is a direct update_page() call, not a full re-push.
     """
-    from datetime import datetime
-    from src.commander import history as history_module
-
     print("\n" + "=" * 60)
     print("PROCESSING RAISE ALERTS")
     print("=" * 60)
@@ -135,7 +132,7 @@ def run_alerts(raise_events: list[dict]) -> dict:
         domain = event["domain"]
 
         # 1. Suppression check
-        if history_module.should_suppress_alert(domain):
+        if should_suppress_alert(domain):
             print(f"  [SUPPRESSED] {event['company_name']} — alert fired within 30 days")
             results["alerts_suppressed"] += 1
             continue
@@ -164,8 +161,11 @@ def run_alerts(raise_events: list[dict]) -> dict:
         if has_news:
             sent = send_raise_alert_email(event)
             if sent:
-                history_module.record_alert_fired(domain, event["company_name"])
+                record_alert_fired(domain, event["company_name"])
                 results["alerts_sent"] += 1
+            else:
+                print(f"  [DEGRADED] Email send failed for {event['company_name']} — Notion tag only")
+                results["alerts_degraded"] += 1
         else:
             print(f"  [DEGRADED] No SerpAPI corroboration for {event['company_name']} — Notion tag only")
             results["alerts_degraded"] += 1
@@ -174,7 +174,6 @@ def run_alerts(raise_events: list[dict]) -> dict:
     return results
 
 
-import sys
 sys.stdout.reconfigure(encoding='utf-8')
 
 def main():
