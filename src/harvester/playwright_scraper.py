@@ -82,14 +82,28 @@ class PlaywrightScraper:
     # ── Faction detection ───────────────────────────────────────────────────
 
     def _detect_faction_b(self, page) -> bool:
-        """Return True if page has >10 internal portfolio detail links."""
+        """Return True if page has >10 internal portfolio detail links.
+
+        Excludes: navigation links (/portfolio, /team, /blog, /methodology)
+        Requires: actual slug-based paths like /portfolio/company-name
+        """
         links = page.query_selector_all("a[href]")
         detail_patterns = ("/portfolio/", "/companies/", "/company/", "/investment/")
+        skip_nav = {"portfolio", "team", "blog", "methodology", "news", "careers",
+                    "about", "contact", "invest", "climate", "club", "fund"}
         count = 0
         for link in links:
             href = link.get_attribute("href") or ""
-            if any(p in href.lower() for p in detail_patterns) and not href.startswith("http"):
-                count += 1
+            if not any(p in href.lower() for p in detail_patterns):
+                continue
+            if href.startswith("http"):
+                continue
+            # Extract slug (last path segment)
+            slug = href.rstrip("/").split("/")[-1]
+            # Skip if slug is a nav word
+            if slug.lower() in skip_nav:
+                continue
+            count += 1
         return count > 10
 
     # ── Faction A: Direct external links ────────────────────────────────────
