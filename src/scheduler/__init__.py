@@ -21,7 +21,8 @@ def run_pipeline():
             print(f"[SCHEDULER] Pipeline completed successfully")
         else:
             print(f"[SCHEDULER] Pipeline failed with code {result.returncode}")
-            print(result.stderr[-500:] if result.stderr else "")
+            stderr_snippet = (result.stderr or "")[-500:]
+            print(stderr_snippet)
     except Exception as e:
         print(f"[SCHEDULER] Pipeline run error: {e}")
 
