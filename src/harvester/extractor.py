@@ -195,6 +195,7 @@ async def async_filter_dead_companies(
     if not companies:
         return []
 
+    close_connector = connector is None
     connector = connector or aiohttp.TCPConnector(limit=50)
     timeout = aiohttp.ClientTimeout(total=5)
 
@@ -211,5 +212,8 @@ async def async_filter_dead_companies(
 
         tasks = [check_company(c) for c in companies]
         results = await asyncio.gather(*tasks)
+
+    if close_connector:
+        await connector.close()
 
     return [company for company, is_alive in results if is_alive]
