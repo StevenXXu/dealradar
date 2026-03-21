@@ -30,7 +30,7 @@ def test_reasoner_pipeline_output_schema(tmp_path):
                 raw_companies_path=str(raw_file),
                 output_path=str(out_file)
             )
-            result = pipeline.process_company(pipeline.companies[0])
+            result = pipeline.process_company(pipeline.companies[0], idx=1, total=1)
 
     assert "company_name" in result
     assert "signal_score" in result
