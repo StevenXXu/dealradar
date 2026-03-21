@@ -56,6 +56,19 @@ class NotionClient:
         if last_raise_date:
             props["Last Raise Date"] = {"date": {"start": last_raise_date}}
 
+        # Is New checkbox (set by caller during push, not in the dict)
+        is_new = company.get("is_new", False)
+        props["Is New"] = {"checkbox": bool(is_new)}
+
+        # Raise Alert Fired checkbox
+        raise_alert_fired = company.get("raise_alert_fired", False)
+        props["Raise Alert Fired"] = {"checkbox": bool(raise_alert_fired)}
+
+        # Last Alert Date
+        last_alert_date = company.get("last_alert_date")
+        if last_alert_date:
+            props["Last Alert Date"] = {"date": {"start": last_alert_date}}
+
         return props
 
     def page_exists_by_domain(self, domain: str) -> str | None:
