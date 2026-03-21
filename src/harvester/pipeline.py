@@ -123,11 +123,23 @@ class HarvesterPipeline:
     def run(self) -> list[dict]:
         """Run the full harvest pipeline for all VC seeds."""
         self._all_companies = []
+        vc_results = []
 
         for seed in self.vc_seeds:
             time.sleep(random.uniform(2, 5))  # Rate limit between VCs
             companies = self._scrape_vc(seed)
+            vc_results.append(companies)
             self._all_companies.extend(companies)
+
+            # Sanity check: warn if VC returned fewer than 3 companies
+            if len(companies) < 3:
+                print(f"  [WARN] {seed['name']} returned only {len(companies)} companies — below minimum threshold (3)", flush=True)
+
+        # Sanity check: warn if >50% of VCs returned 0 companies
+        failed_vcs = sum(1 for c in vc_results if len(c) == 0)
+        total_vcs = len(vc_results)
+        if total_vcs > 0 and failed_vcs > total_vcs / 2:
+            print(f"  [CRITICAL] {failed_vcs}/{total_vcs} VCs returned 0 companies — pipeline may need attention", flush=True)
 
         # Filter dead companies
         print(f"\nFiltering dead companies ({len(self._all_companies)} total before filter)...", flush=True)
