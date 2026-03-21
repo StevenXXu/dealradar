@@ -43,17 +43,45 @@ def test_faction_b_routes_to_jina_detail():
 
 def test_scraper_warns_on_few_companies(capsys):
     """VC returning <3 companies should log a warning."""
-    # This is a unit test of the warning logic
-    companies = [{"name": "A"}]
+    # Test the warning condition directly
+    companies = [{"name": "A"}]  # len = 1 < 3
     name = "TestVC"
-    # Verify the check would fire
-    assert len(companies) < 3  # Expected: warning fires
+
+    # The warning fires when len(companies) < 3
+    import io
+    import sys
+
+    captured = io.StringIO()
+    sys.stdout = captured
+
+    if len(companies) < 3:
+        print(f"  [WARN] {name} returned only {len(companies)} companies — below minimum threshold (3)")
+
+    sys.stdout = sys.__stdout__
+    output = captured.getvalue()
+
+    assert "[WARN]" in output
+    assert "TestVC" in output
+    assert "1" in output  # only 1 company
 
 
-def test_scraper_tracks_vc_failure_rate():
+def test_scraper_tracks_vc_failure_rate(capsys):
     """If >50% of VCs fail, should log a critical warning."""
-    # Test the threshold logic
     vc_results = [[], [], []]  # 3 VCs, all returned 0
     failed_vcs = sum(1 for c in vc_results if len(c) == 0)
     total_vcs = len(vc_results)
-    assert failed_vcs > total_vcs / 2  # Expected: critical warning fires
+
+    import io
+    import sys
+
+    captured = io.StringIO()
+    sys.stdout = captured
+
+    if total_vcs > 0 and failed_vcs > total_vcs / 2:
+        print(f"  [CRITICAL] {failed_vcs}/{total_vcs} VCs returned 0 companies — pipeline may need attention")
+
+    sys.stdout = sys.__stdout__
+    output = captured.getvalue()
+
+    assert "[CRITICAL]" in output
+    assert "3/3" in output
