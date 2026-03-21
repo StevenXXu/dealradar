@@ -25,6 +25,8 @@ def archive_enriched(
     Archive enriched companies to history for later raise detection.
     Writes to data/history/{YYYY-MM}/{slug}.json.
     """
+    # Sanitize slug to prevent path traversal
+    slug = slug.replace("/", "").replace("\\", "")
     archive_dir = DATA_DIR / "history" / year_month
     archive_dir.mkdir(parents=True, exist_ok=True)
     archive_path = archive_dir / f"{slug}_companies.json"
