@@ -10,7 +10,7 @@ import json, tempfile, os
 
 def test_archive_enriched_writes_to_correct_path(tmp_path, monkeypatch):
     companies = [{"company_name": "TestCo", "domain": "https://test.co"}]
-    archive_path = tmp_path / "data/history/2026-03/slug_test.json"
+    archive_path = tmp_path / "data/history/2026-03/slug_test_companies.json"
     monkeypatch.setattr("src.commander.history.DATA_DIR", tmp_path / "data")
     archive_enriched(companies, "slug_test", "2026-03")
     assert archive_path.exists()

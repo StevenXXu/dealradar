@@ -24,7 +24,7 @@ def archive_enriched(
     """
     archive_dir = DATA_DIR / "history" / year_month
     archive_dir.mkdir(parents=True, exist_ok=True)
-    archive_path = archive_dir / f"{slug}.json"
+    archive_path = archive_dir / f"{slug}_companies.json"
 
     with open(archive_path, "w") as f:
         json.dump(enriched_companies, f, indent=2)
