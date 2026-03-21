@@ -1,9 +1,11 @@
 # src/harvester/extractor.py
 """Extract company names and domains from VC portfolio HTML pages."""
+import asyncio
 import re
 import json
 import random
 import time
+import aiohttp
 from datetime import datetime, timezone
 from typing import Any
 from urllib.parse import urljoin, urlparse
@@ -179,3 +181,35 @@ def filter_dead_companies(companies: list[dict], jina_client: JinaClient) -> lis
             # Couldn't confirm dead — keep as alive
             alive.append(company)
     return alive
+
+
+async def async_filter_dead_companies(
+    companies: list[dict],
+    connector: aiohttp.TCPConnector | None = None,
+) -> list[dict]:
+    """
+    Filter dead companies using async HTTP HEAD requests.
+    Uses aiohttp for concurrent checks — ~10-20s for 500 companies vs 12+ minutes sequential.
+    Fail-open: network errors or timeouts are treated as alive (keep the company).
+    """
+    if not companies:
+        return []
+
+    connector = connector or aiohttp.TCPConnector(limit=50)
+    timeout = aiohttp.ClientTimeout(total=5)
+
+    async with aiohttp.ClientSession(connector=connector, timeout=timeout) as session:
+        async def check_company(company: dict) -> tuple[dict, bool]:
+            try:
+                async with session.head(company["domain"]) as resp:
+                    if resp.status == 404:
+                        return company, False
+                    return company, True
+            except Exception:
+                # Fail-open: any error (DNS, timeout, connection refused) = treat as alive
+                return company, True
+
+        tasks = [check_company(c) for c in companies]
+        results = await asyncio.gather(*tasks)
+
+    return [company for company, is_alive in results if is_alive]

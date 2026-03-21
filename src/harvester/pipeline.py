@@ -1,5 +1,6 @@
 # src/harvester/pipeline.py
 """Harvester pipeline — orchestrates scraping of all VC portfolios."""
+import asyncio
 import json
 import random
 import time
@@ -8,7 +9,7 @@ from pathlib import Path
 from src.harvester.jina_client import JinaClient
 from src.harvester.apify_client import ApifyClient
 from src.harvester.playwright_scraper import PlaywrightScraper
-from src.harvester.extractor import extract_companies_from_html, filter_dead_companies
+from src.harvester.extractor import extract_companies_from_html, async_filter_dead_companies
 
 
 class HarvesterPipeline:
@@ -82,7 +83,7 @@ class HarvesterPipeline:
 
         # Filter dead companies
         print(f"\nFiltering dead companies ({len(self._all_companies)} total before filter)...", flush=True)
-        self._all_companies = filter_dead_companies(self._all_companies, self.jina)
+        self._all_companies = asyncio.run(async_filter_dead_companies(self._all_companies))
 
         # Deduplicate by domain
         seen = set()
