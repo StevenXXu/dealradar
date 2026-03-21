@@ -4,9 +4,12 @@ Phase order within --phase=all:
   harvest → reason → push → archive → raise detection → alerts
 """
 import json
+import logging
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Optional
+
+logger = logging.getLogger(__name__)
 
 DATA_DIR = Path("data")
 HISTORY_DIR = DATA_DIR / "history"
@@ -100,7 +103,16 @@ def _parse_date(date_str: str) -> datetime:
             return datetime.strptime(date_str.strip(), fmt)
         except ValueError:
             continue
+    logger.warning(f"Could not parse date string: {date_str!r}, defaulting to min")
     return datetime.min
+
+
+def _parse_alert_date(date_str: str) -> datetime:
+    """Parse an alert date string to naive datetime for comparison."""
+    alert_date = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
+    if alert_date.tzinfo is not None:
+        alert_date = alert_date.replace(tzinfo=None)
+    return alert_date
 
 
 def should_suppress_alert(domain: str) -> bool:
@@ -114,11 +126,7 @@ def should_suppress_alert(domain: str) -> bool:
             try:
                 entry = json.loads(line.strip())
                 if entry.get("domain") == domain:
-                    alert_date_str = entry["date"].replace("Z", "+00:00")
-                    alert_date = datetime.fromisoformat(alert_date_str)
-                    # Make naive for comparison with cutoff
-                    if alert_date.tzinfo is not None:
-                        alert_date = alert_date.replace(tzinfo=None)
+                    alert_date = _parse_alert_date(entry["date"])
                     if alert_date > cutoff:
                         return True
             except (json.JSONDecodeError, ValueError):
@@ -151,11 +159,7 @@ def purge_old_alerts() -> int:
             original_count += 1
             try:
                 entry = json.loads(line.strip())
-                alert_date_str = entry["date"].replace("Z", "+00:00")
-                alert_date = datetime.fromisoformat(alert_date_str)
-                # Make naive for comparison with cutoff
-                if alert_date.tzinfo is not None:
-                    alert_date = alert_date.replace(tzinfo=None)
+                alert_date = _parse_alert_date(entry["date"])
                 if alert_date > cutoff:
                     kept_lines.append(line)
             except (json.JSONDecodeError, ValueError):
