@@ -1,7 +1,6 @@
 # src/reasoner/pipeline.py
 """AI Reasoner pipeline — enriches raw companies with AI signal analysis."""
 import json
-import random
 import time
 from datetime import date
 from pathlib import Path
@@ -42,7 +41,8 @@ class ReasonerPipeline:
         print(f"  [{idx}/{total}] Processing: {company['company_name']} ({domain})...", flush=True)
 
         try:
-            time.sleep(random.uniform(2, 5))
+            # Pace: one call every 5s to avoid exhausting Jina's free tier (~10-20 req/min)
+            time.sleep(5)
             raw_text = self.jina.fetch_with_retry(domain)
         except Exception as e:
             print(f"  [WARN] Failed to fetch {domain}: {e}")
@@ -113,7 +113,6 @@ class ReasonerPipeline:
         for idx, company in enumerate(self.companies, 1):
             enriched = self.process_company(company, idx, total)
             self._enriched.append(enriched)
-            time.sleep(random.uniform(2, 5))
 
         self._save()
         return self._enriched

@@ -1,7 +1,6 @@
 # src/harvester/jina_client.py
 """Jina Reader API client for extracting clean text from URLs."""
 import os
-import random
 import time
 import requests
 from urllib.parse import urljoin, urlparse, quote
@@ -36,12 +35,21 @@ class JinaClient:
         return response.text
 
     def fetch_with_retry(self, url: str, max_retries: int = 3) -> str:
-        """Fetch with exponential backoff and random jitter."""
+        """Fetch with rate-limit-aware backoff. 402 triggers progressively longer waits."""
         for attempt in range(max_retries):
             try:
-                # Random jitter 2-5 seconds
-                time.sleep(random.uniform(2, 5))
                 return self.fetch(url)
+            except requests.HTTPError as e:
+                if e.response is not None and e.response.status_code == 402:
+                    # Rate limited — back off progressively: 10s, 30s, 60s
+                    backoff = [10, 30, 60][attempt] if attempt < 3 else 60
+                    print(f"  [WARN] Jina 402 rate limit, backing off {backoff}s before retry {attempt + 1}/{max_retries}")
+                    time.sleep(backoff)
+                elif attempt == max_retries - 1:
+                    raise
+                else:
+                    wait = (2 ** attempt) * 1.0  # 1s, 2s, 4s
+                    time.sleep(wait)
             except requests.RequestException as e:
                 if attempt == max_retries - 1:
                     raise
