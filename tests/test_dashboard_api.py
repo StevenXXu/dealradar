@@ -54,3 +54,35 @@ def test_get_state_empty(tmp_path, monkeypatch):
     response = client.get("/api/state")
     assert response.status_code == 200
     assert response.json()["completed_vcs"] == []
+
+def test_parse_stdout_scraping():
+    from app import _parse_stdout_line
+    line = "  Scraping Blackbird (https://blackbird.vc/portfolio)..."
+    result = _parse_stdout_line(line)
+    assert result["vc"] == "Blackbird"
+    assert result["status"] == "scraping"
+    assert result["companies"] == 0
+    assert "elapsed" in result
+
+def test_parse_stdout_done():
+    from app import _parse_stdout_line
+    line = "  Playwright found 23 companies from Blackbird"
+    result = _parse_stdout_line(line)
+    assert result["vc"] == "Blackbird"
+    assert result["status"] == "done"
+    assert result["companies"] == 23
+
+def test_parse_stdout_skipped():
+    from app import _parse_stdout_line
+    line = "  [Blackbird] SKIPPED — already completed"
+    result = _parse_stdout_line(line)
+    assert result["vc"] == "Blackbird"
+    assert result["status"] == "skipped"
+    assert result["companies"] == 0
+
+def test_parse_stdout_harvest_complete():
+    from app import _parse_stdout_line
+    line = "\nHarvest complete: 156 unique companies"
+    result = _parse_stdout_line(line)
+    assert result["status"] == "harvest_complete"
+    assert result["total"] == 156
