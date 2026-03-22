@@ -14,7 +14,7 @@ def load_state() -> set[str]:
     try:
         data = json.loads(STATE_FILE.read_text())
         return set(data.get("completed_vcs", []))
-    except Exception:
+    except (json.JSONDecodeError, OSError):
         return set()
 
 def mark_completed(slug: str) -> None:
@@ -23,11 +23,11 @@ def mark_completed(slug: str) -> None:
     if STATE_FILE.exists():
         try:
             data = json.loads(STATE_FILE.read_text())
-        except Exception:
+        except json.JSONDecodeError:
             pass
     if slug not in data.get("completed_vcs", []):
         data.setdefault("completed_vcs", []).append(slug)
-    data["last_updated"] = datetime.now(timezone.utc).isoformat()
+        data["last_updated"] = datetime.now(timezone.utc).isoformat()
     tmp = STATE_FILE.with_suffix(".tmp")
     tmp.write_text(json.dumps(data, indent=2))
     shutil.move(str(tmp), str(STATE_FILE))
@@ -39,10 +39,12 @@ def append_and_dedupe(new_companies: list[dict], output_path: str) -> None:
     if p.exists():
         try:
             existing = json.loads(p.read_text())
-        except Exception:
+        except json.JSONDecodeError:
             existing = []
-    seen_domains = {c["domain"] for c in existing}
+    seen_domains = {c["domain"] for c in existing if c.get("domain")}
     for c in new_companies:
+        if not c.get("domain"):
+            continue
         if c["domain"] not in seen_domains:
             seen_domains.add(c["domain"])
             existing.append(c)

@@ -74,10 +74,11 @@ def test_mark_completed_accumulates():
             state.STATE_FILE = original
 
 def test_mark_completed_idempotent():
-    """Marking the same slug twice does not duplicate."""
+    """Marking the same slug twice does not duplicate and does not update timestamp."""
     with tempfile.TemporaryDirectory() as tmpdir:
         state_file = Path(tmpdir) / "harvest_state.json"
-        json.dump({"completed_vcs": ["vc-a"], "last_updated": "2026-01-01T00:00:00Z"}, state_file.open("w"))
+        original_timestamp = "2026-01-01T00:00:00Z"
+        json.dump({"completed_vcs": ["vc-a"], "last_updated": original_timestamp}, state_file.open("w"))
         from src.harvester import state
         original = state.STATE_FILE
         state.STATE_FILE = state_file
@@ -85,6 +86,7 @@ def test_mark_completed_idempotent():
             state.mark_completed("vc-a")
             data = json.load(state_file.open())
             assert data["completed_vcs"] == ["vc-a"]  # still just one
+            assert data["last_updated"] == original_timestamp  # timestamp unchanged
         finally:
             state.STATE_FILE = original
 
@@ -120,8 +122,8 @@ def test_append_and_dedupe_merges_with_existing():
         assert "https://acme.co" in domains
         assert "https://beta.io" in domains
 
-def test_append_and_dedupe_atomic():
-    """Interruption during write does not corrupt existing file."""
+def test_append_and_dedupe_preserves_existing():
+    """Existing companies are preserved when new companies are appended."""
     with tempfile.TemporaryDirectory() as tmpdir:
         output_path = Path(tmpdir) / "raw_companies.json"
         existing = [{"company_name": "Existing", "domain": "https://existing.com"}]
