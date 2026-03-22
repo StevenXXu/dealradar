@@ -7,9 +7,19 @@ from unittest.mock import patch, MagicMock
 from src.harvester.pipeline import HarvesterPipeline
 
 @patch("src.harvester.jina_client.JinaClient.fetch")
-def test_pipeline_scrapes_vc_portfolio(mock_fetch):
+def test_pipeline_scrapes_vc_portfolio(mock_fetch, tmp_path, monkeypatch):
     mock_fetch.return_value = "<html><body><a href='https://canvas.co'>Canvas</a></body></html>"
-    pipeline = HarvesterPipeline(vc_seeds_path="config/vc_seeds.json")
+
+    # Use isolated temp state and output so test is checkpoint-independent
+    state_file = tmp_path / "harvest_state.json"
+    monkeypatch.setattr("src.harvester.state.STATE_FILE", state_file)
+
+    raw_file = tmp_path / "raw_companies.json"
+
+    pipeline = HarvesterPipeline(
+        vc_seeds_path="config/vc_seeds.json",
+        output_path=str(raw_file),
+    )
     companies = pipeline.run()
 
     assert isinstance(companies, list)
