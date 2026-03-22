@@ -40,15 +40,15 @@ class PlaywrightScraper:
             browser = p.chromium.launch(headless=self.headless)
             page = browser.new_page()
 
-            # Block heavy resources to speed up
+            # Block heavy resources to speed up (only woff2/fonts — blocking images breaks
+            # Wix/JS-rendered sites where portfolio links depend on image loading completing)
             page.route("**/*.woff2", lambda route: route.abort())
             page.route("**/*.font", lambda route: route.abort())
-            page.route("**/*.png", lambda route: route.abort())
-            page.route("**/*.jpg", lambda route: route.abort())
-            page.route("**/*.avif", lambda route: route.abort())
+            page.route("**/*.ttf", lambda route: route.abort())
+            page.route("**/*.otf", lambda route: route.abort())
 
             page.goto(url, timeout=self.timeout, wait_until="domcontentloaded")
-            page.wait_for_timeout(5000)
+            page.wait_for_timeout(8000)
 
             # Scroll to trigger lazy loading
             for _ in range(5):
@@ -86,6 +86,8 @@ class PlaywrightScraper:
 
         Excludes: navigation links (/portfolio, /team, /blog, /methodology)
         Requires: actual slug-based paths like /portfolio/company-name
+        Handles both relative links (/portfolio/slug) and Wix full URLs
+        (https://vc.com/portfolio/slug).
         """
         links = page.query_selector_all("a[href]")
         detail_patterns = ("/portfolio/", "/companies/", "/company/", "/investment/")
@@ -96,10 +98,14 @@ class PlaywrightScraper:
             href = link.get_attribute("href") or ""
             if not any(p in href.lower() for p in detail_patterns):
                 continue
-            if href.startswith("http"):
-                continue
-            # Extract slug (last path segment)
-            slug = href.rstrip("/").split("/")[-1]
+            # Extract slug from path (works for both relative and full URLs)
+            try:
+                from urllib.parse import urlparse
+                parsed = urlparse(href)
+                path = parsed.path.rstrip("/")
+                slug = path.split("/")[-1]
+            except Exception:
+                slug = href.rstrip("/").split("/")[-1]
             # Skip if slug is a nav word
             if slug.lower() in skip_nav:
                 continue
@@ -166,7 +172,7 @@ class PlaywrightScraper:
         # Only use the brand part (first segment) to avoid filtering all .com/.vc/.au domains
         vc_brand = vc_domain_root.split(".")[0]  # "airtree"
 
-        # Collect all internal detail-page URLs
+        # Collect all internal detail-page URLs (relative OR Wix full URLs)
         links = page.query_selector_all("a[href]")
         slug_map = {}  # slug -> detail_page_url
 
@@ -177,9 +183,11 @@ class PlaywrightScraper:
                 for p in ("/portfolio/", "/companies/", "/company/", "/investment/")
             ):
                 continue
+            # Build full URL: if relative use urljoin, if already full keep as-is
             if href.startswith("http"):
-                continue
-            full_url = urljoin(base_url, href)
+                full_url = href
+            else:
+                full_url = urljoin(base_url, href)
             parsed = urlparse(full_url)
             path_parts = [p for p in parsed.path.split("/") if p]
             if path_parts:
