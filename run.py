@@ -21,7 +21,7 @@ from src.commander.history import (
 from src.commander.alerts import check_serpapi, send_raise_alert_email
 
 
-def run_harvest(output_path: str = "data/raw_companies.json"):
+def run_harvest(output_path: str = "data/raw_companies.json", force_restart: bool = False):
     print("=" * 60, flush=True)
     print("PHASE 1: HARVEST — Scraping VC portfolios", flush=True)
     print("=" * 60, flush=True)
@@ -29,7 +29,7 @@ def run_harvest(output_path: str = "data/raw_companies.json"):
         vc_seeds_path="config/vc_seeds.json",
         output_path=output_path,
     )
-    companies = pipeline.run()
+    companies = pipeline.run(force_restart=force_restart)
     print(f"Harvested {len(companies)} companies")
     return companies
 
@@ -184,6 +184,11 @@ def main():
         default="all",
         help="Which phase(s) to run",
     )
+    parser.add_argument(
+        "--force-restart",
+        action="store_true",
+        help="Clear harvest state and re-scrape all VCs from scratch",
+    )
     parser.add_argument("--data-dir", default="data")
     args = parser.parse_args()
 
@@ -192,7 +197,7 @@ def main():
     enriched_path = f"{args.data_dir}/enriched_companies.json"
 
     if args.phase in ("harvest", "all"):
-        run_harvest(raw_path)
+        run_harvest(raw_path, force_restart=args.force_restart)
 
     if args.phase in ("reason", "all"):
         run_reason(raw_path, enriched_path)
