@@ -1,0 +1,153 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DealRadar Dashboard</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; color: #222; }
+  h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+  .toolbar { display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1rem; }
+  button { padding: 0.4rem 0.8rem; cursor: pointer; }
+  .btn-primary { background: #2563eb; color: white; border: none; border-radius: 4px; }
+  .btn-danger { background: #dc2626; color: white; border: none; border-radius: 4px; }
+  .btn-ghost { background: transparent; border: 1px solid #ccc; border-radius: 4px; }
+  .stats { background: #f3f4f6; border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 1rem; font-size: 0.9rem; }
+  .stats span { margin-right: 1.5rem; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+  th, td { text-align: left; padding: 0.5rem; border-bottom: 1px solid #e5e7eb; }
+  th { font-size: 0.8rem; text-transform: uppercase; color: #6b7280; }
+  td input { width: 100%; box-sizing: border-box; border: none; background: transparent; font: inherit; }
+  td input:focus { outline: 1px solid #2563eb; background: #eff6ff; border-radius: 2px; }
+  .delete-btn { color: #dc2626; cursor: pointer; opacity: 0; transition: opacity 0.2s; font-size: 0.85rem; }
+  tr:hover .delete-btn { opacity: 1; }
+  .add-row td { color: #6b7280; cursor: pointer; }
+  .add-row:hover { background: #f9fafb; }
+  #output { background: #111827; color: #e5e7eb; border-radius: 6px; padding: 1rem; font-family: monospace; font-size: 0.8rem; max-height: 300px; overflow-y: auto; white-space: pre-wrap; margin-top: 1rem; }
+  .run-status { display: inline-block; margin-left: 0.5rem; font-size: 0.85rem; color: #6b7280; }
+  .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid #2563eb; border-top-color: transparent; border-radius: 50%; animation: spin 0.6s linear infinite; vertical-align: middle; margin-right: 4px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<h1>DealRadar Dashboard</h1>
+
+<div class="toolbar">
+  <button class="btn-primary" id="runBtn" onclick="startRun()">Run Harvest</button>
+  <button class="btn-ghost" onclick="refresh()">Refresh</button>
+  <span class="run-status" id="runStatus"></span>
+</div>
+
+<div class="stats" id="stats">
+  <span>VCs: <strong id="statVCs">—</strong></span>
+  <span><strong id="statCompanies">—</strong> companies scraped</span>
+  <span>Last run: <strong id="statLast">—</strong></span>
+</div>
+
+<h2 style="font-size: 1.1rem; margin-bottom: 0.5rem;">VC Seed Manager</h2>
+<table id="vcTable">
+  <thead>
+    <tr>
+      <th>Name</th><th>URL</th><th>Faction</th><th></th>
+    </tr>
+  </thead>
+  <tbody id="vcBody"></tbody>
+</table>
+<div class="add-row" onclick="addVC()">+ Add VC</div>
+
+<div id="output"></div>
+
+<script>
+const API = '';
+let eventSource = null;
+
+async function refresh() {
+  const [seeds, state, companies] = await Promise.all([
+    fetch(API + '/api/vc-seeds').then(r => r.json()),
+    fetch(API + '/api/state').then(r => r.json()),
+    fetch(API + '/api/companies').then(r => r.json()),
+  ]);
+  document.getElementById('statVCs').textContent = seeds.length;
+  document.getElementById('statCompanies').textContent = companies.count;
+  document.getElementById('statLast').textContent = state.last_updated ? new Date(state.last_updated).toLocaleString() : 'Never';
+  renderTable(seeds);
+}
+
+function renderTable(seeds) {
+  const tbody = document.getElementById('vcBody');
+  tbody.innerHTML = seeds.map(s => `
+    <tr data-slug="${s.slug}">
+      <td><input value="${s.name}" onblur="saveVC('${s.slug}', 'name', this.value)"></td>
+      <td><input value="${s.url}" onblur="saveVC('${s.slug}', 'url', this.value)"></td>
+      <td><input value="${s.faction_hint || 'a'}" onblur="saveVC('${s.slug}', 'faction_hint', this.value)"></td>
+      <td class="delete-btn" onclick="deleteVC('${s.slug}')">✕</td>
+    </tr>
+  `).join('');
+}
+
+async function addVC() {
+  const name = prompt('VC name:');
+  if (!name) return;
+  const url = prompt('Portfolio URL:');
+  if (!url) return;
+  await fetch(API + '/api/vc-seeds', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({name, url}),
+  });
+  refresh();
+}
+
+async function saveVC(slug, field, value) {
+  await fetch(API + '/api/vc-seeds/' + slug, {
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({[field]: value}),
+  });
+}
+
+async function deleteVC(slug) {
+  await fetch(API + '/api/vc-seeds/' + slug, {method: 'DELETE'});
+  refresh();
+}
+
+async function startRun() {
+  if (eventSource) { cancelRun(); return; }
+  const res = await fetch(API + '/api/run/start', {method: 'POST'}).then(r => r.json());
+  if (res.error === 'already running') { alert('Already running'); return; }
+  document.getElementById('runBtn').textContent = 'Cancel';
+  document.getElementById('runBtn').className = 'btn-danger';
+  document.getElementById('runStatus').innerHTML = '<span class="spinner"></span>Running...';
+  document.getElementById('output').textContent = '';
+
+  eventSource = new EventSource(API + '/api/run/stream');
+  eventSource.addEventListener('progress', e => {
+    const d = JSON.parse(e.data);
+    const el = document.getElementById('output');
+    const icon = d.status === 'done' ? '✓' : d.status === 'skipped' ? '⊘' : '›';
+    el.textContent += `${icon} [${d.vc}] ${d.status === 'done' ? d.companies + ' companies' : d.status}\n`;
+    el.scrollTop = el.scrollHeight;
+  });
+  eventSource.addEventListener('done', e => {
+    eventSource.close();
+    eventSource = null;
+    document.getElementById('runBtn').textContent = 'Run Harvest';
+    document.getElementById('runBtn').className = 'btn-primary';
+    document.getElementById('runStatus').textContent = 'Done';
+    refresh();
+  });
+}
+
+async function cancelRun() {
+  await fetch(API + '/api/run/cancel', {method: 'POST'});
+  if (eventSource) { eventSource.close(); eventSource = null; }
+  document.getElementById('runBtn').textContent = 'Run Harvest';
+  document.getElementById('runBtn').className = 'btn-primary';
+  document.getElementById('runStatus').textContent = 'Cancelled';
+}
+
+refresh();
+</script>
+</body>
+</html>
