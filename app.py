@@ -1,16 +1,16 @@
 # app.py
 """DealRadar Dashboard — FastAPI backend."""
+import asyncio
 import json
+import re
 import shutil
 import subprocess
 import threading
 import time
-from datetime import datetime
 from pathlib import Path
 
 from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 
 app = FastAPI(title="DealRadar Dashboard")
@@ -18,7 +18,6 @@ app = FastAPI(title="DealRadar Dashboard")
 BASE_DIR = Path(__file__).parent
 CONFIG_PATH = BASE_DIR / "config" / "vc_seeds.json"
 STATE_PATH = BASE_DIR / "data" / "harvest_state.json"
-RAW_PATH = BASE_DIR / "data" / "raw_companies.json"
 ENRICHED_PATH = BASE_DIR / "data" / "enriched_companies.json"
 
 templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
@@ -30,7 +29,8 @@ def _read_vc_seeds() -> list[dict]:
         return []
     try:
         return json.loads(CONFIG_PATH.read_text())
-    except Exception:
+    except Exception as e:
+        print(f"[WARN] Failed to read vc_seeds.json: {e}")
         return []
 
 def _write_vc_seeds(seeds: list[dict]) -> None:
@@ -44,26 +44,37 @@ def list_vc_seeds():
 
 @app.post("/api/vc-seeds")
 def add_vc_seed(seed: dict):
-    seeds = _read_vc_seeds()
-    slug = seed.get("slug") or seed["name"].lower().replace(" ", "-")
-    seeds.append({**seed, "slug": slug})
-    _write_vc_seeds(seeds)
+    slug = seed.get("slug") or seed.get("name", "").lower().replace(" ", "-")
+    if not slug:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=400, detail="name or slug required")
+    with _vc_lock:
+        seeds = _read_vc_seeds()
+        seeds.append({**seed, "slug": slug})
+        _write_vc_seeds(seeds)
     return {"slug": slug}
 
 @app.put("/api/vc-seeds/{slug}")
 def update_vc_seed(slug: str, seed: dict):
-    seeds = _read_vc_seeds()
-    for i, s in enumerate(seeds):
-        if s.get("slug") == slug:
-            seeds[i] = {**s, **seed, "slug": slug}
-            break
-    _write_vc_seeds(seeds)
+    with _vc_lock:
+        seeds = _read_vc_seeds()
+        found = False
+        for i, s in enumerate(seeds):
+            if s.get("slug") == slug:
+                seeds[i] = {**s, **seed, "slug": slug}
+                found = True
+                break
+        if not found:
+            from fastapi import HTTPException
+            raise HTTPException(status_code=404, detail="slug not found")
+        _write_vc_seeds(seeds)
     return {"slug": slug}
 
 @app.delete("/api/vc-seeds/{slug}")
 def delete_vc_seed(slug: str):
-    seeds = [s for s in _read_vc_seeds() if s.get("slug") != slug]
-    _write_vc_seeds(seeds)
+    with _vc_lock:
+        seeds = [s for s in _read_vc_seeds() if s.get("slug") != slug]
+        _write_vc_seeds(seeds)
     return {"ok": True}
 
 # ─── State & Stats ─────────────────────────────────────────────────────
@@ -96,6 +107,7 @@ def get_companies():
 
 _process = None
 _process_lock = threading.Lock()
+_vc_lock = threading.Lock()
 _process_start_time = None
 _vc_start_times: dict[str, float] = {}  # vc_name -> start time
 
@@ -104,7 +116,6 @@ def _parse_stdout_line(line: str) -> dict | None:
     line = line.strip()
     if not line:
         return None
-    import re
     # [VC Name] SKIPPED — already completed
     if "SKIPPED" in line:
         m = re.search(r"\[([^\]]+)\] SKIPPED", line)
@@ -170,8 +181,6 @@ def cancel_run():
 
 # ─── SSE Stream ────────────────────────────────────────────────────────
 
-from fastapi.responses import StreamingResponse
-
 def _kill_process():
     """Kill the subprocess due to timeout."""
     global _process
@@ -229,14 +238,13 @@ def stream_run():
                     break
 
                 # Read available stdout
-                line = p_local.stdout.readline()
+                line = await asyncio.to_thread(p_local.stdout.readline)
                 if line:
                     parsed = _parse_stdout_line(line)
                     if parsed:
                         yield f"event: progress\ndata: {json.dumps(parsed)}\n\n".encode()
                 else:
-                    import time as t
-                    t.sleep(0.5)
+                    time.sleep(0.5)
         finally:
             timer.cancel()
 
