@@ -12,6 +12,8 @@ from src.harvester.apify_client import ApifyClient
 from src.harvester.jina_detail import JinaDetailScraper
 from src.harvester.playwright_scraper import PlaywrightScraper
 from src.harvester.extractor import extract_companies_from_html, async_filter_dead_companies
+from src.harvester import state as state_module
+from src.harvester.state import load_state, mark_completed, append_and_dedupe
 
 
 class HarvesterPipeline:
@@ -120,32 +122,42 @@ class HarvesterPipeline:
         print(f"  No companies found for {name}", flush=True)
         return []
 
-    def run(self) -> list[dict]:
+    def run(self, force_restart: bool = False) -> list[dict]:
         """Run the full harvest pipeline for all VC seeds."""
+        if force_restart and state_module.STATE_FILE.exists():
+            state_module.STATE_FILE.unlink()
+
         self._all_companies = []
         vc_results = []
+        completed_vcs = load_state()
 
         for seed in self.vc_seeds:
             time.sleep(random.uniform(2, 5))  # Rate limit between VCs
+            slug = seed.get("slug", seed["name"].lower().replace(" ", "-"))
+
+            # Skip already-completed VCs
+            if slug in completed_vcs:
+                print(f"  [{seed['name']}] SKIPPED — already completed", flush=True)
+                continue
+
             companies = self._scrape_vc(seed)
             vc_results.append(companies)
             self._all_companies.extend(companies)
+
+            # Mark completed and persist incrementally (skip on force_restart — fresh run)
+            if not force_restart:
+                mark_completed(slug)
+                append_and_dedupe(companies, self.output_path)
 
             # Sanity check: warn if VC returned fewer than 3 companies
             if len(companies) < 3:
                 print(f"  [WARN] {seed['name']} returned only {len(companies)} companies — below minimum threshold (3)", flush=True)
 
-        # Sanity check: warn if >50% of VCs returned 0 companies
-        failed_vcs = sum(1 for c in vc_results if len(c) == 0)
-        total_vcs = len(vc_results)
-        if total_vcs > 0 and failed_vcs > total_vcs / 2:
-            print(f"  [CRITICAL] {failed_vcs}/{total_vcs} VCs returned 0 companies — pipeline may need attention", flush=True)
-
         # Filter dead companies
         print(f"\nFiltering dead companies ({len(self._all_companies)} total before filter)...", flush=True)
         self._all_companies = asyncio.run(async_filter_dead_companies(self._all_companies))
 
-        # Deduplicate by domain
+        # Final dedupe pass
         seen = set()
         unique = []
         for c in self._all_companies:
@@ -155,7 +167,6 @@ class HarvesterPipeline:
         self._all_companies = unique
 
         print(f"\nHarvest complete: {len(self._all_companies)} unique companies", flush=True)
-        self._save()
         return self._all_companies
 
     def _save(self):

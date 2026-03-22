@@ -85,3 +85,71 @@ def test_scraper_tracks_vc_failure_rate(capsys):
 
     assert "[CRITICAL]" in output
     assert "3/3" in output
+
+
+def test_pipeline_skips_completed_vcs(tmp_path, monkeypatch):
+    """Completed VCs are skipped on resume."""
+    # Set up temp state file: vc-a already completed
+    state_file = tmp_path / "harvest_state.json"
+    json.dump({"completed_vcs": ["vc-a"], "last_updated": "2026-01-01T00:00:00Z"}, state_file.open("w"))
+    monkeypatch.setattr("src.harvester.state.STATE_FILE", state_file)
+
+    # Set up temp output: vc-a companies already in raw_companies.json
+    raw_file = tmp_path / "raw_companies.json"
+    json.dump([{"company_name": "Acme", "domain": "https://acme.co", "vc_source": "VC A"}], raw_file.open("w"))
+
+    # Two VC seeds: vc-a (done) and vc-b (new)
+    seeds_file = tmp_path / "vc_seeds.json"
+    json.dump([
+        {"name": "VC A", "url": "https://vc-a.com", "slug": "vc-a"},
+        {"name": "VC B", "url": "https://vc-b.com", "slug": "vc-b"},
+    ], seeds_file.open("w"))
+
+    # Mock _scrape_vc to return a new company for vc-b only
+    scraped_vcs = []
+    def mock_scrape(self, seed):
+        scraped_vcs.append(seed["slug"])
+        if seed["slug"] == "vc-b":
+            return [{"company_name": "Beta", "domain": "https://beta.io", "vc_source": "VC B"}]
+        return []
+    monkeypatch.setattr(HarvesterPipeline, "_scrape_vc", mock_scrape)
+
+    pipeline = HarvesterPipeline(vc_seeds_path=str(seeds_file), output_path=str(raw_file))
+    pipeline.run()
+
+    # vc-a should NOT have been scraped (skipped)
+    assert "vc-a" not in scraped_vcs
+    assert "vc-b" in scraped_vcs
+    # raw_companies should have both
+    result = json.load(raw_file.open())
+    domains = {c["domain"] for c in result}
+    assert "https://acme.co" in domains
+    assert "https://beta.io" in domains
+
+
+def test_pipeline_force_restart_clears_state(tmp_path, monkeypatch):
+    """--force-restart deletes state file and runs all VCs."""
+    state_file = tmp_path / "harvest_state.json"
+    state_file.write_text('{"completed_vcs": ["vc-a"], "last_updated": "2026-01-01T00:00:00Z"}')
+    monkeypatch.setattr("src.harvester.state.STATE_FILE", state_file)
+
+    seeds_file = tmp_path / "vc_seeds.json"
+    json.dump([
+        {"name": "VC A", "url": "https://vc-a.com", "slug": "vc-a"},
+    ], seeds_file.open("w"))
+
+    raw_file = tmp_path / "raw_companies.json"
+
+    scraped_vcs = []
+    def mock_scrape(self, seed):
+        scraped_vcs.append(seed["slug"])
+        return [{"company_name": "Acme", "domain": "https://acme.co", "vc_source": seed["name"]}]
+    monkeypatch.setattr(HarvesterPipeline, "_scrape_vc", mock_scrape)
+
+    pipeline = HarvesterPipeline(vc_seeds_path=str(seeds_file), output_path=str(raw_file))
+    pipeline.run(force_restart=True)
+
+    # vc-a should have been re-scraped despite being in state
+    assert "vc-a" in scraped_vcs
+    # state file should be gone
+    assert not state_file.exists()
