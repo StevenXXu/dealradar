@@ -40,7 +40,7 @@ class JinaClient:
             try:
                 return self.fetch(url)
             except requests.HTTPError as e:
-                if e.response is not None and e.response.status_code == 402:
+                if e.response is not None and e.response.status_code in (402, 429):
                     # Rate limited — back off progressively: 10s, 30s, 60s
                     backoff = [10, 30, 60][attempt] if attempt < 3 else 60
                     print(f"  [WARN] Jina 402 rate limit, backing off {backoff}s before retry {attempt + 1}/{max_retries}")

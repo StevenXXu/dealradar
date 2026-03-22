@@ -1,13 +1,9 @@
 [
-  {"name": "Blackbird", "url": "https://blackbird.vc/portfolio", "slug": "blackbird", "faction_hint": "a"},
-  {"name": "Square Peg", "url": "https://squarepeg.vc/portfolio", "slug": "square-peg", "faction_hint": "a"},
-  {"name": "AirTree", "url": "https://airtree.vc/portfolio", "slug": "airtree", "faction_hint": "a"},
-  {"name": "Carthona Capital", "url": "https://www.carthonacapital.com/", "slug": "carthona", "faction_hint": "a"},
+
   {"name": "Investible", "url": "https://www.investible.com/portfolio", "slug": "investible", "faction_hint": "b"},
-  {"name": "Skip Capital", "url": "https://www.skipcapital.com/venture", "slug": "skip", "faction_hint": "a"},
-  {"name": "Five V Capital", "url": "https://www.fivevcapital.com/portfolio", "slug": "five-v", "faction_hint": "a"},
   {"name": "Antler", "url": "https://www.antler.co/portfolio", "slug": "antler", "faction_hint": "a"},
-  {"name": "Archangels", "url": "https://www.archangel.vc/our-portfolio", "slug": "archangels", "faction_hint": "b"},
-  {"name": "Blacksheep Capital", "url": "https://blacksheepcapital.com.au/", "slug": "blacksheep", "faction_hint": "a"},
-  {"name": "GiantLeap", "url": "https://www.giantleap.com.au/portfolio", "slug": "giantleap", "faction_hint": "a"}
+  {"name": "Archangels", "url": "https://www.archangel.vc/our-portfolio", "slug": "archangels"},
+{"name": "Startmate", "url": "https://www.startmate.com/portfolio"},
+{"name": "UNSW Founders", "url": "https://unswfounders.com/our-startups"}
+
 ]
