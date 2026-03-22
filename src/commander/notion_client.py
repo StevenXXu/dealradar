@@ -2,6 +2,7 @@
 """Notion API client for writing enriched company records to Notion database."""
 import os
 import time
+import requests
 from notion_client import Client as NotionClientLib
 from notion_client.errors import APIResponseError
 
@@ -54,9 +55,15 @@ class NotionClient:
 
         last_raise_date = company.get("last_raise_date")
         if last_raise_date:
-            props["Last Raise Date"] = {"date": {"start": last_raise_date}}
+            try:
+                # Validate ISO 8601 — Notion rejects non-compliant formats like "Oct 2021" or "2024/07/02"
+                from datetime import datetime
+                datetime.fromisoformat(last_raise_date.replace(" ", "T"))
+                props["Last Raise Date"] = {"date": {"start": last_raise_date}}
+            except (ValueError, TypeError):
+                pass  # Skip invalid date formats — Notion requires strict ISO 8601
 
-        # Is New checkbox (set by caller during push, not in the dict)
+        # Is New checkbox
         is_new = company.get("is_new", False)
         props["Is New"] = {"checkbox": bool(is_new)}
 
@@ -74,14 +81,24 @@ class NotionClient:
     def page_exists_by_domain(self, domain: str) -> str | None:
         """Query Notion for existing page with matching domain. Returns page_id or None."""
         try:
-            results = self.client.databases.query(
-                self.database_id,
-                filter={
+            headers = {
+                "Authorization": f"Bearer {self.integration_token}",
+                "Content-Type": "application/json",
+                "Notion-Version": "2022-06-28",
+            }
+            payload = {
+                "filter": {
                     "property": "Domain",
                     "url": {"equals": domain},
                 },
+                "page_size": 1,
+            }
+            resp = requests.post(
+                f"https://api.notion.com/v1/databases/{self.database_id}/query",
+                headers=headers, json=payload, timeout=30
             )
-            pages = results.get("results", [])
+            resp.raise_for_status()
+            pages = resp.json().get("results", [])
             return pages[0]["id"] if pages else None
         except Exception:
             return None
@@ -117,32 +134,21 @@ class NotionClient:
                 wait = (2 ** attempt) * 1.0
                 time.sleep(wait)
 
-    def upsert_company(self, company: dict) -> str:
-        """Insert or update a company in Notion."""
-        domain = company.get("domain")
-        if not domain:
-            raise ValueError(f"Company {company.get('company_name')} has no domain")
-
-        existing_id = self.page_exists_by_domain(domain)
-        if existing_id:
-            print(f"  Updating existing: {company['company_name']}")
-            self.update_page(existing_id, company)
-            return existing_id
-        else:
-            print(f"  Creating new: {company['company_name']}")
-            return self.create_page(company)
-
     def push_all(self, companies: list[dict]) -> dict:
         """Push all companies to Notion with deduplication."""
         results = {"created": 0, "updated": 0, "errors": 0}
         for company in companies:
             try:
-                existing = self.page_exists_by_domain(company.get("domain", ""))
-                if existing:
+                domain = company.get("domain", "")
+                existing_id = self.page_exists_by_domain(domain)
+                if existing_id:
+                    print(f"  Updating existing: {company['company_name']}")
+                    self.update_page(existing_id, company)
                     results["updated"] += 1
                 else:
+                    print(f"  Creating new: {company['company_name']}")
+                    self.create_page(company)
                     results["created"] += 1
-                self.upsert_company(company)
                 time.sleep(0.5)  # Notion rate limit
             except Exception as e:
                 print(f"  [ERROR] {company.get('company_name')}: {e}")
