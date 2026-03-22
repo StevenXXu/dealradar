@@ -144,10 +144,9 @@ class HarvesterPipeline:
             vc_results.append(companies)
             self._all_companies.extend(companies)
 
-            # Mark completed and persist incrementally (skip on force_restart — fresh run)
-            if not force_restart:
-                mark_completed(slug)
-                append_and_dedupe(companies, self.output_path)
+            # Mark completed and persist incrementally
+            mark_completed(slug)
+            append_and_dedupe(companies, self.output_path)
 
             # Sanity check: warn if VC returned fewer than 3 companies
             if len(companies) < 3:

@@ -151,5 +151,7 @@ def test_pipeline_force_restart_clears_state(tmp_path, monkeypatch):
 
     # vc-a should have been re-scraped despite being in state
     assert "vc-a" in scraped_vcs
-    # state file should be gone
-    assert not state_file.exists()
+    # state file is re-created with freshly scraped VCs marked complete
+    assert state_file.exists()
+    data = json.load(state_file.open())
+    assert "vc-a" in data["completed_vcs"]
