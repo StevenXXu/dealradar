@@ -7,15 +7,19 @@ from pathlib import Path
 
 STATE_FILE = Path("data/harvest_state.json")
 
-def load_state() -> tuple[set[str], set[str]]:
-    """Return (completed_vcs, failed_vcs). Cold start if file missing or corrupt."""
+def load_state() -> tuple[set[str], set[str], dict]:
+    """Return (completed_vcs, failed_vcs, vc_patterns). Cold start if file missing or corrupt."""
     if not STATE_FILE.exists():
-        return set(), set()
+        return set(), set(), {}
     try:
         data = json.loads(STATE_FILE.read_text())
-        return set(data.get("completed_vcs", [])), set(data.get("failed_vcs", []))
+        return (
+            set(data.get("completed_vcs", [])),
+            set(data.get("failed_vcs", [])),
+            data.get("vc_patterns", {}),
+        )
     except (json.JSONDecodeError, OSError):
-        return set(), set()
+        return set(), set(), {}
 
 
 def mark_failed(slug: str) -> None:

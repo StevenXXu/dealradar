@@ -4,20 +4,21 @@ import tempfile
 from pathlib import Path
 
 def test_load_state_missing_file():
-    """Missing state file returns (empty set, empty set)."""
+    """Missing state file returns (empty set, empty set, empty dict)."""
     with tempfile.TemporaryDirectory() as tmpdir:
         from src.harvester import state
         original = state.STATE_FILE
         state.STATE_FILE = Path(tmpdir) / "nonexistent.json"
         try:
-            completed, failed = state.load_state()
+            completed, failed, patterns = state.load_state()
             assert completed == set()
             assert failed == set()
+            assert patterns == {}
         finally:
             state.STATE_FILE = original
 
 def test_load_state_existing():
-    """Existing state file returns (completed_vcs, failed_vcs)."""
+    """Existing state file returns (completed_vcs, failed_vcs, vc_patterns)."""
     with tempfile.TemporaryDirectory() as tmpdir:
         state_file = Path(tmpdir) / "harvest_state.json"
         json.dump({"completed_vcs": ["vc-a", "vc-b"], "failed_vcs": ["vc-c"], "last_updated": "2026-01-01T00:00:00Z"}, state_file.open("w"))
@@ -25,9 +26,10 @@ def test_load_state_existing():
         original = state.STATE_FILE
         state.STATE_FILE = state_file
         try:
-            completed, failed = state.load_state()
+            completed, failed, patterns = state.load_state()
             assert completed == {"vc-a", "vc-b"}
             assert failed == {"vc-c"}
+            assert patterns == {}
         finally:
             state.STATE_FILE = original
 
@@ -40,9 +42,10 @@ def test_load_state_corrupt_json():
         original = state.STATE_FILE
         state.STATE_FILE = state_file
         try:
-            completed, failed = state.load_state()
+            completed, failed, patterns = state.load_state()
             assert completed == set()
             assert failed == set()
+            assert patterns == {}
         finally:
             state.STATE_FILE = original
 
@@ -199,5 +202,28 @@ def test_mark_completed_removes_from_failed():
             data = json.load(state_file.open())
             assert "vc-x" in data["completed_vcs"]
             assert "vc-x" not in data["failed_vcs"]
+        finally:
+            state.STATE_FILE = original
+
+def test_load_state_returns_vc_patterns():
+    """load_state returns (completed_vcs, failed_vcs, vc_patterns)."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        state_file = Path(tmpdir) / "harvest_state.json"
+        json.dump({
+            "completed_vcs": ["vc-a"],
+            "failed_vcs": ["vc-b"],
+            "vc_patterns": {
+                "vc-a": {"slug_regex": "/company/([a-z0-9-]+)", "detail_url_template": "https://vc-a.com/company/{slug}", "probed_at": "2026-03-23T00:00:00Z", "confidence": "high"}
+            },
+            "last_updated": "2026-03-23T00:00:00Z"
+        }, state_file.open("w"))
+        from src.harvester import state
+        original = state.STATE_FILE
+        state.STATE_FILE = state_file
+        try:
+            completed, failed, patterns = state.load_state()
+            assert completed == {"vc-a"}
+            assert failed == {"vc-b"}
+            assert patterns == {"vc-a": {"slug_regex": "/company/([a-z0-9-]+)", "detail_url_template": "https://vc-a.com/company/{slug}", "probed_at": "2026-03-23T00:00:00Z", "confidence": "high"}}
         finally:
             state.STATE_FILE = original
