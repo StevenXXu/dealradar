@@ -23,11 +23,15 @@ def load_state() -> tuple[set[str], set[str], dict]:
 
 
 def mark_failed(slug: str) -> None:
-    """Add slug to failed_vcs (soft failure — will retry on next run unless force-restart)."""
-    data = {"completed_vcs": [], "failed_vcs": [], "last_updated": ""}
+    """Add slug to failed_vcs. Removes from completed_vcs. Does NOT delete vc_patterns entry."""
+    data = {"completed_vcs": [], "failed_vcs": [], "vc_patterns": {}, "last_updated": ""}
     if STATE_FILE.exists():
         try:
-            data = json.loads(STATE_FILE.read_text())
+            existing = json.loads(STATE_FILE.read_text())
+            data["completed_vcs"] = existing.get("completed_vcs", [])
+            data["failed_vcs"] = existing.get("failed_vcs", [])
+            data["vc_patterns"] = existing.get("vc_patterns", {})
+            data["last_updated"] = existing.get("last_updated", "")
         except json.JSONDecodeError:
             pass
     if slug not in data.get("failed_vcs", []):
@@ -42,11 +46,15 @@ def mark_failed(slug: str) -> None:
 
 
 def clear_vc(slug: str) -> None:
-    """Remove a VC from both completed and failed sets (allows re-scrape)."""
-    data = {"completed_vcs": [], "failed_vcs": [], "last_updated": ""}
+    """Remove a VC from both completed and failed sets. Does NOT delete vc_patterns entry."""
+    data = {"completed_vcs": [], "failed_vcs": [], "vc_patterns": {}, "last_updated": ""}
     if STATE_FILE.exists():
         try:
-            data = json.loads(STATE_FILE.read_text())
+            existing = json.loads(STATE_FILE.read_text())
+            data["completed_vcs"] = existing.get("completed_vcs", [])
+            data["failed_vcs"] = existing.get("failed_vcs", [])
+            data["vc_patterns"] = existing.get("vc_patterns", {})
+            data["last_updated"] = existing.get("last_updated", "")
         except json.JSONDecodeError:
             pass
     for key in ("completed_vcs", "failed_vcs"):
