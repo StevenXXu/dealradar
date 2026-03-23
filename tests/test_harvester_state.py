@@ -286,12 +286,15 @@ def test_cache_vc_pattern_requires_both_fields():
 
 
 def test_clear_vc_pattern():
-    """clear_vc_pattern removes the vc_key from vc_patterns."""
+    """clear_vc_pattern removes the vc_key from vc_patterns and preserves others."""
     with tempfile.TemporaryDirectory() as tmpdir:
         state_file = Path(tmpdir) / "harvest_state.json"
         json.dump({
             "completed_vcs": [], "failed_vcs": [],
-            "vc_patterns": {"vc-x": {"slug_regex": "/company/([a-z0-9-]+)", "detail_url_template": "https://vc-x.com/company/{slug}", "confidence": "high"}},
+            "vc_patterns": {
+                "vc-x": {"slug_regex": "/company/([a-z0-9-]+)", "detail_url_template": "https://vc-x.com/company/{slug}", "confidence": "high"},
+                "vc-y": {"slug_regex": "/startups/([a-z0-9-]+)", "detail_url_template": "https://vc-y.com/startups/{slug}", "probed_at": "2026-03-23T00:00:00Z", "confidence": "medium"},
+            },
             "last_updated": ""
         }, state_file.open("w"))
         from src.harvester import state
@@ -300,16 +303,19 @@ def test_clear_vc_pattern():
         try:
             state.clear_vc_pattern("vc-x")
             assert state.get_vc_pattern("vc-x") is None
+            # vc-y should be preserved
+            assert state.get_vc_pattern("vc-y") is not None
+            assert state.get_vc_pattern("vc-y")["slug_regex"] == "/startups/([a-z0-9-]+)"
         finally:
             state.STATE_FILE = original
 
 
 def test_get_vc_pattern_returns_none_after_30_days():
     """get_vc_pattern returns None if pattern is older than 30 days."""
-    import time
+    from datetime import datetime, timezone, timedelta
     with tempfile.TemporaryDirectory() as tmpdir:
         state_file = Path(tmpdir) / "harvest_state.json"
-        old_date = "2026-02-01T00:00:00Z"  # more than 30 days ago
+        old_date = (datetime.now(timezone.utc) - timedelta(days=31)).isoformat()
         json.dump({
             "completed_vcs": [], "failed_vcs": [],
             "vc_patterns": {"vc-old": {"slug_regex": "/company/([a-z0-9-]+)", "detail_url_template": "https://old.com/company/{slug}", "probed_at": old_date, "confidence": "high"}},
