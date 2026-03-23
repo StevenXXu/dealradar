@@ -227,3 +227,98 @@ def test_load_state_returns_vc_patterns():
             assert patterns == {"vc-a": {"slug_regex": "/company/([a-z0-9-]+)", "detail_url_template": "https://vc-a.com/company/{slug}", "probed_at": "2026-03-23T00:00:00Z", "confidence": "high"}}
         finally:
             state.STATE_FILE = original
+
+
+def test_get_vc_pattern_returns_cached():
+    """get_vc_pattern returns cached pattern if exists and not expired."""
+    import pytest
+    with tempfile.TemporaryDirectory() as tmpdir:
+        state_file = Path(tmpdir) / "harvest_state.json"
+        json.dump({
+            "completed_vcs": [], "failed_vcs": [], "vc_patterns": {},
+            "last_updated": "2026-03-23T00:00:00Z"
+        }, state_file.open("w"))
+        from src.harvester import state
+        original = state.STATE_FILE
+        state.STATE_FILE = state_file
+        try:
+            # Cache a pattern
+            state.cache_vc_pattern("vc-x", {
+                "slug_regex": "/company/([a-z0-9-]+)",
+                "detail_url_template": "https://vc-x.com/company/{slug}",
+                "confidence": "high"
+            })
+            pattern = state.get_vc_pattern("vc-x")
+            assert pattern is not None
+            assert pattern["slug_regex"] == "/company/([a-z0-9-]+)"
+        finally:
+            state.STATE_FILE = original
+
+
+def test_get_vc_pattern_returns_none_for_unknown():
+    """get_vc_pattern returns None for unknown vc_key."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        state_file = Path(tmpdir) / "harvest_state.json"
+        json.dump({"completed_vcs": [], "failed_vcs": [], "vc_patterns": {}, "last_updated": ""}, state_file.open("w"))
+        from src.harvester import state
+        original = state.STATE_FILE
+        state.STATE_FILE = state_file
+        try:
+            assert state.get_vc_pattern("unknown-vc") is None
+        finally:
+            state.STATE_FILE = original
+
+
+def test_cache_vc_pattern_requires_both_fields():
+    """cache_vc_pattern rejects partial patterns (slug_regex or detail_url_template missing)."""
+    import pytest
+    with tempfile.TemporaryDirectory() as tmpdir:
+        state_file = Path(tmpdir) / "harvest_state.json"
+        json.dump({"completed_vcs": [], "failed_vcs": [], "vc_patterns": {}, "last_updated": ""}, state_file.open("w"))
+        from src.harvester import state
+        original = state.STATE_FILE
+        state.STATE_FILE = state_file
+        try:
+            with pytest.raises(ValueError, match="cache_vc_pattern requires slug_regex and detail_url_template to both be non-null"):
+                state.cache_vc_pattern("vc-x", {"slug_regex": "/company/([a-z0-9-]+)"})  # missing detail_url_template
+        finally:
+            state.STATE_FILE = original
+
+
+def test_clear_vc_pattern():
+    """clear_vc_pattern removes the vc_key from vc_patterns."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        state_file = Path(tmpdir) / "harvest_state.json"
+        json.dump({
+            "completed_vcs": [], "failed_vcs": [],
+            "vc_patterns": {"vc-x": {"slug_regex": "/company/([a-z0-9-]+)", "detail_url_template": "https://vc-x.com/company/{slug}", "confidence": "high"}},
+            "last_updated": ""
+        }, state_file.open("w"))
+        from src.harvester import state
+        original = state.STATE_FILE
+        state.STATE_FILE = state_file
+        try:
+            state.clear_vc_pattern("vc-x")
+            assert state.get_vc_pattern("vc-x") is None
+        finally:
+            state.STATE_FILE = original
+
+
+def test_get_vc_pattern_returns_none_after_30_days():
+    """get_vc_pattern returns None if pattern is older than 30 days."""
+    import time
+    with tempfile.TemporaryDirectory() as tmpdir:
+        state_file = Path(tmpdir) / "harvest_state.json"
+        old_date = "2026-02-01T00:00:00Z"  # more than 30 days ago
+        json.dump({
+            "completed_vcs": [], "failed_vcs": [],
+            "vc_patterns": {"vc-old": {"slug_regex": "/company/([a-z0-9-]+)", "detail_url_template": "https://old.com/company/{slug}", "probed_at": old_date, "confidence": "high"}},
+            "last_updated": old_date
+        }, state_file.open("w"))
+        from src.harvester import state
+        original = state.STATE_FILE
+        state.STATE_FILE = state_file
+        try:
+            assert state.get_vc_pattern("vc-old") is None  # expired
+        finally:
+            state.STATE_FILE = original

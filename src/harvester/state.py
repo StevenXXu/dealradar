@@ -97,3 +97,76 @@ def append_and_dedupe(new_companies: list[dict], output_path: str) -> None:
     tmp = p.with_suffix(".tmp")
     tmp.write_text(json.dumps(existing, indent=2))
     shutil.move(str(tmp), str(p))
+
+
+def get_vc_pattern(vc_key: str) -> dict | None:
+    """Return cached pattern for vc_key if it exists and is not expired (>30 days). Returns None if missing or expired."""
+    if not STATE_FILE.exists():
+        return None
+    try:
+        data = json.loads(STATE_FILE.read_text())
+    except (json.JSONDecodeError, OSError):
+        return None
+    patterns = data.get("vc_patterns", {})
+    if vc_key not in patterns:
+        return None
+    pattern = patterns[vc_key]
+    probed_at_str = pattern.get("probed_at", "")
+    if not probed_at_str:
+        return None
+    try:
+        probed_at = datetime.fromisoformat(probed_at_str)
+        age_days = (datetime.now(timezone.utc) - probed_at).days
+        if age_days > 30:
+            return None
+    except (ValueError, TypeError):
+        return None
+    return pattern
+
+
+def cache_vc_pattern(vc_key: str, pattern: dict) -> None:
+    """Save pattern to vc_patterns[vc_key]. Requires slug_regex and detail_url_template both non-null."""
+    slug_regex = pattern.get("slug_regex")
+    detail_url_template = pattern.get("detail_url_template")
+    if not slug_regex or not detail_url_template:
+        raise ValueError("cache_vc_pattern requires slug_regex and detail_url_template to both be non-null")
+    data = {"completed_vcs": [], "failed_vcs": [], "vc_patterns": {}, "last_updated": ""}
+    if STATE_FILE.exists():
+        try:
+            existing = json.loads(STATE_FILE.read_text())
+            data["completed_vcs"] = existing.get("completed_vcs", [])
+            data["failed_vcs"] = existing.get("failed_vcs", [])
+            data["vc_patterns"] = existing.get("vc_patterns", {})
+            data["last_updated"] = existing.get("last_updated", "")
+        except json.JSONDecodeError:
+            pass
+    data["vc_patterns"][vc_key] = {
+        "slug_regex": slug_regex,
+        "detail_url_template": detail_url_template,
+        "confidence": pattern.get("confidence", "medium"),
+        "probed_at": datetime.now(timezone.utc).isoformat(),
+    }
+    data["last_updated"] = datetime.now(timezone.utc).isoformat()
+    tmp = STATE_FILE.with_suffix(".tmp")
+    tmp.write_text(json.dumps(data, indent=2))
+    shutil.move(str(tmp), str(STATE_FILE))
+
+
+def clear_vc_pattern(vc_key: str) -> None:
+    """Remove vc_key from vc_patterns (used by force-restart)."""
+    data = {"completed_vcs": [], "failed_vcs": [], "vc_patterns": {}, "last_updated": ""}
+    if STATE_FILE.exists():
+        try:
+            existing = json.loads(STATE_FILE.read_text())
+            data["completed_vcs"] = existing.get("completed_vcs", [])
+            data["failed_vcs"] = existing.get("failed_vcs", [])
+            data["vc_patterns"] = existing.get("vc_patterns", {})
+            data["last_updated"] = existing.get("last_updated", "")
+        except json.JSONDecodeError:
+            pass
+    if vc_key in data.get("vc_patterns", {}):
+        del data["vc_patterns"][vc_key]
+    data["last_updated"] = datetime.now(timezone.utc).isoformat()
+    tmp = STATE_FILE.with_suffix(".tmp")
+    tmp.write_text(json.dumps(data, indent=2))
+    shutil.move(str(tmp), str(STATE_FILE))
