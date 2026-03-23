@@ -57,7 +57,7 @@ def test_faction_b_calls_ai_probe_when_default_yields_fewer_than_3():
         "slug_regex": "(?:startups|deals)/([a-z0-9-]+)",
         "detail_url_template": "https://newvc.com/startups/{slug}",
         "confidence": "high",
-        "sample_slugs": ["canva", "stripe"],
+        "sample_slugs": ["canva", "stripe", "figma"],
         "num_links_found": 12
     }
 
@@ -65,6 +65,9 @@ def test_faction_b_calls_ai_probe_when_default_yields_fewer_than_3():
         mock_jina_cls.return_value = mock_jina
         with patch("src.harvester.probe.probe_vc_structure") as mock_probe:
             mock_probe.return_value = mock_probe_result
+            # Clear pipeline module cache and re-import with patch in place
+            import sys
+            sys.modules.pop("src.harvester.pipeline", None)
             with patch("src.harvester.pipeline.JinaDetailScraper") as mock_scraper_cls:
                 mock_scraper = MagicMock()
                 mock_scraper.fetch_details_parallel.return_value = [
