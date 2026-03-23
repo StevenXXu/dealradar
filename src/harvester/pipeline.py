@@ -13,7 +13,7 @@ from src.harvester.jina_detail import JinaDetailScraper
 from src.harvester.playwright_scraper import PlaywrightScraper
 from src.harvester.extractor import extract_companies_from_html, async_filter_dead_companies
 from src.harvester import state as state_module
-from src.harvester.state import load_state, mark_completed, append_and_dedupe
+from src.harvester.state import load_state, mark_completed, mark_failed, append_and_dedupe
 
 
 class HarvesterPipeline:
@@ -59,12 +59,8 @@ class HarvesterPipeline:
             return []
 
         # Build detail URLs based on VC
-        if "investible" in slug.lower():
-            detail_urls = [f"https://www.investible.com/company/{s}" for s in slugs]
-        elif "archangel" in slug.lower():
-            detail_urls = [f"https://www.archangel.vc/portfolio/{s}" for s in slugs]
-        else:
-            detail_urls = [f"{portfolio_url.rstrip('/')}/{s}" for s in slugs]
+        template = vc_entry.get("detail_url_template", f"{portfolio_url.rstrip('/')}/{{slug}}")
+        detail_urls = [template.format(slug=s) for s in slugs]
 
         print(f"  [{vc_name}] Faction B: fetching {len(detail_urls)} detail pages via JinaDetailScraper...", flush=True)
         scraper = JinaDetailScraper(self.jina)
@@ -129,28 +125,33 @@ class HarvesterPipeline:
 
         self._all_companies = []
         vc_results = []
-        completed_vcs = load_state()
+        completed_vcs, failed_vcs = load_state()
 
         for seed in self.vc_seeds:
             time.sleep(random.uniform(2, 5))  # Rate limit between VCs
             slug = seed.get("slug", seed["name"].lower().replace(" ", "-"))
 
-            # Skip already-completed VCs
+            # Skip already-completed VCs (but NOT failed VCs — those retry on every run)
             if slug in completed_vcs:
-                print(f"  [{seed['name']}] SKIPPED — already completed", flush=True)
+                print(f"  [{seed['name']}] SKIPPED — already completed successfully", flush=True)
                 continue
+
+            if slug in failed_vcs:
+                print(f"  [{seed['name']}] RETRY — previously returned <3 companies", flush=True)
 
             companies = self._scrape_vc(seed)
             vc_results.append(companies)
             self._all_companies.extend(companies)
 
             # Mark completed and persist incrementally
-            mark_completed(slug)
-            append_and_dedupe(companies, self.output_path)
-
-            # Sanity check: warn if VC returned fewer than 3 companies
-            if len(companies) < 3:
-                print(f"  [WARN] {seed['name']} returned only {len(companies)} companies — below minimum threshold (3)", flush=True)
+            if len(companies) >= 3:
+                mark_completed(slug)
+                append_and_dedupe(companies, self.output_path)
+            else:
+                # Soft failure — mark as failed so it's retried on next run
+                # unless --force-restart is used
+                mark_failed(slug)
+                print(f"  [WARN] {seed['name']} returned only {len(companies)} companies — marked as failed, will retry on next run", flush=True)
 
         # Filter dead companies
         print(f"\nFiltering dead companies ({len(self._all_companies)} total before filter)...", flush=True)

@@ -1,9 +1,25 @@
 [
-
-  {"name": "Investible", "url": "https://www.investible.com/portfolio", "slug": "investible", "faction_hint": "b"},
-  {"name": "Antler", "url": "https://www.antler.co/portfolio", "slug": "antler", "faction_hint": "a"},
-  {"name": "Archangels", "url": "https://www.archangel.vc/our-portfolio", "slug": "archangels"},
-{"name": "Startmate", "url": "https://www.startmate.com/portfolio"},
-{"name": "UNSW Founders", "url": "https://unswfounders.com/our-startups"}
-
+  {
+    "name": "Investible",
+    "url": "https://www.investible.com/portfolio",
+    "slug": "investible",
+    "faction_hint": "b",
+    "detail_url_template": "https://www.investible.com/company/{slug}"
+  },
+  {
+    "name": "Archangels",
+    "url": "https://www.archangel.vc/our-portfolio",
+    "slug": "archangels",
+    "detail_url_template": "https://www.archangel.vc/portfolio/{slug}"
+  },
+  {
+    "name": "Startmate",
+    "url": "https://www.startmate.com/portfolio",
+    "slug": "startmate"
+  },
+  {
+    "name": "UNSW Founders",
+    "url": "https://unswfounders.com/our-startups",
+    "slug": "unsw-founders"
+  }
 ]

@@ -1,12 +1,49 @@
 # src/commander/notion_client.py
 """Notion API client for writing enriched company records to Notion database."""
+import hashlib
+import json
 import os
 import time
+from datetime import date
+from pathlib import Path
+
 import requests
 from notion_client import Client as NotionClientLib
 from notion_client.errors import APIResponseError
 
-from datetime import date
+LAST_PUSH_FILE = Path("data/last_push.json")
+
+
+def _data_hash(company: dict) -> str:
+    """Stable hash of the fields that matter for Notion push."""
+    key_fields = [
+        company.get("company_name", ""),
+        company.get("domain", ""),
+        company.get("vc_source", ""),
+        company.get("sector", ""),
+        company.get("one_liner", ""),
+        str(company.get("signal_score", "")),
+        company.get("last_raise_amount", ""),
+        company.get("last_raise_date", ""),
+        company.get("funding_clock", ""),
+    ]
+    return hashlib.md5("|".join(key_fields).encode()).hexdigest()
+
+
+def _load_last_push() -> dict[str, dict]:
+    if not LAST_PUSH_FILE.exists():
+        return {}
+    try:
+        return json.loads(LAST_PUSH_FILE.read_text())
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+
+def _save_last_push(record: dict) -> None:
+    LAST_PUSH_FILE.parent.mkdir(parents=True, exist_ok=True)
+    tmp = LAST_PUSH_FILE.with_suffix(".tmp")
+    tmp.write_text(json.dumps(record, indent=2))
+    tmp.replace(LAST_PUSH_FILE)
 
 
 class NotionClient:
@@ -81,6 +118,8 @@ class NotionClient:
     def page_exists_by_domain(self, domain: str) -> str | None:
         """Query Notion for existing page with matching domain. Returns page_id or None."""
         try:
+            # Normalize domain to lowercase for matching
+            normalized = domain.lower()
             headers = {
                 "Authorization": f"Bearer {self.integration_token}",
                 "Content-Type": "application/json",
@@ -89,7 +128,7 @@ class NotionClient:
             payload = {
                 "filter": {
                     "property": "Domain",
-                    "url": {"equals": domain},
+                    "url": {"equals": normalized},
                 },
                 "page_size": 1,
             }
@@ -135,11 +174,24 @@ class NotionClient:
                 time.sleep(wait)
 
     def push_all(self, companies: list[dict]) -> dict:
-        """Push all companies to Notion with deduplication."""
-        results = {"created": 0, "updated": 0, "errors": 0}
+        """Push companies to Notion incrementally — only push if data changed since last push."""
+        last_push = _load_last_push()
+        results = {"created": 0, "updated": 0, "skipped": 0, "errors": 0}
+
         for company in companies:
             try:
                 domain = company.get("domain", "")
+                if not domain:
+                    continue
+
+                record = last_push.get(domain, {})
+                current_hash = _data_hash(company)
+
+                # Skip if hash matches — nothing changed since last push
+                if record.get("hash") == current_hash:
+                    results["skipped"] += 1
+                    continue
+
                 existing_id = self.page_exists_by_domain(domain)
                 if existing_id:
                     print(f"  Updating existing: {company['company_name']}")
@@ -149,9 +201,13 @@ class NotionClient:
                     print(f"  Creating new: {company['company_name']}")
                     self.create_page(company)
                     results["created"] += 1
+
+                # Record push
+                last_push[domain] = {"hash": current_hash, "pushed_at": date.today().isoformat()}
                 time.sleep(0.5)  # Notion rate limit
             except Exception as e:
                 print(f"  [ERROR] {company.get('company_name')}: {e}")
                 results["errors"] += 1
 
+        _save_last_push(last_push)
         return results

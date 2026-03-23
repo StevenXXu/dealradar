@@ -7,27 +7,69 @@ from pathlib import Path
 
 STATE_FILE = Path("data/harvest_state.json")
 
-def load_state() -> set[str]:
-    """Return set of completed VC slugs. Cold start if file missing or corrupt."""
+def load_state() -> tuple[set[str], set[str]]:
+    """Return (completed_vcs, failed_vcs). Cold start if file missing or corrupt."""
     if not STATE_FILE.exists():
-        return set()
+        return set(), set()
     try:
         data = json.loads(STATE_FILE.read_text())
-        return set(data.get("completed_vcs", []))
+        return set(data.get("completed_vcs", [])), set(data.get("failed_vcs", []))
     except (json.JSONDecodeError, OSError):
-        return set()
+        return set(), set()
 
-def mark_completed(slug: str) -> None:
-    """Add slug to completed_vcs atomically."""
-    data = {"completed_vcs": [], "last_updated": ""}
+
+def mark_failed(slug: str) -> None:
+    """Add slug to failed_vcs (soft failure — will retry on next run unless force-restart)."""
+    data = {"completed_vcs": [], "failed_vcs": [], "last_updated": ""}
     if STATE_FILE.exists():
         try:
             data = json.loads(STATE_FILE.read_text())
         except json.JSONDecodeError:
             pass
-    if slug not in data.get("completed_vcs", []):
-        data.setdefault("completed_vcs", []).append(slug)
-        data["last_updated"] = datetime.now(timezone.utc).isoformat()
+    if slug not in data.get("failed_vcs", []):
+        data.setdefault("failed_vcs", []).append(slug)
+    # Remove from completed if it was there (re-coverify after a failure)
+    if slug in data.get("completed_vcs", []):
+        data["completed_vcs"].remove(slug)
+    data["last_updated"] = datetime.now(timezone.utc).isoformat()
+    tmp = STATE_FILE.with_suffix(".tmp")
+    tmp.write_text(json.dumps(data, indent=2))
+    shutil.move(str(tmp), str(STATE_FILE))
+
+
+def clear_vc(slug: str) -> None:
+    """Remove a VC from both completed and failed sets (allows re-scrape)."""
+    data = {"completed_vcs": [], "failed_vcs": [], "last_updated": ""}
+    if STATE_FILE.exists():
+        try:
+            data = json.loads(STATE_FILE.read_text())
+        except json.JSONDecodeError:
+            pass
+    for key in ("completed_vcs", "failed_vcs"):
+        if slug in data.get(key, []):
+            data[key].remove(slug)
+    data["last_updated"] = datetime.now(timezone.utc).isoformat()
+    tmp = STATE_FILE.with_suffix(".tmp")
+    tmp.write_text(json.dumps(data, indent=2))
+    shutil.move(str(tmp), str(STATE_FILE))
+
+def mark_completed(slug: str) -> None:
+    """Add slug to completed_vcs atomically. Removes from failed_vcs on success."""
+    data = {"completed_vcs": [], "failed_vcs": [], "last_updated": ""}
+    if STATE_FILE.exists():
+        try:
+            existing = json.loads(STATE_FILE.read_text())
+            data["completed_vcs"] = existing.get("completed_vcs", [])
+            data["failed_vcs"] = existing.get("failed_vcs", [])
+            data["last_updated"] = existing.get("last_updated", "")
+        except json.JSONDecodeError:
+            pass
+    if slug not in data["completed_vcs"]:
+        data["completed_vcs"].append(slug)
+    # On success, remove from failed if it was there
+    if slug in data["failed_vcs"]:
+        data["failed_vcs"].remove(slug)
+    data["last_updated"] = datetime.now(timezone.utc).isoformat()
     tmp = STATE_FILE.with_suffix(".tmp")
     tmp.write_text(json.dumps(data, indent=2))
     shutil.move(str(tmp), str(STATE_FILE))

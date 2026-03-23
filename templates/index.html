@@ -12,6 +12,7 @@
   .btn-primary { background: #2563eb; color: white; border: none; border-radius: 4px; }
   .btn-danger { background: #dc2626; color: white; border: none; border-radius: 4px; }
   .btn-ghost { background: transparent; border: 1px solid #ccc; border-radius: 4px; }
+  .btn-warn { background: #d97706; color: white; border: none; border-radius: 4px; font-size: 0.75rem; padding: 0.2rem 0.5rem; }
   .stats { background: #f3f4f6; border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 1rem; font-size: 0.9rem; }
   .stats span { margin-right: 1.5rem; }
   table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
@@ -49,7 +50,7 @@
 <table id="vcTable">
   <thead>
     <tr>
-      <th>Name</th><th>URL</th><th>Faction</th><th></th>
+      <th>Name</th><th>URL</th><th>Faction</th><th>Status</th><th></th>
     </tr>
   </thead>
   <tbody id="vcBody"></tbody>
@@ -71,19 +72,27 @@ async function refresh() {
   document.getElementById('statVCs').textContent = seeds.length;
   document.getElementById('statCompanies').textContent = companies.count;
   document.getElementById('statLast').textContent = state.last_updated ? new Date(state.last_updated).toLocaleString() : 'Never';
-  renderTable(seeds);
+  renderTable(seeds, state);
 }
 
-function renderTable(seeds) {
+function renderTable(seeds, state) {
+  const completed = new Set((state.completed_vcs || []));
+  const failed = new Set((state.failed_vcs || []));
   const tbody = document.getElementById('vcBody');
-  tbody.innerHTML = seeds.map(s => `
+  tbody.innerHTML = seeds.map(s => {
+    const isCompleted = completed.has(s.slug);
+    const isFailed = failed.has(s.slug);
+    const status = isFailed ? 'failed' : isCompleted ? 'done' : 'pending';
+    const retryBtn = (isFailed ? `<button class="btn-warn" onclick="retryVC('${s.slug}')">Retry</button>` : '');
+    return `
     <tr data-slug="${s.slug}">
       <td><input value="${s.name}" onblur="saveVC('${s.slug}', 'name', this.value)"></td>
       <td><input value="${s.url}" onblur="saveVC('${s.slug}', 'url', this.value)"></td>
       <td><input value="${s.faction_hint || 'a'}" onblur="saveVC('${s.slug}', 'faction_hint', this.value)"></td>
+      <td style="font-size:0.85rem; color:${isFailed?'#d97706':isCompleted?'#16a34a':'#6b7280'}">${status} ${retryBtn}</td>
       <td class="delete-btn" onclick="deleteVC('${s.slug}')">✕</td>
     </tr>
-  `).join('');
+  `}).join('');
 }
 
 async function addVC() {
@@ -112,6 +121,11 @@ async function deleteVC(slug) {
   refresh();
 }
 
+async function retryVC(slug) {
+  await fetch(API + '/api/state/clear/' + slug, {method: 'POST'});
+  refresh();
+}
+
 async function startRun() {
   if (eventSource) { cancelRun(); return; }
   const res = await fetch(API + '/api/run/start', {method: 'POST'}).then(r => r.json());
@@ -125,7 +139,7 @@ async function startRun() {
   eventSource.addEventListener('progress', e => {
     const d = JSON.parse(e.data);
     const el = document.getElementById('output');
-    const icon = d.status === 'done' ? '✓' : d.status === 'skipped' ? '⊘' : '›';
+    const icon = d.status === 'done' ? '✓' : d.status === 'skipped' ? '⊘' : d.status === 'failed' ? '⚠' : '›';
     el.textContent += `${icon} [${d.vc}] ${d.status === 'done' ? d.companies + ' companies' : d.status}\n`;
     el.scrollTop = el.scrollHeight;
   });

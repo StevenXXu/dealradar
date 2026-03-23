@@ -61,7 +61,7 @@ def run_push(
 
     client = NotionClient()
     results = client.push_all(companies)
-    print(f"Created: {results['created']}, Updated: {results['updated']}, Errors: {results['errors']}")
+    print(f"Created: {results['created']}, Updated: {results['updated']}, Skipped (unchanged): {results['skipped']}, Errors: {results['errors']}")
     return results
 
 

@@ -82,12 +82,19 @@ def delete_vc_seed(slug: str):
 @app.get("/api/state")
 def get_state():
     if not STATE_PATH.exists():
-        return {"completed_vcs": [], "last_updated": None}
+        return {"completed_vcs": [], "failed_vcs": [], "last_updated": None}
     try:
         data = json.loads(STATE_PATH.read_text())
         return data
     except Exception:
-        return {"completed_vcs": [], "last_updated": None}
+        return {"completed_vcs": [], "failed_vcs": [], "last_updated": None}
+
+@app.post("/api/state/clear/{slug}")
+def clear_vc_state(slug: str):
+    """Clear a VC from completed/failed state so it re-scrapes on next run."""
+    from src.harvester.state import clear_vc
+    clear_vc(slug)
+    return {"ok": True, "slug": slug}
 
 @app.get("/api/companies")
 def get_companies():
@@ -121,6 +128,11 @@ def _parse_stdout_line(line: str) -> dict | None:
         m = re.search(r"\[([^\]]+)\] SKIPPED", line)
         if m:
             return {"vc": m.group(1), "status": "skipped", "companies": 0, "elapsed": 0}
+    # marked as failed, will retry
+    if "marked as failed" in line:
+        m = re.search(r"\[([^\]]+)\]", line)
+        if m:
+            return {"vc": m.group(1), "status": "failed", "companies": 0, "elapsed": 0}
     # Scraping VC Name (url)...
     if "Scraping" in line and "..." in line:
         m = re.search(r"Scraping (.+?) \(", line)
@@ -152,7 +164,7 @@ def start_run():
             return {"error": "already running"}
         _process_start_time = time.time()
         _process = subprocess.Popen(
-            ["python", "run.py", "--phase=harvest"],
+            ["python", "run.py", "--phase=all"],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
