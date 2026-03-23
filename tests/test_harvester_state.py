@@ -373,3 +373,25 @@ def test_get_vc_pattern_returns_none_after_30_days():
             assert state.get_vc_pattern("vc-old") is None  # expired
         finally:
             state.STATE_FILE = original
+
+
+def test_mark_completed_preserves_vc_patterns():
+    """mark_completed does NOT delete vc_patterns entry."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        state_file = Path(tmpdir) / "harvest_state.json"
+        json.dump({
+            "completed_vcs": [],
+            "failed_vcs": ["vc-x"],
+            "vc_patterns": {"vc-x": {"slug_regex": "/company/([a-z0-9-]+)", "detail_url_template": "https://vc-x.com/company/{slug}", "confidence": "high"}},
+            "last_updated": "2026-03-23T00:00:00Z"
+        }, state_file.open("w"))
+        from src.harvester import state
+        original = state.STATE_FILE
+        state.STATE_FILE = state_file
+        try:
+            state.mark_completed("vc-x")
+            completed, failed, patterns = state.load_state()
+            assert "vc-x" in completed
+            assert "vc-x" in patterns  # preserved
+        finally:
+            state.STATE_FILE = original

@@ -67,12 +67,13 @@ def clear_vc(slug: str) -> None:
 
 def mark_completed(slug: str) -> None:
     """Add slug to completed_vcs atomically. Removes from failed_vcs on success."""
-    data = {"completed_vcs": [], "failed_vcs": [], "last_updated": ""}
+    data = {"completed_vcs": [], "failed_vcs": [], "vc_patterns": {}, "last_updated": ""}
     if STATE_FILE.exists():
         try:
             existing = json.loads(STATE_FILE.read_text())
             data["completed_vcs"] = existing.get("completed_vcs", [])
             data["failed_vcs"] = existing.get("failed_vcs", [])
+            data["vc_patterns"] = existing.get("vc_patterns", {})
             data["last_updated"] = existing.get("last_updated", "")
         except json.JSONDecodeError:
             pass
