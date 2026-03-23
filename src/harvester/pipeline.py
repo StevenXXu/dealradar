@@ -125,7 +125,7 @@ class HarvesterPipeline:
 
         self._all_companies = []
         vc_results = []
-        completed_vcs, failed_vcs = load_state()
+        completed_vcs, failed_vcs, _ = load_state()
 
         for seed in self.vc_seeds:
             time.sleep(random.uniform(2, 5))  # Rate limit between VCs
