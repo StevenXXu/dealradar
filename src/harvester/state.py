@@ -46,7 +46,7 @@ def mark_failed(slug: str) -> None:
 
 
 def clear_vc(slug: str) -> None:
-    """Remove a VC from both completed and failed sets. Does NOT delete vc_patterns entry."""
+    """Remove a VC from both completed and failed sets AND from vc_patterns. Allows full re-scrape."""
     data = {"completed_vcs": [], "failed_vcs": [], "vc_patterns": {}, "last_updated": ""}
     if STATE_FILE.exists():
         try:
@@ -60,6 +60,9 @@ def clear_vc(slug: str) -> None:
     for key in ("completed_vcs", "failed_vcs"):
         if slug in data.get(key, []):
             data[key].remove(slug)
+    # Also clear the cached pattern (Task 6 addition)
+    if slug in data.get("vc_patterns", {}):
+        del data["vc_patterns"][slug]
     data["last_updated"] = datetime.now(timezone.utc).isoformat()
     tmp = STATE_FILE.with_suffix(".tmp")
     tmp.write_text(json.dumps(data, indent=2))

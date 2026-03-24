@@ -332,8 +332,8 @@ def test_mark_failed_preserves_vc_patterns():
             state.STATE_FILE = original
 
 
-def test_clear_vc_preserves_vc_patterns():
-    """clear_vc removes from completed/failed but does NOT delete vc_patterns."""
+def test_clear_vc_deletes_vc_patterns_entry():
+    """clear_vc removes from completed/failed AND deletes vc_patterns entry (full reset)."""
     with tempfile.TemporaryDirectory() as tmpdir:
         state_file = Path(tmpdir) / "harvest_state.json"
         json.dump({
@@ -350,7 +350,7 @@ def test_clear_vc_preserves_vc_patterns():
             completed, failed, patterns = state.load_state()
             assert "vc-x" not in completed
             assert "vc-x" not in failed
-            assert "vc-x" in patterns  # preserved
+            assert "vc-x" not in patterns  # DELETED, not preserved
         finally:
             state.STATE_FILE = original
 
