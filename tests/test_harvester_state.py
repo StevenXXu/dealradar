@@ -395,3 +395,25 @@ def test_mark_completed_preserves_vc_patterns():
             assert "vc-x" in patterns  # preserved
         finally:
             state.STATE_FILE = original
+
+
+def test_force_restart_clears_vc_patterns():
+    """--force-restart (state file deletion) results in empty vc_patterns on next load."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        state_file = Path(tmpdir) / "harvest_state.json"
+        json.dump({
+            "completed_vcs": ["vc-a"],
+            "failed_vcs": [],
+            "vc_patterns": {"vc-a": {"slug_regex": "/company/([a-z0-9-]+)", "detail_url_template": "https://vc-a.com/company/{slug}", "confidence": "high"}},
+            "last_updated": "2026-03-23T00:00:00Z"
+        }, state_file.open("w"))
+        # Simulate force_restart: delete the state file
+        state_file.unlink()
+        from src.harvester import state
+        original = state.STATE_FILE
+        state.STATE_FILE = state_file
+        try:
+            _, _, patterns = state.load_state()
+            assert patterns == {}  # cold start — vc_patterns cleared
+        finally:
+            state.STATE_FILE = original
