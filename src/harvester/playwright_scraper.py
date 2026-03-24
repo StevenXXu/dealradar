@@ -90,7 +90,7 @@ class PlaywrightScraper:
         (https://vc.com/portfolio/slug).
         """
         links = page.query_selector_all("a[href]")
-        detail_patterns = ("/portfolio/", "/companies/", "/company/", "/investment/")
+        detail_patterns = ("/portfolio/", "/companies/", "/company/", "/investment/", "/portfolio-companies/")
         skip_nav = {"portfolio", "team", "blog", "methodology", "news", "careers",
                     "about", "contact", "invest", "climate", "club", "fund"}
         count = 0
@@ -180,7 +180,7 @@ class PlaywrightScraper:
             href = link.get_attribute("href") or ""
             if not any(
                 p in href.lower()
-                for p in ("/portfolio/", "/companies/", "/company/", "/investment/")
+                for p in ("/portfolio/", "/companies/", "/company/", "/investment/", "/portfolio-companies/")
             ):
                 continue
             # Build full URL: if relative use urljoin, if already full keep as-is

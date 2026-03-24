@@ -17,15 +17,15 @@ LAST_PUSH_FILE = Path("data/last_push.json")
 def _data_hash(company: dict) -> str:
     """Stable hash of the fields that matter for Notion push."""
     key_fields = [
-        company.get("company_name", ""),
-        company.get("domain", ""),
-        company.get("vc_source", ""),
-        company.get("sector", ""),
-        company.get("one_liner", ""),
-        str(company.get("signal_score", "")),
-        company.get("last_raise_amount", ""),
-        company.get("last_raise_date", ""),
-        company.get("funding_clock", ""),
+        str(company.get("company_name", "") or ""),
+        str(company.get("domain", "") or ""),
+        str(company.get("vc_source", "") or ""),
+        str(company.get("sector", "") or ""),
+        str(company.get("one_liner", "") or ""),
+        str(company.get("signal_score", "") or ""),
+        str(company.get("last_raise_amount", "") or ""),
+        str(company.get("last_raise_date", "") or ""),
+        str(company.get("funding_clock", "") or ""),
     ]
     return hashlib.md5("|".join(key_fields).encode()).hexdigest()
 
