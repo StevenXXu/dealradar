@@ -9,6 +9,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "company_id and body (min 20 chars) required" }, { status: 400 });
     }
 
+    const VALID_SIGNAL_TYPES = ["Hiring", "Founder Move", "Fundraising", "Technical Signal", "Other"];
+    if (signal_type && !VALID_SIGNAL_TYPES.includes(signal_type)) {
+      return NextResponse.json({ error: "Invalid signal_type" }, { status: 400 });
+    }
+
     const supabase = getServerSupabase();
 
     // Resolve company_id (could be domain string or UUID)
