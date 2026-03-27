@@ -28,7 +28,14 @@ export default function DiscoveryFeed() {
       query = query.eq("sector", sector);
     }
 
-    query.then(({ data, count }) => {
+    query.then(({ data, count, error }) => {
+      if (error) {
+        console.error("Failed to fetch companies:", error);
+        setCompanies([]);
+        setTotalCount(0);
+        setLoading(false);
+        return;
+      }
       setCompanies(data || []);
       setTotalCount(count || 0);
       setLoading(false);

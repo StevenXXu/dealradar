@@ -49,8 +49,8 @@ export default function CompanyDetailPage() {
     fetchData();
   }, [id]);
 
-  if (loading) return <p className="p-6 text-gray-500">Loading...</p>;
-  if (!company) return <p className="p-6 text-gray-500">Company not found.</p>;
+  if (loading) return <p className="p-6 text-gray-500 dark:text-gray-400">Loading...</p>;
+  if (!company) return <p className="p-6 text-gray-500 dark:text-gray-400">Company not found.</p>;
 
   return (
     <main className="max-w-3xl mx-auto p-6">
@@ -117,13 +117,13 @@ export default function CompanyDetailPage() {
         </div>
 
         {signals.length === 0 ? (
-          <p className="text-gray-400 text-sm">No signals yet. Be the first to submit one.</p>
+          <p className="text-gray-400 text-sm dark:text-gray-500">No signals yet. Be the first to submit one.</p>
         ) : (
           <div className="space-y-3">
             {signals.map((signal) => (
               <div key={signal.id} className="border-b border-gray-100 dark:border-gray-700 pb-3 last:border-0">
                 <p className="text-sm font-medium dark:text-gray-200">{signal.content?.body || "No content"}</p>
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
                   {signal.source} · {new Date(signal.created_at).toLocaleDateString()}
                 </p>
               </div>
