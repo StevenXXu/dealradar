@@ -21,5 +21,95 @@
     "name": "UNSW Founders",
     "url": "https://unswfounders.com/our-startups",
     "slug": "unsw-founders"
+  },
+  {
+    "name": "Main Sequence",
+    "url": "https://www.mseq.vc/all-companies",
+    "slug": "main-sequence"
+  },
+  {
+    "name": "Folklore",
+    "url": "https://www.folklore.vc/companies",
+    "slug": "folklore"
+  },
+  {
+    "name": "Blackbird",
+    "url": "https://blackbird.vc/portfolio",
+    "slug": "blackbird"
+  },
+  {
+    "name": "Square Peg",
+    "url": "https://squarepeg.vc/portfolio",
+    "slug": "square-peg"
+  },
+  {
+    "name": "AirTree",
+    "url": "https://airtree.vc/portfolio",
+    "slug": "airtree"
+  },
+  {
+    "name": "OneVentures",
+    "url": "https://one-ventures.com.au/portfolio/",
+    "slug": "one-ventures"
+  },
+  {
+    "name": "South Australian Fund",
+    "url": "https://www.savcfund.com/portfolio",
+    "slug": "sa-fund"
+  },
+  {
+    "name": "Carthona Capital",
+    "url": "https://www.carthonacapital.com/",
+    "slug": "carthona"
+  },
+  {
+    "name": "Kosmos",
+    "url": "https://www.kosmos.vc/portfolio",
+    "slug": "kosmos"
+  },
+  {
+    "name": "Skip Capital",
+    "url": "https://www.skipcapital.com/venture",
+    "slug": "skip-capital"
+  },
+  {
+    "name": "Five V Capital",
+    "url": "https://www.fivevcapital.com/portfolio",
+    "slug": "five-v"
+  },
+  {
+    "name": "Afterwork",
+    "url": "https://www.afterwork.vc/portfolio",
+    "slug": "afterwork"
+  },
+  {
+    "name": "Tidal",
+    "url": "https://www.tidalvc.com/companies",
+    "slug": "tidal"
+  },
+  {
+    "name": "Blacksheep Capital",
+    "url": "https://blacksheepcapital.com.au/",
+    "slug": "blacksheep"
+  },
+  {
+    "name": "Shearwater Capital",
+    "url": "https://www.shearwater.co/companies/",
+    "slug": "shearwater"
+  },
+  {
+    "name": "GiantLeap",
+    "url": "https://www.giantleap.com.au/portfolio",
+    "slug": "giantleap"
+  },
+  {
+    "name": "Aura",
+    "url": "https://www.aura.vc/portfolio",
+    "slug": "aura"
+  },
+  {
+    "name": "Cicada",
+    "url": "https://www.cicadainnovations.com/incubator/residents",
+    "slug": "cicada"
   }
 ]

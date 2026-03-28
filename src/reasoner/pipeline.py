@@ -10,6 +10,7 @@ from src.reasoner.models import ModelChain
 from src.reasoner.signals import SignalDetector
 from src.reasoner.funding_clock import FundingClock, estimate_monthly_burn
 from src.reasoner.summarizer import Summarizer
+from src.commander.supabase_pusher import SupabasePusher
 
 
 class ReasonerPipeline:
@@ -30,6 +31,7 @@ class ReasonerPipeline:
         self.signals = SignalDetector()
         self.summarizer = Summarizer()
         self._enriched = []
+        self.supabase_pusher = SupabasePusher()
 
     def _load_raw(self) -> list[dict]:
         with open(self.raw_companies_path) as f:
@@ -93,7 +95,7 @@ class ReasonerPipeline:
             burn = estimate_monthly_burn(headcount=None, sector=signal_data.get("sector"))
             funding_clock = clock.predict_funding_date(burn)
 
-        return {
+        enriched = {
             **company,
             "sector": signal_data.get("sector", "Unknown"),
             "one_liner": one_liner,
@@ -105,6 +107,12 @@ class ReasonerPipeline:
             "ai_model_used": model_name,
             "source_citation": domain,
         }
+
+        try:
+            self.supabase_pusher.push_company(enriched)
+        except Exception as e:
+            print(f"  [WARN] Supabase push failed for {company.get('company_name', domain)}: {e}")
+        return enriched
 
     def run(self) -> list[dict]:
         """Process all companies."""

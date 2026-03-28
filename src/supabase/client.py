@@ -1,7 +1,26 @@
 """Supabase client wrapper for DealRadar pipeline and ETL."""
 import os
+import re
 from datetime import datetime, timezone
 from supabase import create_client, Client
+
+
+def _validate_date(value: str | None) -> str | None:
+    """Validate and sanitize date strings for PostgreSQL date columns.
+
+    PostgreSQL date columns require YYYY-MM-DD. Accepts:
+      - None → None
+      - "YYYY-MM-DD" → returned as-is
+      - "YYYY-MM" or "YYYY" → returned as None (incomplete, not useful)
+      - Any other string → returned as-is (let PostgreSQL reject it for visibility)
+    """
+    if not value:
+        return None
+    # Must match exactly YYYY-MM-DD (with leading zeros for month/day)
+    if re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
+        return value
+    # Partial or ambiguous dates — reject silently rather than crash
+    return None
 
 class SupabaseClient:
     def __init__(self, url: str | None = None, service_role_key: str | None = None):
@@ -24,7 +43,7 @@ class SupabaseClient:
                     "signal_score": company.get("signal_score", 0),
                     "tags": company.get("tags", []),
                     "last_raise_amount": company.get("last_raise_amount"),
-                    "last_raise_date": company.get("last_raise_date"),
+                    "last_raise_date": _validate_date(company.get("last_raise_date")),
                     "funding_clock": company.get("funding_clock"),
                     "ai_model_used": company.get("ai_model_used"),
                     "source_url": company.get("source_url"),

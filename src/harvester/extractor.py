@@ -126,14 +126,113 @@ def extract_domain_from_url(url: str) -> str | None:
 
 
 def is_excluded_domain(domain: str) -> bool:
-    """Check if domain should be excluded (social media, Crunchbase, etc.)."""
+    """Check if domain should be excluded (social media, Crunchbase, big tech, etc.)."""
+    # Major tech/public companies that are not early-stage startups
+    major_corporations = {
+        # Big Tech
+        "google.com", "youtube.com", "blog.google", "play.google",
+        "apple.com", "icloud.com",
+        "microsoft.com", "windows.com", "azure.com", "github.com",
+        "amazon.com", "aws.amazon.com", "alexa.amazon.com",
+        "facebook.com", "meta.com", "instagram.com", "whatsapp.com", "oculus.com",
+        "twitter.com", "x.com",
+        "linkedin.com",
+        "netflix.com", "spotify.com",
+        "nvidia.com", "nvidia.dev",
+        "cisco.com", "webex.com",
+        "salesforce.com", "slack.com", "tableau.com",
+        "adobe.com", "omnichannel.com",
+        "ibm.com", "cloud.ibm.com",
+        "oracle.com",
+        "intel.com",
+        "paypal.com", "venmo.com",
+        "ebay.com",
+        "reddit.com",
+        "snap.com", "snapchat.com",
+        "pinterest.com",
+        "tumblr.com",
+        "flickr.com",
+        "dropbox.com",
+        "box.com",
+        "yahoo.com",
+        "bing.com",
+        "baidu.com",
+        "qq.com",
+        "weibo.com",
+        "tencent.com",
+        "alibaba.com", "alibaba.net",
+        "163.com",
+        "sina.com.cn",
+        "sohu.com",
+        "ifeng.com",
+        # Major public companies in VC portfolios
+        "klarna.com",
+        "airbnb.com", "airbnb.co.uk", "airbnb.eu",
+        "uber.com", "uber Eats",
+        "doordash.com",
+        "instacart.com",
+        "lyft.com",
+        "shopify.com",
+        "stripe.com",
+        "squareup.com", "block.xyz",
+        "snowflake.com", "snowflake.net",
+        "mongodb.com",
+        "atlassian.com",
+        "atlassian.net",
+        "slack.com",
+        "zoom.us",
+        "datadog.com",
+        "crowdstrike.com",
+        "zscaler.com",
+        "okta.com",
+        "cloudflare.com",
+        "twilio.com",
+        "sendgrid.com",
+        "mapbox.com",
+        "github.com",
+        "gitlab.com",
+        "bitbucket.org",
+        "stackoverflow.com",
+        "stackexchange.com",
+        "medium.com",
+        "wordpress.com",
+        "wix.com",
+        "squarespace.com",
+        "shopify.com",
+        "etsy.com",
+        "snap.com",
+        # Social / reference
+        "twitter.com", "linkedin.com", "facebook.com", "instagram.com",
+        "youtube.com", "crunchbase.com", "pitchbook.com",
+        "wikipedia.org", "github.com",
+        # Job boards / HR
+        "indeed.com", "linkedin.com", "glassdoor.com", "getro.com",
+        "lever.co", "greenhouse.io", "workday.com", "icims.com",
+        "sap.com", "workday.com",
+        # Navigation / misc noise
+        "mail.google.com", "drive.google.com", "calendar.google.com",
+        "chrome.google.com", "store.google.com",
+        "support.google.com", "maps.google.com",
+        "adobe.com", "stock.adobe.com",
+        "teams.microsoft.com", "office.microsoft.com",
+        "amazon.com", "smile.amazon.com",
+        "aws.amazon.com",
+        "窟.com",  # etc
+    }
     excluded = {
         "twitter.com", "linkedin.com", "facebook.com", "instagram.com",
         "youtube.com", "crunchbase.com", "pitchbook.com",
         "wikipedia.org", "github.com",
     }
-    netloc = urlparse(domain).netloc.replace("www.", "")
-    return netloc in excluded
+    netloc = urlparse(domain).netloc.replace("www.", "").lower()
+    # Check exact match
+    if netloc in excluded or netloc in major_corporations:
+        return True
+    # Check if domain contains a major corp (e.g. "microsoft.com" in "support.microsoft.com")
+    for corp in major_corporations:
+        if corp in netloc or netloc in corp:
+            return True
+    return False
 
 
 def detect_stage_from_context(a_tag) -> str | None:

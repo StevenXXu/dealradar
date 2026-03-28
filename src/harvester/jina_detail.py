@@ -7,14 +7,38 @@ from src.harvester.jina_client import JinaClient
 logger = logging.getLogger(__name__)
 
 EXCLUDED_DOMAINS = {
+    # Social media
     "twitter.com", "x.com", "linkedin.com", "instagram.com",
     "facebook.com", "youtube.com", "crunchbase.com", "pitchbook.com",
-    "wikipedia.org", "github.com",
-    # Job boards — these appear on VC detail pages but aren't company sites
+    "wikipedia.org", "github.com", "reddit.com", "snapchat.com",
+    # Big Tech / major public companies (not early-stage startups)
+    "google.com", "apple.com", "icloud.com",
+    "microsoft.com", "windows.com", "azure.com", "github.com",
+    "amazon.com", "aws.amazon.com",
+    "meta.com", "whatsapp.com", "oculus.com", "messenger.com",
+    "netflix.com", "spotify.com",
+    "nvidia.com", "nvidia.dev",
+    "cisco.com", "webex.com",
+    "salesforce.com", "slack.com", "tableau.com",
+    "adobe.com",
+    "oracle.com", "intel.com", "ibm.com",
+    "paypal.com", "venmo.com",
+    "ebay.com",
+    "pinterest.com", "tumblr.com", "flickr.com",
+    "dropbox.com", "box.com",
+    "yahoo.com", "bing.com",
+    "baidu.com", "alibaba.com", "alibaba.net", "tencent.com",
+    "weibo.com", "qq.com",
+    # Job boards — appear on VC detail pages but aren't company sites
     "greenhouse.io", "greenhouse.tech", "lever.co", "workday.com",
-    "ashbyhq.com", "bamboohr.com",
-    # VC/investment platform domains that appear on their own detail pages
+    "ashbyhq.com", "bamboohr.com", "getro.com", "indeed.com",
+    "glassdoor.com", "icims.com",
+    # VC/investment platform domains
     "investible.com", "archangel.vc",
+    # VC firm domains (self-referential links on detail pages)
+    "mseq.vc", "blackbird.vc", "squarepeg.vc", "airtree.vc",
+    "folklore.vc", "antler.co", "carthonacapital.com",
+    "blacksheepcapital.com.au", "skipcapital.com",
 }
 
 class JinaDetailScraper:
@@ -91,5 +115,15 @@ class JinaDetailScraper:
 
     def _is_excluded(self, domain: str) -> bool:
         # Strip trailing slash so netloc comparison works correctly
-        netloc = urlparse(domain.rstrip("/")).netloc
-        return self._strip_www(netloc) in EXCLUDED_DOMAINS
+        netloc = urlparse(domain.rstrip("/")).netloc.lower()
+        # Also strip www. for consistent matching
+        netloc_stripped = self._strip_www(netloc)
+        # Exact match first
+        if netloc_stripped in EXCLUDED_DOMAINS:
+            return True
+        # Substring match: reject if stripped netloc is a subdomain of an excluded domain
+        # e.g. "support.microsoft.com" should reject if "microsoft.com" is excluded
+        for excluded in EXCLUDED_DOMAINS:
+            if netloc_stripped.endswith(excluded) or excluded.endswith(netloc_stripped):
+                return True
+        return False

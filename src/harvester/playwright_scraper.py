@@ -492,9 +492,36 @@ class PlaywrightScraper:
 
     def _is_external_company_link(self, href: str, text: str, vc_brand: str = None) -> bool:
         excluded = {
-            "linkedin.com", "twitter.com", "youtube.com", "facebook.com",
+            # Social media
+            "linkedin.com", "twitter.com", "x.com", "youtube.com", "facebook.com",
             "instagram.com", "github.com", "crunchbase.com", "pitchbook.com",
-            "wikipedia.org", "google.com", "googletagmanager.com",
+            "wikipedia.org",
+            # Big Tech / major public companies (not early-stage startups)
+            "google.com", "googletagmanager.com", "chrome.google.com",
+            "apple.com", "icloud.com",
+            "microsoft.com", "windows.com", "azure.com",
+            "amazon.com", "aws.amazon.com", "smile.amazon.com",
+            "meta.com", "whatsapp.com", "oculus.com", "messenger.com",
+            "netflix.com", "spotify.com",
+            "nvidia.com", "nvidia.dev",
+            "cisco.com", "webex.com",
+            "salesforce.com", "slack.com", "tableau.com",
+            "adobe.com", "omnichannel.com",
+            "ibm.com", "cloud.ibm.com",
+            "oracle.com",
+            "intel.com",
+            "paypal.com", "venmo.com",
+            "ebay.com",
+            "reddit.com",
+            "snap.com", "snapchat.com",
+            "pinterest.com",
+            "tumblr.com",
+            "flickr.com",
+            "dropbox.com", "box.com",
+            "yahoo.com", "bing.com",
+            "baidu.com", "alibaba.com", "alibaba.net", "tencent.com",
+            "weibo.com", "qq.com", "163.com", "sina.com.cn",
+            # VC/investor sites
             "mseq.vc", "blackbird.vc", "squarepeg.vc", "airtree.vc",
             "folklore.vc", "sprintajax.com", "ten13.com", "alto.capital",
             "rampersand.com", "basecapital.com.au", "candour.vc",
@@ -515,6 +542,9 @@ class PlaywrightScraper:
             "investorvision.intralinks.com", "dynamo.dynamosoftware.com",
             "share.hsforms.com", "goo.gl", "maps.app.goo.gl",
             "fund", "vc-portal", "lp-portal",
+            # Job boards
+            "indeed.com", "glassdoor.com", "getro.com",
+            "lever.co", "greenhouse.io", "workday.com", "icims.com",
         }
         if not href.startswith("http"):
             return False

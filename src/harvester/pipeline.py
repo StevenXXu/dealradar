@@ -148,6 +148,15 @@ class HarvesterPipeline:
             return []
 
         slugs = re.findall(slug_regex, portfolio_markdown)
+        # Filter out slugs that are clearly domain names or known corporations
+        known_corps = {
+            "google", "apple", "microsoft", "amazon", "facebook", "meta", "nvidia",
+            "intel", "cisco", "oracle", "ibm", "salesforce", "adobe", "netflix",
+            "spotify", "slack", "paypal", "ebay", "uber", "airbnb", "linkedin",
+            "twitter", "github", "youtube", "instagram", "reddit", "snap",
+            "microsoft", "apple", "nvidia",
+        }
+        slugs = [s for s in slugs if s.lower() not in known_corps and "." not in s]
         slugs = list(set(slugs))
 
         # 4. If <3 slugs OR template absent (and no cached), try AI probe
