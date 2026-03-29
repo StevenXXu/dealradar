@@ -1,9 +1,5384 @@
 [
   {
-    "company_name": "Canvas",
-    "domain": "https://canvas.co",
-    "stage": "Unknown",
+    "company_name": "Website",
+    "domain": "https://stables.money/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://plasmaleap.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://restoplus.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://structure-pal.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://merchantspring.io/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://hotelmize.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://earthodic.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://unseen.id/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://safetyculture.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://syenta.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://literalapp.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://functionly.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://geosnapshot.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://kara.tech/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://emmi.io/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://iif.today/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://spotparking.com.au/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://carbonclick.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://myrobin.id/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://headsafe.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://renewable-metals.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://manettas.com.au/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://wisr.com.au/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://frntlne.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://iluminr.io/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://effi.com.au/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://au.work180.co/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://fifthdomain.com.au/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://airrobe.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://quantumbrilliance.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://evidentli.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://kitemagnetics.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://parcelperform.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://trendii.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://voltavate.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://jig.space/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://ledgerowl.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://bspkl.co/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://carbonhq.earth/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://revibecollective.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://mozo.com.au/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "http://directoau.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Image 1: Investible logo in white",
+    "domain": "https://cdn.prod.website-files.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://talktoivy.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://bygen.com.au/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://appliedev.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://tability.io/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://programa.com.au/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://wooboard.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://mastt.com.au/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://gegaelements.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://ecdev.org/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://nominalsys.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://grw.ai/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://cim.io/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://decarice.com.au/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://prospus.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://goodheat.energy/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://betterdata.ai/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://tikpay.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://dexibit.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://digitalharvest.farm/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://hoopscrm.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://nextworldenterprises.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://spot-ship.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://carnextdoor.com.au/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://xefco.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://dimplecontacts.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://file.ai/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://purple.telstra.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://consultmed.co/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://kanopicover.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://surreal.live/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://booksy.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://baskit.app/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://section.io/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://shopyou.com.au/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://siconabattery.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://apate.ai/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://espersatellites.co/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://factory.app/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://rokt.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://canva.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://comet.cx/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://nexl.cloud/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://flyoro.co/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://switchboardcloud.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://hachiko.energy/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://yumefood.com.au/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://datafarming.com.au/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://harvestb.io/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://teoralife.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://getsolar.ai/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://shipeezi.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://somin.ai/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://kinde.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://ipsy.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://lawpath.com.au/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://gomist.co/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://zerojet.nz/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://inspiretek.io/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://tictag.io/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://veyordigital.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://rakamin.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://nrn.com.au/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://zincovery.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://goterra.au/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://protoslabs.sg/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://jugglestreet.com.au/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://gradability.com.au/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://fivegoodfriends.com.au/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://reheroes.ai/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://xylosystems.org/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://fugu.energy/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://inspacexr.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://mosaic-solutions.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://countercurrent.ai/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://disruptsports.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://seminal.one/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://sherlok.com.au/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://akin.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://getcape.io/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://lumonus.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://withfaye.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://heyyou.com.au/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://novalith.com.au/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://sidekick.software/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://truescope.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://hatch.team/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://languageconfidence.ai/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://purposebureau.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://bintango.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Website",
+    "domain": "https://ligrsystems.com/",
+    "vc_source": "Investible",
+    "source_url": "https://www.investible.com/portfolio"
+  },
+  {
+    "company_name": "Heidi",
+    "domain": "https://www.heidihealth.com.au/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:15:23.097617+00:00"
+  },
+  {
+    "company_name": "Atelier",
+    "domain": "https://atelier.co/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:15:27.980656+00:00"
+  },
+  {
+    "company_name": "Relevance AI",
+    "domain": "https://relevance.ai/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:15:32.569737+00:00"
+  },
+  {
+    "company_name": "Mutinex",
+    "domain": "https://mutinex.co/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:15:37.306846+00:00"
+  },
+  {
+    "company_name": "Investor Hub",
+    "domain": "https://www.investorhub.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:15:41.834417+00:00"
+  },
+  {
+    "company_name": "Earlywork",
+    "domain": "https://www.earlywork.co/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:15:46.995374+00:00"
+  },
+  {
+    "company_name": "Pearler",
+    "domain": "https://pearler.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:15:52.278081+00:00"
+  },
+  {
+    "company_name": "Sophiie AI",
+    "domain": "https://sophiie.ai/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:15:57.272809+00:00"
+  },
+  {
+    "company_name": "Magicbrief",
+    "domain": "https://www.magicbrief.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:16:01.967089+00:00"
+  },
+  {
+    "company_name": "Termina",
+    "domain": "https://termina.io/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:16:07.238247+00:00"
+  },
+  {
+    "company_name": "Fluency",
+    "domain": "https://usefluency.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:16:12.161706+00:00"
+  },
+  {
+    "company_name": "Vively",
+    "domain": "https://www.vively.com.au/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:16:16.614453+00:00"
+  },
+  {
+    "company_name": "Heaps Normal",
+    "domain": "https://heapsnormal.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:16:23.022484+00:00"
+  },
+  {
+    "company_name": "h2X",
+    "domain": "https://www.h2xengineering.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:16:27.287346+00:00"
+  },
+  {
+    "company_name": "SpecToolbox",
+    "domain": "https://clttoolbox.com.au/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:16:32.239259+00:00"
+  },
+  {
+    "company_name": "Keeyu",
+    "domain": "https://www.keeyu.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:16:36.481879+00:00"
+  },
+  {
+    "company_name": "Doohly",
+    "domain": "https://www.dooh.ly/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:16:42.336764+00:00"
+  },
+  {
+    "company_name": "Flowing Bee",
+    "domain": "https://flowingbee.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:16:46.653419+00:00"
+  },
+  {
+    "company_name": "Cor",
+    "domain": "https://getcor.ai/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:16:52.301568+00:00"
+  },
+  {
+    "company_name": "One MRI",
+    "domain": "https://www.onemri.com.au/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:16:57.138142+00:00"
+  },
+  {
+    "company_name": "Kantoko",
+    "domain": "https://www.kantoko.com.au/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:17:01.468691+00:00"
+  },
+  {
+    "company_name": "Sauce",
+    "domain": "https://sauce.app/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:17:05.801947+00:00"
+  },
+  {
+    "company_name": "Agave",
+    "domain": "https://www.agaveapi.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:17:11.344156+00:00"
+  },
+  {
+    "company_name": "Altai",
+    "domain": "https://www.altaicasting.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:17:16.257222+00:00"
+  },
+  {
+    "company_name": "Attune",
+    "domain": "https://attune.work/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:17:20.613737+00:00"
+  },
+  {
+    "company_name": "Bare",
+    "domain": "https://bare.com.au/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:17:25.430583+00:00"
+  },
+  {
+    "company_name": "Aerotruth",
+    "domain": "https://www.aerotruth.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:17:30.317490+00:00"
+  },
+  {
+    "company_name": "Aussie Angels",
+    "domain": "https://www.aussieangels.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:17:35.367868+00:00"
+  },
+  {
+    "company_name": "Azura Fashion Group",
+    "domain": "https://www.azurafashiongroup.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:17:40.892035+00:00"
+  },
+  {
+    "company_name": "Build Club AI",
+    "domain": "https://www.buildclub.ai/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:17:46.150363+00:00"
+  },
+  {
+    "company_name": "Citadel (NX1)",
+    "domain": "https://nx1.io/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:17:51.863058+00:00"
+  },
+  {
+    "company_name": "Clearpool",
+    "domain": "https://clearpool.io/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:17:56.395624+00:00"
+  },
+  {
+    "company_name": "CoTreat",
+    "domain": "https://cotreat.ai/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:18:01.452997+00:00"
+  },
+  {
+    "company_name": "Defy",
+    "domain": "https://www.defydesign.org/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:18:06.073513+00:00"
+  },
+  {
+    "company_name": "Elita Pet",
+    "domain": "https://www.elita.pet/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:18:10.650489+00:00"
+  },
+  {
+    "company_name": "Emesent",
+    "domain": "https://www.emesent.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:18:15.657030+00:00"
+  },
+  {
+    "company_name": "Everyoung AI",
+    "domain": "https://www.everyoungai.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:18:19.971580+00:00"
+  },
+  {
+    "company_name": "GXE",
+    "domain": "https://gxe.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:18:25.164889+00:00"
+  },
+  {
+    "company_name": "Gigabuddy",
+    "domain": "https://www.gigabuddy.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:18:29.539972+00:00"
+  },
+  {
+    "company_name": "Handover",
+    "domain": "https://www.handover.ai/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:18:34.014669+00:00"
+  },
+  {
+    "company_name": "Huckleberry",
+    "domain": "https://www.gethuckleberry.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:18:38.452079+00:00"
+  },
+  {
+    "company_name": "Hachiko",
+    "domain": "https://www.hachiko.energy/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:18:43.382214+00:00"
+  },
+  {
+    "company_name": "iion",
+    "domain": "https://www.iion.io/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:18:47.672456+00:00"
+  },
+  {
+    "company_name": "Key",
+    "domain": "https://key.ai/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:18:52.657126+00:00"
+  },
+  {
+    "company_name": "Lasertrade",
+    "domain": "https://www.lasertrade.com.au/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:18:57.577168+00:00"
+  },
+  {
+    "company_name": "Lyngo",
+    "domain": "https://www.lyngo.ai/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:19:02.460407+00:00"
+  },
+  {
+    "company_name": "Millibeam",
+    "domain": "https://www.millibeam.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:19:12.085018+00:00"
+  },
+  {
+    "company_name": "Nomadhub",
+    "domain": "https://www.nomadhubapp.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:19:16.958657+00:00"
+  },
+  {
+    "company_name": "OPEN BA",
+    "domain": "https://app.openrealestate.ai/hello",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:19:21.252477+00:00"
+  },
+  {
+    "company_name": "Osara Health",
+    "domain": "https://osarahealth.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:19:26.450915+00:00"
+  },
+  {
+    "company_name": "Preve",
+    "domain": "https://preve.co/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:19:31.365081+00:00"
+  },
+  {
+    "company_name": "Primary",
+    "domain": "http://primary.tech",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:19:36.146744+00:00"
+  },
+  {
+    "company_name": "Pushas",
+    "domain": "https://pushas.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:19:41.311248+00:00"
+  },
+  {
+    "company_name": "quickclaim",
+    "domain": "https://quickclaim.io/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:19:48.259916+00:00"
+  },
+  {
+    "company_name": "Refresh",
+    "domain": "https://refresh.tech/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:19:52.557443+00:00"
+  },
+  {
+    "company_name": "Restoke",
+    "domain": "https://www.restoke.ai/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:19:57.251901+00:00"
+  },
+  {
+    "company_name": "Searcheye",
+    "domain": "https://searcheye.io/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:20:01.785756+00:00"
+  },
+  {
+    "company_name": "Sendle",
+    "domain": "https://www.sendle.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:20:06.654796+00:00"
+  },
+  {
+    "company_name": "SmartSpace",
+    "domain": "https://smartspace.ai/home",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:20:15.710502+00:00"
+  },
+  {
+    "company_name": "StepN",
+    "domain": "https://www.stepn.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:20:20.175499+00:00"
+  },
+  {
+    "company_name": "Subbb",
+    "domain": "https://www.subbb.me/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:20:25.207320+00:00"
+  },
+  {
+    "company_name": "Switchboard",
+    "domain": "https://www.switchboardcloud.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:20:29.682641+00:00"
+  },
+  {
+    "company_name": "Thanks.dev",
+    "domain": "https://thanks.dev/home",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:20:34.004873+00:00"
+  },
+  {
+    "company_name": "Trendspek",
+    "domain": "https://trendspek.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:20:38.706883+00:00"
+  },
+  {
+    "company_name": "UserFlux",
+    "domain": "https://userflux.co/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:20:42.980850+00:00"
+  },
+  {
+    "company_name": "Vouch",
+    "domain": "https://vouchfor.com/",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:20:48.184235+00:00"
+  },
+  {
+    "company_name": "Archangel Ventures",
+    "domain": "https://www.bing.com/maps?where=Melbourne+AU&trk=org-locations_url",
+    "vc_source": "Archangel",
+    "scraped_at": "2026-03-28T06:20:55.240459+00:00"
+  },
+  {
+    "company_name": "Borne",
+    "domain": "https://www.borne.au/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:21:28.457135+00:00"
+  },
+  {
+    "company_name": "Andromeda 2",
+    "domain": "https://andromedarobotics.ai/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:21:37.957841+00:00"
+  },
+  {
+    "company_name": "Migratemate",
+    "domain": "https://migratemate.co/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:21:42.803515+00:00"
+  },
+  {
+    "company_name": "Matilda Migration",
+    "domain": "https://www.matildamigration.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:21:48.045670+00:00"
+  },
+  {
+    "company_name": "Hyro",
+    "domain": "https://drinkhyro.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:21:53.259907+00:00"
+  },
+  {
+    "company_name": "Voqo Ai",
+    "domain": "https://www.voqo.ai/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:21:57.867782+00:00"
+  },
+  {
+    "company_name": "Clutch",
+    "domain": "https://clutchglue.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:22:08.658489+00:00"
+  },
+  {
+    "company_name": "Ant61",
+    "domain": "https://www.ant61.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:22:18.542809+00:00"
+  },
+  {
+    "company_name": "Alt Leather",
+    "domain": "https://www.alt-leather.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:22:23.245199+00:00"
+  },
+  {
+    "company_name": "Zipline",
+    "domain": "https://www.zipline-ai.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:22:28.525372+00:00"
+  },
+  {
+    "company_name": "Vulnetix",
+    "domain": "https://www.vulnetix.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:22:33.119981+00:00"
+  },
+  {
+    "company_name": "Slice",
+    "domain": "https://www.slicetobuy.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:22:38.512563+00:00"
+  },
+  {
+    "company_name": "Puralink",
+    "domain": "https://www.puralink.com.au/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:22:43.507985+00:00"
+  },
+  {
+    "company_name": "Luniate",
+    "domain": "https://luniate.ai/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:22:48.225722+00:00"
+  },
+  {
+    "company_name": "Pentacue",
+    "domain": "https://www.pentacue.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:22:53.356339+00:00"
+  },
+  {
+    "company_name": "O3",
+    "domain": "https://www.o3space.org/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:22:58.175690+00:00"
+  },
+  {
+    "company_name": "Nod",
+    "domain": "https://www.getnod.io/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:23:02.645287+00:00"
+  },
+  {
+    "company_name": "Landid",
+    "domain": "https://heylandid.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:23:07.284065+00:00"
+  },
+  {
+    "company_name": "Gloss Guide",
+    "domain": "https://glossguide.com.au/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:23:12.230827+00:00"
+  },
+  {
+    "company_name": "Evidentful",
+    "domain": "https://www.evidentful.co.uk/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:23:21.838470+00:00"
+  },
+  {
+    "company_name": "Circular Sourcing",
+    "domain": "https://www.circularsourcing.world/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:23:27.062338+00:00"
+  },
+  {
+    "company_name": "Edsemble",
+    "domain": "https://edsemble.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:23:32.266113+00:00"
+  },
+  {
+    "company_name": "Duohub",
+    "domain": "https://duohub.ai/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:23:37.599941+00:00"
+  },
+  {
+    "company_name": "On Zero",
+    "domain": "https://on0.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:23:42.391851+00:00"
+  },
+  {
+    "company_name": "Chirp",
+    "domain": "https://www.trychirp.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:23:47.847694+00:00"
+  },
+  {
+    "company_name": "Rave",
+    "domain": "https://www.go-rave.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:23:53.150311+00:00"
+  },
+  {
+    "company_name": "Promosync",
+    "domain": "https://www.promosync.ai/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:23:58.262556+00:00"
+  },
+  {
+    "company_name": "On The House",
+    "domain": "https://www.fundpanel.io/Login",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:24:03.818118+00:00"
+  },
+  {
+    "company_name": "Ninja Ai",
+    "domain": "https://ninja.ai",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:24:08.387547+00:00"
+  },
+  {
+    "company_name": "Medlo",
+    "domain": "https://medlo.com.au/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:24:13.644536+00:00"
+  },
+  {
+    "company_name": "Matchbox",
+    "domain": "https://www.trymatchbox.com",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:24:18.498975+00:00"
+  },
+  {
+    "company_name": "June",
+    "domain": "https://www.heyjune.com.au/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:24:29.191351+00:00"
+  },
+  {
+    "company_name": "Heystu",
+    "domain": "https://heystu.io",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:24:33.958821+00:00"
+  },
+  {
+    "company_name": "Integuide",
+    "domain": "https://integuide.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:24:38.853826+00:00"
+  },
+  {
+    "company_name": "Luck Ai",
+    "domain": "https://www.getluck.ai/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:24:48.834176+00:00"
+  },
+  {
+    "company_name": "Trova",
+    "domain": "https://www.trova.health/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:24:53.609512+00:00"
+  },
+  {
+    "company_name": "Totex",
+    "domain": "https://www.totex.com.au/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:24:58.903534+00:00"
+  },
+  {
+    "company_name": "Tendl",
+    "domain": "https://www.tendl.ai/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:25:03.818228+00:00"
+  },
+  {
+    "company_name": "Ne Tech",
+    "domain": "https://naturalextech.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:25:08.354697+00:00"
+  },
+  {
+    "company_name": "Inbox Agents",
+    "domain": "https://inboxagents.ai/recant",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:25:13.045523+00:00"
+  },
+  {
+    "company_name": "Hurtec",
+    "domain": "https://hurtec.com.au/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:25:18.039717+00:00"
+  },
+  {
+    "company_name": "Fairgo Ai",
+    "domain": "https://www.fairgo.ai/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:25:22.596682+00:00"
+  },
+  {
+    "company_name": "Venu",
+    "domain": "https://www.venuhq.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:25:27.226549+00:00"
+  },
+  {
+    "company_name": "Zello",
+    "domain": "https://www.zellostudio.co/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:25:32.328094+00:00"
+  },
+  {
+    "company_name": "Telemattica",
+    "domain": "https://www.telemattica.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:25:37.001367+00:00"
+  },
+  {
+    "company_name": "Noathebrand",
+    "domain": "https://www.noathebrand.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:25:41.908258+00:00"
+  },
+  {
+    "company_name": "Learna",
+    "domain": "https://www.learna-app.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:25:46.561520+00:00"
+  },
+  {
+    "company_name": "Ai Nc",
+    "domain": "https://www.ai-nc.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:25:51.947034+00:00"
+  },
+  {
+    "company_name": "Kiwifibre",
+    "domain": "https://www.kiwifibre.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:25:57.026696+00:00"
+  },
+  {
+    "company_name": "Kite Therapy",
+    "domain": "https://www.kitetherapy.com.au/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:26:01.649089+00:00"
+  },
+  {
+    "company_name": "Graphics Et Al",
+    "domain": "https://graphicsetal.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:26:10.804236+00:00"
+  },
+  {
+    "company_name": "Everbility",
+    "domain": "https://www.everbility.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:26:16.043317+00:00"
+  },
+  {
+    "company_name": "Carbonaught",
+    "domain": "https://www.carbonaught.io/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:26:20.577787+00:00"
+  },
+  {
+    "company_name": "Ddloop",
+    "domain": "https://ddloop.app/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:26:25.350740+00:00"
+  },
+  {
+    "company_name": "Bioticsai",
+    "domain": "https://www.biotics.ai/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:26:29.903342+00:00"
+  },
+  {
+    "company_name": "Asyncbrain",
+    "domain": "https://www.asyncbrain.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:26:34.566279+00:00"
+  },
+  {
+    "company_name": "Astrix Astronautics",
+    "domain": "https://astrix.space/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:26:39.974091+00:00"
+  },
+  {
+    "company_name": "Ubiquetherm",
+    "domain": "https://ubiquetherm.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:26:45.206026+00:00"
+  },
+  {
+    "company_name": "Rainstick",
+    "domain": "https://www.rainstick.com.au/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:26:50.547376+00:00"
+  },
+  {
+    "company_name": "Lyrebird Health",
+    "domain": "https://www.lyrebirdhealth.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:26:55.865894+00:00"
+  },
+  {
+    "company_name": "Empathix",
+    "domain": "https://www.empathix.xyz/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:27:00.693608+00:00"
+  },
+  {
+    "company_name": "Defy Hi",
+    "domain": "https://www.defyhi.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:27:05.797256+00:00"
+  },
+  {
+    "company_name": "Nomadfleet",
+    "domain": "https://www.nomadfleet.com.au/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:27:10.752347+00:00"
+  },
+  {
+    "company_name": "Lumos",
+    "domain": "https://spotlumos.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:27:16.463628+00:00"
+  },
+  {
+    "company_name": "Misti",
+    "domain": "https://www.misti.com.au/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:27:20.961842+00:00"
+  },
+  {
+    "company_name": "Flohh",
+    "domain": "https://www.flohh.com.au/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:27:25.608120+00:00"
+  },
+  {
+    "company_name": "Polymath",
+    "domain": "http://polymath.how/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:27:30.883909+00:00"
+  },
+  {
+    "company_name": "Reactory Limited",
+    "domain": "https://eltomdistillery.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:27:36.260174+00:00"
+  },
+  {
+    "company_name": "Kapture",
+    "domain": "https://www.kapture.earth/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:27:45.769121+00:00"
+  },
+  {
+    "company_name": "Turnto",
+    "domain": "https://turnto.health/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:27:50.459949+00:00"
+  },
+  {
+    "company_name": "Leesy",
+    "domain": "https://leesy.com.au/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:27:55.434857+00:00"
+  },
+  {
+    "company_name": "Resonait Medical Technologies",
+    "domain": "https://resonait.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:28:00.248039+00:00"
+  },
+  {
+    "company_name": "Splootcode",
+    "domain": "http://splootcode.io/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:28:05.396595+00:00"
+  },
+  {
+    "company_name": "Kelpy Australia Pty Ltd",
+    "domain": "https://kelpy.co",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:28:10.371306+00:00"
+  },
+  {
+    "company_name": "Pitcrew Ai",
+    "domain": "https://pitcrew.ai/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:28:20.996103+00:00"
+  },
+  {
+    "company_name": "Tutero",
+    "domain": "https://www.tutero.com.au/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:28:26.535038+00:00"
+  },
+  {
+    "company_name": "Dexta",
+    "domain": "https://www.dexta.io/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:28:31.034532+00:00"
+  },
+  {
+    "company_name": "Xylo Systems",
+    "domain": "https://www.xylosystems.org/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:28:36.338280+00:00"
+  },
+  {
+    "company_name": "Soundsmith",
+    "domain": "https://www.soundsmith.io/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:28:41.351927+00:00"
+  },
+  {
+    "company_name": "Dennisson Technologies",
+    "domain": "https://www.dennisson.tech/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:28:46.031555+00:00"
+  },
+  {
+    "company_name": "Butter Insurance",
+    "domain": "https://www.butterinsurance.com.au/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:28:50.895059+00:00"
+  },
+  {
+    "company_name": "Aquila",
+    "domain": "https://www.aquila.earth/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:28:56.284845+00:00"
+  },
+  {
+    "company_name": "Huey Books",
+    "domain": "https://www.hueybooks.com",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:29:00.891650+00:00"
+  },
+  {
+    "company_name": "Eggy",
+    "domain": "https://eggy.as/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:29:05.676376+00:00"
+  },
+  {
+    "company_name": "Storipress",
+    "domain": "https://storipress.com/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:29:10.636156+00:00"
+  },
+  {
+    "company_name": "Femmi Co",
+    "domain": "https://www.femmi.co/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:29:16.178569+00:00"
+  },
+  {
+    "company_name": "Ping Services Pty Ltd",
+    "domain": "https://pingmonitor.co/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:29:20.880395+00:00"
+  },
+  {
+    "company_name": "Lockpick Games",
+    "domain": "https://lockpick.games",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:29:25.609920+00:00"
+  },
+  {
+    "company_name": "Toneo",
+    "domain": "https://toneocolor.com",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:29:31.197556+00:00"
+  },
+  {
+    "company_name": "Provvypay",
+    "domain": "https://www.doris.global",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:29:36.649961+00:00"
+  },
+  {
+    "company_name": "Amplifier",
+    "domain": "https://www.amplifier.community/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:29:41.143057+00:00"
+  },
+  {
+    "company_name": "Kara Technologies",
+    "domain": "https://www.kara.tech",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:29:46.098149+00:00"
+  },
+  {
+    "company_name": "Mygigsters",
+    "domain": "https://www.mygigsters.com.au/",
+    "vc_source": "Startmate",
+    "scraped_at": "2026-03-28T06:29:51.025251+00:00"
+  },
+  {
+    "company_name": "Terria",
+    "domain": "https://terria.io/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:30:56.974770+00:00"
+  },
+  {
+    "company_name": "Loam Bio",
+    "domain": "https://www.loambio.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:31:02.054536+00:00"
+  },
+  {
+    "company_name": "Cauldron",
+    "domain": "https://www.cauldronferm.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:31:06.977095+00:00"
+  },
+  {
+    "company_name": "ULUU",
+    "domain": "https://www.uluu.com.au/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:31:12.049892+00:00"
+  },
+  {
+    "company_name": "Castlepoint Systems",
+    "domain": "https://www.castlepoint.systems/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:31:16.992435+00:00"
+  },
+  {
+    "company_name": "Practera",
+    "domain": "https://practera.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:31:22.501838+00:00"
+  },
+  {
+    "company_name": "Coviu",
+    "domain": "https://www.coviu.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:31:27.861583+00:00"
+  },
+  {
+    "company_name": "Regrow",
+    "domain": "https://www.regrow.ag/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:31:32.177521+00:00"
+  },
+  {
+    "company_name": "Trellis Data",
+    "domain": "https://www.trellisdata.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:31:37.407843+00:00"
+  },
+  {
+    "company_name": "Lumachain",
+    "domain": "https://lumachain.io/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:31:42.243713+00:00"
+  },
+  {
+    "company_name": "Currus Biologics",
+    "domain": "https://www.currusbio.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:31:47.720383+00:00"
+  },
+  {
+    "company_name": "Cortisonic",
+    "domain": "https://cortisonic.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:31:52.196739+00:00"
+  },
+  {
+    "company_name": "Xefco",
+    "domain": "https://www.xefco.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:31:57.015737+00:00"
+  },
+  {
+    "company_name": "Levur",
+    "domain": "https://www.levur.com.au/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:32:01.812452+00:00"
+  },
+  {
+    "company_name": "Breaker",
+    "domain": "https://www.breakerindustries.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:32:06.596124+00:00"
+  },
+  {
+    "company_name": "Electralith",
+    "domain": "https://www.electralith.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:32:11.110645+00:00"
+  },
+  {
+    "company_name": "Arkeus AI",
+    "domain": "https://arkeus.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:32:16.956395+00:00"
+  },
+  {
+    "company_name": "Skykraft",
+    "domain": "https://www.skykraft.com.au/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:32:21.495705+00:00"
+  },
+  {
+    "company_name": "XYLO",
+    "domain": "https://www.xylo.bio/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:32:26.882116+00:00"
+  },
+  {
+    "company_name": "Amber Electric",
+    "domain": "https://www.amber.com.au/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:32:31.954057+00:00"
+  },
+  {
+    "company_name": "Number 8 Bio",
+    "domain": "https://www.number8.bio/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:32:36.700465+00:00"
+  },
+  {
+    "company_name": "JDoodle",
+    "domain": "https://www.jdoodle.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:32:46.257289+00:00"
+  },
+  {
+    "company_name": "Plotlogic",
+    "domain": "http://plotlogic.com",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:32:51.426110+00:00"
+  },
+  {
+    "company_name": "Avarni",
+    "domain": "https://www.avarni.co/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:32:55.781363+00:00"
+  },
+  {
+    "company_name": "Arlula",
+    "domain": "https://www.arlula.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:33:00.631441+00:00"
+  },
+  {
+    "company_name": "RIOS",
+    "domain": "https://www.rios.ai/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:33:06.078335+00:00"
+  },
+  {
+    "company_name": "Inventia Life Science",
+    "domain": "https://inventia.life/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:33:15.602896+00:00"
+  },
+  {
+    "company_name": "QuintessenceLabs",
+    "domain": "https://www.quintessencelabs.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:33:20.379415+00:00"
+  },
+  {
+    "company_name": "Prospection",
+    "domain": "https://prospection.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:33:24.674105+00:00"
+  },
+  {
+    "company_name": "Baraja",
+    "domain": "https://www.baraja.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:33:29.542040+00:00"
+  },
+  {
+    "company_name": "Varden",
+    "domain": "https://varden.com.au/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:33:34.618529+00:00"
+  },
+  {
+    "company_name": "v2food",
+    "domain": "https://v2food.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:33:39.883075+00:00"
+  },
+  {
+    "company_name": "Nourish Ingredients",
+    "domain": "https://nourishing.io/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:33:44.700228+00:00"
+  },
+  {
+    "company_name": "Kapiche",
+    "domain": "https://www.kapiche.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:33:50.109085+00:00"
+  },
+  {
+    "company_name": "Myriota",
+    "domain": "https://myriota.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:33:54.782168+00:00"
+  },
+  {
+    "company_name": "Gilmour Space",
+    "domain": "https://www.gspacetech.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:33:59.428382+00:00"
+  },
+  {
+    "company_name": "Advanced Navigation",
+    "domain": "http://www.advancednavigation.com",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:34:04.118402+00:00"
+  },
+  {
+    "company_name": "Presien",
+    "domain": "https://www.presien.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:34:14.436176+00:00"
+  },
+  {
+    "company_name": "EVERY",
+    "domain": "https://theeverycompany.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:34:24.840526+00:00"
+  },
+  {
+    "company_name": "MGA Thermal",
+    "domain": "https://mgathermal.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:34:30.023914+00:00"
+  },
+  {
+    "company_name": "Cylite",
+    "domain": "https://www.cyliteoptics.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:34:34.900654+00:00"
+  },
+  {
+    "company_name": "Fivecast",
+    "domain": "https://www.fivecast.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:34:39.403127+00:00"
+  },
+  {
+    "company_name": "SunDrive",
+    "domain": "https://www.sundrivesolar.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:34:44.709256+00:00"
+  },
+  {
+    "company_name": "Eden Brew",
+    "domain": "https://www.edenbrew.com.au/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:34:49.880666+00:00"
+  },
+  {
+    "company_name": "Kasada",
+    "domain": "https://www.kasada.io/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:34:54.770611+00:00"
+  },
+  {
+    "company_name": "Endua",
+    "domain": "https://www.endua.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:34:59.971949+00:00"
+  },
+  {
+    "company_name": "Quasar Satellite Technologies",
+    "domain": "https://www.quasarsat.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:35:06.391962+00:00"
+  },
+  {
+    "company_name": "Pending AI",
+    "domain": "https://pending.ai/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:35:12.060323+00:00"
+  },
+  {
+    "company_name": "Samsara Eco",
+    "domain": "https://www.samsaraeco.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:35:16.524215+00:00"
+  },
+  {
+    "company_name": "Q-CTRL",
+    "domain": "https://q-ctrl.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:35:21.878496+00:00"
+  },
+  {
+    "company_name": "Morse Micro",
+    "domain": "https://www.morsemicro.com/",
+    "vc_source": "Main Sequence",
+    "scraped_at": "2026-03-28T06:35:26.380477+00:00"
+  },
+  {
+    "company_name": "Blunge",
+    "domain": "https://www.blunge.ai/",
+    "vc_source": "Folklore",
+    "scraped_at": "2026-03-28T06:35:50.535066+00:00"
+  },
+  {
+    "company_name": "Octopusbot",
+    "domain": "https://octopusbot.ai/",
+    "vc_source": "Folklore",
+    "scraped_at": "2026-03-28T06:35:50.543188+00:00"
+  },
+  {
+    "company_name": "Hullbot",
+    "domain": "https://www.hullbot.com/",
+    "vc_source": "Folklore",
+    "scraped_at": "2026-03-28T06:35:50.551191+00:00"
+  },
+  {
+    "company_name": "Strong Compute",
+    "domain": "https://strongcompute.com/",
+    "vc_source": "Folklore",
+    "scraped_at": "2026-03-28T06:35:50.565548+00:00"
+  },
+  {
+    "company_name": "SimConverse",
+    "domain": "https://www.simconverse.com/",
+    "vc_source": "Folklore",
+    "scraped_at": "2026-03-28T06:35:50.572796+00:00"
+  },
+  {
+    "company_name": "Kry10",
+    "domain": "https://www.kry10.com/",
+    "vc_source": "Folklore",
+    "scraped_at": "2026-03-28T06:35:50.580608+00:00"
+  },
+  {
+    "company_name": "Auror",
+    "domain": "https://www.auror.co/",
+    "vc_source": "Folklore",
+    "scraped_at": "2026-03-28T06:35:50.589191+00:00"
+  },
+  {
+    "company_name": "ZenCheck",
+    "domain": "https://www.zencheck.ai/",
+    "vc_source": "Folklore",
+    "scraped_at": "2026-03-28T06:35:50.596422+00:00"
+  },
+  {
+    "company_name": "Wonde",
+    "domain": "https://www.wonde.com/au",
+    "vc_source": "Folklore",
+    "scraped_at": "2026-03-28T06:35:50.604657+00:00"
+  },
+  {
+    "company_name": "Swoop Aero",
+    "domain": "https://swoop.aero/",
+    "vc_source": "Folklore",
+    "scraped_at": "2026-03-28T06:35:50.612137+00:00"
+  },
+  {
+    "company_name": "Komodo",
+    "domain": "https://www.komodowellbeing.com/",
+    "vc_source": "Folklore",
+    "scraped_at": "2026-03-28T06:35:50.640197+00:00"
+  },
+  {
+    "company_name": "ProductEngine",
+    "domain": "https://www.productengine.app/",
+    "vc_source": "Folklore",
+    "scraped_at": "2026-03-28T06:35:50.648897+00:00"
+  },
+  {
+    "company_name": "Kanopi",
+    "domain": "https://www.kanopicover.com/",
+    "vc_source": "Folklore",
+    "scraped_at": "2026-03-28T06:35:50.662474+00:00"
+  },
+  {
+    "company_name": "HealthMatch",
+    "domain": "https://healthmatch.io/",
+    "vc_source": "Folklore",
+    "scraped_at": "2026-03-28T06:35:50.669922+00:00"
+  },
+  {
+    "company_name": "Forever Network",
+    "domain": "https://forevernetwork.com/",
+    "vc_source": "Folklore",
+    "scraped_at": "2026-03-28T06:35:50.677391+00:00"
+  },
+  {
+    "company_name": "Sphere",
+    "domain": "https://www.getsphere.com/",
+    "vc_source": "Folklore",
+    "scraped_at": "2026-03-28T06:35:50.685014+00:00"
+  },
+  {
+    "company_name": "Snug",
+    "domain": "https://snug.com/",
+    "vc_source": "Folklore",
+    "scraped_at": "2026-03-28T06:35:50.691162+00:00"
+  },
+  {
+    "company_name": "Visionary Machines",
+    "domain": "https://www.visionarymachines.com/",
+    "vc_source": "Folklore",
+    "scraped_at": "2026-03-28T06:35:50.699084+00:00"
+  },
+  {
+    "company_name": "Ansarada",
+    "domain": "https://www.ansarada.com/",
+    "vc_source": "Folklore",
+    "scraped_at": "2026-03-28T06:35:50.706100+00:00"
+  },
+  {
+    "company_name": "Adviser Ratings",
+    "domain": "https://www.adviserratings.com.au/",
+    "vc_source": "Folklore",
+    "scraped_at": "2026-03-28T06:35:50.713931+00:00"
+  },
+  {
+    "company_name": "Mentorloop",
+    "domain": "https://mentorloop.com/",
+    "vc_source": "Folklore",
+    "scraped_at": "2026-03-28T06:35:50.721838+00:00"
+  },
+  {
+    "company_name": "Featureflow",
+    "domain": "https://www.featureflow.com",
+    "vc_source": "Folklore",
+    "scraped_at": "2026-03-28T06:35:50.731024+00:00"
+  },
+  {
+    "company_name": "Uptick",
+    "domain": "https://uptickhq.com/",
+    "vc_source": "Folklore",
+    "scraped_at": "2026-03-28T06:35:50.741718+00:00"
+  },
+  {
+    "company_name": "HappyCo",
+    "domain": "https://happy.co/",
+    "vc_source": "Folklore",
+    "scraped_at": "2026-03-28T06:35:50.749969+00:00"
+  },
+  {
+    "company_name": "HealthEngine",
+    "domain": "https://healthengine.com.au/",
+    "vc_source": "Folklore",
+    "scraped_at": "2026-03-28T06:35:50.763773+00:00"
+  },
+  {
+    "company_name": "ACCELO",
+    "domain": "http://accelo.com/",
     "vc_source": "Blackbird",
-    "scraped_at": "2026-03-19T22:03:49.304373+00:00"
+    "scraped_at": "2026-03-28T06:36:20.610247+00:00"
+  },
+  {
+    "company_name": "ADORA",
+    "domain": "https://www.adora.so/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:36:25.275606+00:00"
+  },
+  {
+    "company_name": "AIRWALLEX",
+    "domain": "https://www.airwallex.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:36:30.654827+00:00"
+  },
+  {
+    "company_name": "ALLOY",
+    "domain": "https://www.usealloy.ai/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:36:35.434193+00:00"
+  },
+  {
+    "company_name": "ALTS",
+    "domain": "http://alts.co",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:36:40.654995+00:00"
+  },
+  {
+    "company_name": "AO AIR",
+    "domain": "https://www.ao-air.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:36:45.816455+00:00"
+  },
+  {
+    "company_name": "APPLIED",
+    "domain": "http://beapplied.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:36:50.217867+00:00"
+  },
+  {
+    "company_name": "ASK NICELY",
+    "domain": "http://asknicely.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:37:01.380924+00:00"
+  },
+  {
+    "company_name": "ATTICUS",
+    "domain": "https://atticus.tech/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:37:06.688392+00:00"
+  },
+  {
+    "company_name": "AUGUST ROBOTICS",
+    "domain": "http://augustrobotics.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:37:11.893185+00:00"
+  },
+  {
+    "company_name": "AUTHSIGNAL",
+    "domain": "https://www.authsignal.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:37:17.303188+00:00"
+  },
+  {
+    "company_name": "BARAJA",
+    "domain": "http://baraja.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:37:22.340236+00:00"
+  },
+  {
+    "company_name": "BELLISH",
+    "domain": "http://www.bellish.co/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:37:27.209030+00:00"
+  },
+  {
+    "company_name": "BLACK.AI",
+    "domain": "http://black.ai/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:37:32.319916+00:00"
+  },
+  {
+    "company_name": "BLINQ",
+    "domain": "https://blinq.me/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:37:37.741382+00:00"
+  },
+  {
+    "company_name": "BUGCROWD",
+    "domain": "http://bugcrowd.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:37:42.846753+00:00"
+  },
+  {
+    "company_name": "CALIGRA",
+    "domain": "https://caligra.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:37:57.553722+00:00"
+  },
+  {
+    "company_name": "CANVA",
+    "domain": "https://www.canva.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:38:02.006036+00:00"
+  },
+  {
+    "company_name": "CARBONCHAIN",
+    "domain": "https://carbonchain.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:38:06.701607+00:00"
+  },
+  {
+    "company_name": "CAREPATRON",
+    "domain": "https://www.carepatron.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:38:12.085877+00:00"
+  },
+  {
+    "company_name": "CARTED",
+    "domain": "https://www.carted.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:38:17.334147+00:00"
+  },
+  {
+    "company_name": "CHECKMATE",
+    "domain": "https://joincheckmate.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:38:22.039624+00:00"
+  },
+  {
+    "company_name": "CHUFFED",
+    "domain": "http://chuffed.org/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:38:27.693868+00:00"
+  },
+  {
+    "company_name": "CLOVE",
+    "domain": "https://clove.kitchen/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:38:32.070652+00:00"
+  },
+  {
+    "company_name": "COHERENCE NEURO",
+    "domain": "https://coherenceneuro.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:38:36.697728+00:00"
+  },
+  {
+    "company_name": "COINJAR",
+    "domain": "http://coinjar.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:38:41.434260+00:00"
+  },
+  {
+    "company_name": "CORTICAL LABS",
+    "domain": "https://corticallabs.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:38:46.853985+00:00"
+  },
+  {
+    "company_name": "COTISS",
+    "domain": "https://www.cotiss.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:38:51.224104+00:00"
+  },
+  {
+    "company_name": "CULTURE AMP",
+    "domain": "http://cultureamp.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:38:57.898901+00:00"
+  },
+  {
+    "company_name": "CYBLE",
+    "domain": "https://cyble.io/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:39:02.995704+00:00"
+  },
+  {
+    "company_name": "DARWINIUM",
+    "domain": "https://www.darwinium.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:39:08.575668+00:00"
+  },
+  {
+    "company_name": "DGRAPH",
+    "domain": "http://dgraph.io/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:39:13.876411+00:00"
+  },
+  {
+    "company_name": "DISPUTIFY",
+    "domain": "https://www.disputify.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:39:18.618624+00:00"
+  },
+  {
+    "company_name": "DOVETAIL",
+    "domain": "https://dovetailapp.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:39:22.912607+00:00"
+  },
+  {
+    "company_name": "EARTH AI",
+    "domain": "http://earth-ai.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:39:27.787180+00:00"
+  },
+  {
+    "company_name": "EDROLO",
+    "domain": "http://edrolo.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:39:32.410946+00:00"
+  },
+  {
+    "company_name": "ELEVIO",
+    "domain": "http://elev.io/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:39:37.242068+00:00"
+  },
+  {
+    "company_name": "ELTO",
+    "domain": "http://elto.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:39:42.602603+00:00"
+  },
+  {
+    "company_name": "ELYOS",
+    "domain": "https://elyos.ai/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:39:47.726414+00:00"
+  },
+  {
+    "company_name": "ENERGYBANK",
+    "domain": "https://www.energybank.nz/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:39:52.524724+00:00"
+  },
+  {
+    "company_name": "ENHANCE LABS",
+    "domain": "https://enhancelabs.ai/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:39:57.946034+00:00"
+  },
+  {
+    "company_name": "ENTRYLEVEL",
+    "domain": "https://www.entrylevel.net/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:40:02.943286+00:00"
+  },
+  {
+    "company_name": "EUCALYPTUS",
+    "domain": "http://eucalyptus.vc/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:40:08.180704+00:00"
+  },
+  {
+    "company_name": "EXCELLENT",
+    "domain": "https://www.excellent.io/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:40:13.215443+00:00"
+  },
+  {
+    "company_name": "FL0",
+    "domain": "https://fl0.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:40:17.658165+00:00"
+  },
+  {
+    "company_name": "FABLE",
+    "domain": "https://fablefood.co/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:40:24.035676+00:00"
+  },
+  {
+    "company_name": "FACTOR",
+    "domain": "https://usefactor.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:40:29.359172+00:00"
+  },
+  {
+    "company_name": "FACTOR HOUSE",
+    "domain": "https://factorhouse.io/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:40:34.527127+00:00"
+  },
+  {
+    "company_name": "FIRST AML",
+    "domain": "https://www.firstaml.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:40:39.489179+00:00"
+  },
+  {
+    "company_name": "FLEET SPACE TECHNOLOGIES",
+    "domain": "http://fleet.space/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:40:44.703623+00:00"
+  },
+  {
+    "company_name": "FORAGE",
+    "domain": "https://www.theforage.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:40:49.266193+00:00"
+  },
+  {
+    "company_name": "FORTE",
+    "domain": "https://forteofficial.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:40:54.408239+00:00"
+  },
+  {
+    "company_name": "FOUNDRY LAB",
+    "domain": "https://www.foundry-lab.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:40:58.995562+00:00"
+  },
+  {
+    "company_name": "GILMOUR SPACE TECHNOLOGIES",
+    "domain": "http://gspacetech.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:41:04.308074+00:00"
+  },
+  {
+    "company_name": "HYPR",
+    "domain": "https://hypr.ai/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:41:09.151519+00:00"
+  },
+  {
+    "company_name": "HALL",
+    "domain": "https://usehall.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:41:14.015740+00:00"
+  },
+  {
+    "company_name": "HALTER",
+    "domain": "https://halterhq.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:41:18.715559+00:00"
+  },
+  {
+    "company_name": "HARRISONAI",
+    "domain": "https://www.harrison.ai/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:41:23.051104+00:00"
+  },
+  {
+    "company_name": "ICEBERG QUANTUM",
+    "domain": "https://iceberg-quantum.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:41:32.807586+00:00"
+  },
+  {
+    "company_name": "INDEX",
+    "domain": "https://index.inc/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:41:37.888704+00:00"
+  },
+  {
+    "company_name": "INSTANT",
+    "domain": "https://www.instantcheckout.com.au/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:41:42.845016+00:00"
+  },
+  {
+    "company_name": "INVENTIA LIFE SCIENCES",
+    "domain": "http://inventia.com.au/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:41:47.550293+00:00"
+  },
+  {
+    "company_name": "JUNO",
+    "domain": "https://heyjuno.co/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:41:53.229160+00:00"
+  },
+  {
+    "company_name": "KARBON",
+    "domain": "http://karbonhq.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:41:58.094050+00:00"
+  },
+  {
+    "company_name": "KIKI",
+    "domain": "https://kiki.club/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:42:04.134925+00:00"
+  },
+  {
+    "company_name": "KWETTA",
+    "domain": "https://kwetta.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:42:15.321827+00:00"
+  },
+  {
+    "company_name": "LIFX",
+    "domain": "http://lifx.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:42:20.515024+00:00"
+  },
+  {
+    "company_name": "LEONARDO AI",
+    "domain": "https://leonardo.ai/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:42:25.478484+00:00"
+  },
+  {
+    "company_name": "LEXER",
+    "domain": "https://lexer.io/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:42:30.771492+00:00"
+  },
+  {
+    "company_name": "LORIKEET",
+    "domain": "https://www.lorikeetcx.ai/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:42:35.441883+00:00"
+  },
+  {
+    "company_name": "MAGICBRIEF",
+    "domain": "https://magicbrief.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:42:41.951881+00:00"
+  },
+  {
+    "company_name": "MARLOO",
+    "domain": "http://www.gomarloo.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:42:46.484379+00:00"
+  },
+  {
+    "company_name": "MARQO",
+    "domain": "https://www.marqo.ai/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:42:50.814922+00:00"
+  },
+  {
+    "company_name": "MENTORLOOP",
+    "domain": "http://mentorloop.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:42:55.614581+00:00"
+  },
+  {
+    "company_name": "MINT INNOVATION",
+    "domain": "https://www.mint.bio/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:43:00.666352+00:00"
+  },
+  {
+    "company_name": "MOREGOODDAYS",
+    "domain": "https://www.moregooddays.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:43:05.892585+00:00"
+  },
+  {
+    "company_name": "MORSE MICRO",
+    "domain": "http://www.morsemicro.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:43:11.371405+00:00"
+  },
+  {
+    "company_name": "MOVUS",
+    "domain": "http://movus.com.au/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:43:16.731220+00:00"
+  },
+  {
+    "company_name": "MULTITUDES",
+    "domain": "https://www.multitudes.co/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:43:23.824165+00:00"
+  },
+  {
+    "company_name": "MYAGI",
+    "domain": "http://myagi.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:43:28.491784+00:00"
+  },
+  {
+    "company_name": "NEXTWORK",
+    "domain": "http://www.nextwork.org",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:43:33.069165+00:00"
+  },
+  {
+    "company_name": "NOMAD ATOMICS",
+    "domain": "https://www.nomadatomics.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:43:37.757420+00:00"
+  },
+  {
+    "company_name": "NURA",
+    "domain": "http://nuraphone.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:43:42.963874+00:00"
+  },
+  {
+    "company_name": "ONE FUTURE FOOTBALL",
+    "domain": "https://onefuturefootball.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:43:48.831127+00:00"
+  },
+  {
+    "company_name": "OPENSTAR",
+    "domain": "https://www.openstar.tech/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:43:54.453330+00:00"
+  },
+  {
+    "company_name": "ORTTO",
+    "domain": "https://ortto.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:43:59.253440+00:00"
+  },
+  {
+    "company_name": "PARTLY",
+    "domain": "https://www.partly.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:44:04.286017+00:00"
+  },
+  {
+    "company_name": "POLYMATH",
+    "domain": "https://polymath.how/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:44:09.140241+00:00"
+  },
+  {
+    "company_name": "PROCESS STREET",
+    "domain": "http://process.st/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:44:14.864552+00:00"
+  },
+  {
+    "company_name": "PROPELLER AERO",
+    "domain": "http://propelleraero.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:44:19.503183+00:00"
+  },
+  {
+    "company_name": "PROXY",
+    "domain": "http://proxy.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:44:24.462486+00:00"
+  },
+  {
+    "company_name": "PSIQUANTUM",
+    "domain": "https://psiquantum.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:44:29.724855+00:00"
+  },
+  {
+    "company_name": "RAVIO",
+    "domain": "https://ravio.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:44:34.487179+00:00"
+  },
+  {
+    "company_name": "REDACTIVE",
+    "domain": "https://www.redactive.ai/enterprise",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:44:39.264387+00:00"
+  },
+  {
+    "company_name": "REDBUBBLE",
+    "domain": "http://redbubble.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:44:43.823974+00:00"
+  },
+  {
+    "company_name": "RELAY",
+    "domain": "https://www.relay.ai/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:44:48.359748+00:00"
+  },
+  {
+    "company_name": "REMEDY ROBOTICS",
+    "domain": "https://www.remedyrobotics.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:44:55.272270+00:00"
+  },
+  {
+    "company_name": "ROBORIGGER",
+    "domain": "https://www.roborigger.com.au/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:45:00.608157+00:00"
+  },
+  {
+    "company_name": "SAFESTACK",
+    "domain": "https://safestack.io/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:45:05.333903+00:00"
+  },
+  {
+    "company_name": "SAFETYCULTURE",
+    "domain": "http://safetyculture.io/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:45:10.402659+00:00"
+  },
+  {
+    "company_name": "SAHHA",
+    "domain": "https://sahha.ai/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:45:15.068214+00:00"
+  },
+  {
+    "company_name": "SEE MODE",
+    "domain": "http://see-mode.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:45:24.666991+00:00"
+  },
+  {
+    "company_name": "SESSIONS",
+    "domain": "http://joinsessions.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:45:29.550595+00:00"
+  },
+  {
+    "company_name": "SHAPE ANALYTICS",
+    "domain": "http://shapeanalytics.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:45:36.343713+00:00"
+  },
+  {
+    "company_name": "SITEMATE",
+    "domain": "https://sitemate.com/au/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:45:41.717347+00:00"
+  },
+  {
+    "company_name": "SKEDULO",
+    "domain": "http://skedulo.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:45:46.302787+00:00"
+  },
+  {
+    "company_name": "SONDER",
+    "domain": "https://www.sonder.io/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:45:51.542242+00:00"
+  },
+  {
+    "company_name": "SPICE AI",
+    "domain": "https://spice.ai/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:45:56.293653+00:00"
+  },
+  {
+    "company_name": "SPRINGBOARDS",
+    "domain": "https://springboards.ai/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:46:01.198878+00:00"
+  },
+  {
+    "company_name": "SUMDAY",
+    "domain": "https://www.sumday.io/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:46:11.751225+00:00"
+  },
+  {
+    "company_name": "SUNDRIVE",
+    "domain": "http://www.sundrivesolar.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:46:17.080878+00:00"
+  },
+  {
+    "company_name": "SUNROOM",
+    "domain": "https://sunroom.so/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:46:21.823235+00:00"
+  },
+  {
+    "company_name": "SUPALOYAL",
+    "domain": "https://www.thesunrise.live",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:46:28.210698+00:00"
+  },
+  {
+    "company_name": "SYENTA",
+    "domain": "https://www.syenta.com.au/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:46:33.463155+00:00"
+  },
+  {
+    "company_name": "TANDEM",
+    "domain": "https://tandem.team",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:46:38.290069+00:00"
+  },
+  {
+    "company_name": "THROUGHLINE",
+    "domain": "https://www.throughlinecare.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:46:44.607875+00:00"
+  },
+  {
+    "company_name": "TRACKSUIT",
+    "domain": "https://www.gotracksuit.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:46:51.529581+00:00"
+  },
+  {
+    "company_name": "VESLO",
+    "domain": "https://veslo.com",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:46:58.670861+00:00"
+  },
+  {
+    "company_name": "VESSEV",
+    "domain": "https://www.goseachange.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:47:03.331638+00:00"
+  },
+  {
+    "company_name": "VEVE",
+    "domain": "https://www.veve.me/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:47:07.916851+00:00"
+  },
+  {
+    "company_name": "VEXEV",
+    "domain": "https://www.vexev.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:47:12.945315+00:00"
+  },
+  {
+    "company_name": "VOW",
+    "domain": "https://www.vowfood.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:47:23.160064+00:00"
+  },
+  {
+    "company_name": "WATCHFUL",
+    "domain": "http://watchful.cloud/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:47:27.853839+00:00"
+  },
+  {
+    "company_name": "WHISPLI",
+    "domain": "http://whispli.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:47:33.122707+00:00"
+  },
+  {
+    "company_name": "WONDER STUDIOS",
+    "domain": "https://wonderstudios.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:47:38.089312+00:00"
+  },
+  {
+    "company_name": "WORKYARD",
+    "domain": "http://workyard.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:47:42.923486+00:00"
+  },
+  {
+    "company_name": "XY SENSE",
+    "domain": "http://xysense.io/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:47:48.272741+00:00"
+  },
+  {
+    "company_name": "ZOOX",
+    "domain": "http://zoox.com/",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:47:52.813561+00:00"
+  },
+  {
+    "company_name": "Blackbird",
+    "domain": "https://www.bing.com/maps?where=111+Albion+St+Surry+Hills+2010+New+South+Wales+AU&trk=org-locations_url",
+    "vc_source": "Blackbird",
+    "scraped_at": "2026-03-28T06:48:01.345454+00:00"
+  },
+  {
+    "company_name": "Ai Hay",
+    "domain": "https://ai-hay.vn/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:48:29.950319+00:00"
+  },
+  {
+    "company_name": "Agridigital",
+    "domain": "http://agridigital.io/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:48:34.921192+00:00"
+  },
+  {
+    "company_name": "Aidoc",
+    "domain": "https://www.aidoc.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:48:39.481707+00:00"
+  },
+  {
+    "company_name": "Athena Home Loans",
+    "domain": "https://www.athena.com.au/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:48:54.083300+00:00"
+  },
+  {
+    "company_name": "Bugcrowd",
+    "domain": "https://www.bugcrowd.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:49:03.195908+00:00"
+  },
+  {
+    "company_name": "Cais",
+    "domain": "https://www.caisgroup.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:49:08.124038+00:00"
+  },
+  {
+    "company_name": "Calreply",
+    "domain": "https://www.calreply.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:49:12.577342+00:00"
+  },
+  {
+    "company_name": "Chope",
+    "domain": "https://www.chope.co/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:49:22.021851+00:00"
+  },
+  {
+    "company_name": "Chronicle",
+    "domain": "https://chroniclehq.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:49:27.225556+00:00"
+  },
+  {
+    "company_name": "Constantinople",
+    "domain": "https://www.cxnpl.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:49:31.940461+00:00"
+  },
+  {
+    "company_name": "Cuttable",
+    "domain": "https://www.cuttable.com",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:49:37.186791+00:00"
+  },
+  {
+    "company_name": "Deci",
+    "domain": "https://deci.ai/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:49:42.385441+00:00"
+  },
+  {
+    "company_name": "Deputy",
+    "domain": "https://www.deputy.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:49:47.378486+00:00"
+  },
+  {
+    "company_name": "Desty",
+    "domain": "https://www.desty.app/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:49:51.573650+00:00"
+  },
+  {
+    "company_name": "Doctor Anywhere",
+    "domain": "https://doctoranywhere.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:49:56.199221+00:00"
+  },
+  {
+    "company_name": "Excelero",
+    "domain": "https://www.excelero.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:50:05.389409+00:00"
+  },
+  {
+    "company_name": "Exodigo",
+    "domain": "https://www.exodigo.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:50:09.718996+00:00"
+  },
+  {
+    "company_name": "Feedvisor",
+    "domain": "https://feedvisor.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:50:14.544491+00:00"
+  },
+  {
+    "company_name": "Fiverr",
+    "domain": "https://www.fiverr.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:50:18.863311+00:00"
+  },
+  {
+    "company_name": "Goodwork Ai",
+    "domain": "https://www.goodwork.ai/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:50:23.176104+00:00"
+  },
+  {
+    "company_name": "Healthmatch",
+    "domain": "https://www.healthmatch.io/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:50:27.656790+00:00"
+  },
+  {
+    "company_name": "Hud",
+    "domain": "https://www.hud.io/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:50:32.363541+00:00"
+  },
+  {
+    "company_name": "Joyous",
+    "domain": "https://joyoushq.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:50:37.099530+00:00"
+  },
+  {
+    "company_name": "Kredivo",
+    "domain": "https://kredivocorp.com",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:50:41.874413+00:00"
+  },
+  {
+    "company_name": "Kula",
+    "domain": "https://www.kula.ai/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:50:46.715544+00:00"
+  },
+  {
+    "company_name": "Lightbits Labs",
+    "domain": "https://www.lightbitslabs.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:50:51.314060+00:00"
+  },
+  {
+    "company_name": "Lottiefiles",
+    "domain": "https://lottiefiles.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:51:00.652559+00:00"
+  },
+  {
+    "company_name": "Lounge",
+    "domain": "https://www.about.lounge.live/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:51:05.861138+00:00"
+  },
+  {
+    "company_name": "Lysto",
+    "domain": "https://lysto.io/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:51:10.904948+00:00"
+  },
+  {
+    "company_name": "Manifest Global",
+    "domain": "https://www.manifest.inc/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:51:16.172467+00:00"
+  },
+  {
+    "company_name": "Mindverse",
+    "domain": "https://www.mindos.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:51:20.722120+00:00"
+  },
+  {
+    "company_name": "Neara",
+    "domain": "https://neara.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:51:25.867677+00:00"
+  },
+  {
+    "company_name": "Neuron",
+    "domain": "https://www.rideneuron.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:51:30.315029+00:00"
+  },
+  {
+    "company_name": "Nexusmd",
+    "domain": "https://nexusmd.com.au/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:51:35.136180+00:00"
+  },
+  {
+    "company_name": "Nimble",
+    "domain": "https://nimbleway.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:51:40.219734+00:00"
+  },
+  {
+    "company_name": "Octen",
+    "domain": "https://octen.ai/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:51:44.622850+00:00"
+  },
+  {
+    "company_name": "Ownhome",
+    "domain": "https://www.ownhome.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:51:49.760307+00:00"
+  },
+  {
+    "company_name": "Paper Id",
+    "domain": "https://www.paper.id/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:51:54.281999+00:00"
+  },
+  {
+    "company_name": "Pintarnya",
+    "domain": "http://pintarnya.com",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:52:03.749200+00:00"
+  },
+  {
+    "company_name": "Pluang",
+    "domain": "https://www.pluang.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:52:08.559737+00:00"
+  },
+  {
+    "company_name": "Propertyguru",
+    "domain": "https://www.propertyguru.com.sg/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:52:13.003046+00:00"
+  },
+  {
+    "company_name": "Prospa",
+    "domain": "https://www.prospa.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:52:17.247154+00:00"
+  },
+  {
+    "company_name": "Puresec",
+    "domain": "https://www.puresec.io/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:52:21.668063+00:00"
+  },
+  {
+    "company_name": "Qodo",
+    "domain": "https://www.qodo.ai/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:52:31.289270+00:00"
+  },
+  {
+    "company_name": "Relay",
+    "domain": "https://relay.link/bridge",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:52:36.417261+00:00"
+  },
+  {
+    "company_name": "Retrain Ai",
+    "domain": "https://www.retrain.ai/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:52:41.642401+00:00"
+  },
+  {
+    "company_name": "Saasguru",
+    "domain": "https://www.saasguru.co/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:52:50.445919+00:00"
+  },
+  {
+    "company_name": "Shipping Easy",
+    "domain": "https://shippingeasy.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:52:54.876311+00:00"
+  },
+  {
+    "company_name": "Source",
+    "domain": "https://www.source.shop/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:53:00.019206+00:00"
+  },
+  {
+    "company_name": "Spiritt",
+    "domain": "https://spiritt.io/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:53:05.178668+00:00"
+  },
+  {
+    "company_name": "Stashaway",
+    "domain": "https://www.stashaway.sg/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:53:10.098996+00:00"
+  },
+  {
+    "company_name": "Sternum",
+    "domain": "https://www.sternumiot.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:53:14.883600+00:00"
+  },
+  {
+    "company_name": "Stripe",
+    "domain": "https://stripe.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:53:19.919183+00:00"
+  },
+  {
+    "company_name": "Sumble",
+    "domain": "https://sumble.com",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:53:24.969687+00:00"
+  },
+  {
+    "company_name": "Supabase",
+    "domain": "https://supabase.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:53:29.501400+00:00"
+  },
+  {
+    "company_name": "Talonone",
+    "domain": "https://talon.one/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:53:34.171063+00:00"
+  },
+  {
+    "company_name": "Thinking Machines Lab",
+    "domain": "https://thinkingmachines.ai/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:53:39.214648+00:00"
+  },
+  {
+    "company_name": "Timo",
+    "domain": "https://timo.vn/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:53:43.889541+00:00"
+  },
+  {
+    "company_name": "Tomorrow Io",
+    "domain": "https://www.tomorrow.io/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:53:49.062997+00:00"
+  },
+  {
+    "company_name": "Traild",
+    "domain": "https://traildsoftware.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:53:53.778177+00:00"
+  },
+  {
+    "company_name": "Uhg",
+    "domain": "https://www.uhg.com.au/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:53:58.496366+00:00"
+  },
+  {
+    "company_name": "Upguard",
+    "domain": "https://www.upguard.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:54:03.501047+00:00"
+  },
+  {
+    "company_name": "Vend",
+    "domain": "https://www.vendhq.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:54:08.044106+00:00"
+  },
+  {
+    "company_name": "Vero",
+    "domain": "https://www.getvero.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:54:12.990404+00:00"
+  },
+  {
+    "company_name": "Vi",
+    "domain": "https://vi.co/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:54:17.446768+00:00"
+  },
+  {
+    "company_name": "Voyantis",
+    "domain": "https://www.voyantis.ai/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:54:27.782444+00:00"
+  },
+  {
+    "company_name": "Wego",
+    "domain": "https://www.wego.com.sg",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:54:32.508408+00:00"
+  },
+  {
+    "company_name": "Xflow",
+    "domain": "https://www.xflowpay.com/",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:54:37.523765+00:00"
+  },
+  {
+    "company_name": "Zeller",
+    "domain": "http://myzeller.com",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:54:42.153525+00:00"
+  },
+  {
+    "company_name": "Zero Co",
+    "domain": "http://zeroco.com.au",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:54:46.568081+00:00"
+  },
+  {
+    "company_name": "Square Peg",
+    "domain": "https://www.bing.com/maps?where=44a+Foveaux+St+3+Surry+Hills+2010+New+South+Wales+AU&trk=org-locations_url",
+    "vc_source": "Squarepeg",
+    "scraped_at": "2026-03-28T06:54:54.121635+00:00"
+  },
+  {
+    "company_name": "Airtree",
+    "domain": "https://www.bing.com/maps?where=131+Devonshire+St+Surry+Hills+2010+New+South+Wales+AU&trk=org-locations_url",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:55:27.653119+00:00"
+  },
+  {
+    "company_name": "A Cloud Guru",
+    "domain": "https://www.pluralsight.com/cloud-guru",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:55:34.728958+00:00"
+  },
+  {
+    "company_name": "Employment Hero",
+    "domain": "https://www.employmenthero.com",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:55:50.747160+00:00"
+  },
+  {
+    "company_name": "Eucalyptus",
+    "domain": "https://eucalyptus.vc/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:55:57.976763+00:00"
+  },
+  {
+    "company_name": "Go1",
+    "domain": "https://www.go1.com/en-au/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:56:02.841293+00:00"
+  },
+  {
+    "company_name": "Immutable",
+    "domain": "https://www.immutable.com/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:56:08.186685+00:00"
+  },
+  {
+    "company_name": "Linktree",
+    "domain": "https://linktr.ee/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:56:13.334993+00:00"
+  },
+  {
+    "company_name": "Pet Circle",
+    "domain": "https://www.petcircle.com.au",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:56:18.252453+00:00"
+  },
+  {
+    "company_name": "Secure Code Warrior",
+    "domain": "https://www.securecodewarrior.com/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:56:28.792193+00:00"
+  },
+  {
+    "company_name": "Mr Yum",
+    "domain": "https://www.meandu.com/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:56:34.079309+00:00"
+  },
+  {
+    "company_name": "90 Seconds",
+    "domain": "https://90seconds.com/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:56:39.263978+00:00"
+  },
+  {
+    "company_name": "Abyss Solutions",
+    "domain": "https://abysssolutions.co/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:56:44.434577+00:00"
+  },
+  {
+    "company_name": "Advanced Navigation",
+    "domain": "https://www.advancednavigation.com/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:56:49.141651+00:00"
+  },
+  {
+    "company_name": "Ambience Healthcare",
+    "domain": "https://www.ambiencehealthcare.com/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:56:59.292197+00:00"
+  },
+  {
+    "company_name": "Archistar",
+    "domain": "https://archistar.ai/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:57:04.120380+00:00"
+  },
+  {
+    "company_name": "Arinex",
+    "domain": "https://arinex.com.au/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:57:08.766791+00:00"
+  },
+  {
+    "company_name": "Askable",
+    "domain": "https://www.askable.com/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:57:14.287735+00:00"
+  },
+  {
+    "company_name": "Athena",
+    "domain": "https://www.athena.com.au",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:57:19.980527+00:00"
+  },
+  {
+    "company_name": "Atrium",
+    "domain": "https://www.atrium.me/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:57:25.285683+00:00"
+  },
+  {
+    "company_name": "Brighte",
+    "domain": "https://brighte.com.au",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:57:30.216839+00:00"
+  },
+  {
+    "company_name": "Brosa",
+    "domain": "https://www.brosa.com.au/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:57:34.880952+00:00"
+  },
+  {
+    "company_name": "Buildkite",
+    "domain": "https://buildkite.com/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:57:44.897852+00:00"
+  },
+  {
+    "company_name": "Calven",
+    "domain": "https://www.calven.com/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:57:49.486602+00:00"
+  },
+  {
+    "company_name": "Cardly",
+    "domain": "https://www.cardly.net/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:57:54.885830+00:00"
+  },
+  {
+    "company_name": "Chemist2U",
+    "domain": "https://chemist2u.com.au/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:57:59.712493+00:00"
+  },
+  {
+    "company_name": "Cipherstash",
+    "domain": "https://cipherstash.com/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:58:04.710802+00:00"
+  },
+  {
+    "company_name": "Circular",
+    "domain": "https://nowcircular.com.au/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:58:09.724719+00:00"
+  },
+  {
+    "company_name": "Design Crowd",
+    "domain": "https://www.design.com/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:58:24.215041+00:00"
+  },
+  {
+    "company_name": "Dgraph",
+    "domain": "https://dgraph.io/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:58:29.127199+00:00"
+  },
+  {
+    "company_name": "Different",
+    "domain": "https://www.different.com.au",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:58:34.764502+00:00"
+  },
+  {
+    "company_name": "Dronedeploy",
+    "domain": "https://www.dronedeploy.com",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:58:39.207424+00:00"
+  },
+  {
+    "company_name": "Eql",
+    "domain": "https://eql.xyz/en-GB/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:58:44.189390+00:00"
+  },
+  {
+    "company_name": "Earth Ai",
+    "domain": "https://www.earth-ai.com",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:58:49.200577+00:00"
+  },
+  {
+    "company_name": "Edrolo",
+    "domain": "https://www.edrolo.com.au",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:58:54.006089+00:00"
+  },
+  {
+    "company_name": "Elevio",
+    "domain": "https://elev.io/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:58:58.887569+00:00"
+  },
+  {
+    "company_name": "Ento",
+    "domain": "https://www.ento.com",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:59:03.999668+00:00"
+  },
+  {
+    "company_name": "Expert360",
+    "domain": "https://www.expert360.com",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:59:09.164955+00:00"
+  },
+  {
+    "company_name": "Fairsupply",
+    "domain": "https://fairsupply.com.au/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:59:14.217047+00:00"
+  },
+  {
+    "company_name": "Fetch",
+    "domain": "https://www.fetchpet.com.au/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:59:19.067739+00:00"
+  },
+  {
+    "company_name": "Firmable",
+    "domain": "https://firmable.com/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:59:23.750335+00:00"
+  },
+  {
+    "company_name": "Frankieone",
+    "domain": "https://www.frankieone.com/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:59:29.014031+00:00"
+  },
+  {
+    "company_name": "Futureverse",
+    "domain": "https://www.futureverse.com/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:59:34.574970+00:00"
+  },
+  {
+    "company_name": "Glamcorner",
+    "domain": "https://www.glamcorner.com.au",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:59:39.924722+00:00"
+  },
+  {
+    "company_name": "Gridsight",
+    "domain": "https://www.gridsight.ai/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:59:44.454795+00:00"
+  },
+  {
+    "company_name": "Grow",
+    "domain": "https://www.grow.inc/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:59:48.890817+00:00"
+  },
+  {
+    "company_name": "Heo Robotics",
+    "domain": "https://www.heo-robotics.com/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:59:53.475834+00:00"
+  },
+  {
+    "company_name": "Haast",
+    "domain": "https://haast.io",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T06:59:58.507273+00:00"
+  },
+  {
+    "company_name": "Happy Or Not",
+    "domain": "https://www.happy-or-not.com/en/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T07:00:03.572459+00:00"
+  },
+  {
+    "company_name": "Harmony Intelligence",
+    "domain": "https://www.harmonyintelligence.com/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T07:00:08.808923+00:00"
+  },
+  {
+    "company_name": "Hnry",
+    "domain": "https://hnry.com.au/au/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T07:00:13.814168+00:00"
+  },
+  {
+    "company_name": "Hotdoc",
+    "domain": "https://www.hotdoc.com.au/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T07:00:19.034255+00:00"
+  },
+  {
+    "company_name": "Human",
+    "domain": "https://www.human.health/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T07:00:24.566372+00:00"
+  },
+  {
+    "company_name": "Hyperanna",
+    "domain": "https://www.alteryx.com/about-us/hyper-anna-is-now-alteryx-auto-insights",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T07:00:29.779238+00:00"
+  },
+  {
+    "company_name": "Indebted",
+    "domain": "https://www.indebted.co/",
+    "vc_source": "Airtree",
+    "scraped_at": "2026-03-28T07:00:34.533155+00:00"
+  },
+  {
+    "company_name": "PORTFOLIO",
+    "domain": "https://dynamo.dynamosoftware.com/tenant/aus.dynamosoftware.com/oneventures/VC-Investor%20Portal",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:01:03.643575+00:00"
+  },
+  {
+    "company_name": "OneVentures",
+    "domain": "https://www.bing.com/maps?where=Suite+13.02%2C+179+Elizabeth+Street+Sydney+2000+NSW+AU&trk=org-locations_url",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:01:11.712363+00:00"
+  },
+  {
+    "company_name": "6clicks",
+    "domain": "https://www.6clicks.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:01:33.786464+00:00"
+  },
+  {
+    "company_name": "AmazingCo",
+    "domain": "https://www.amazingco.me/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:01:39.281737+00:00"
+  },
+  {
+    "company_name": "AMP",
+    "domain": "https://useamp.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:01:44.670929+00:00"
+  },
+  {
+    "company_name": "BiVACOR",
+    "domain": "http://bivacor.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:01:49.562875+00:00"
+  },
+  {
+    "company_name": "Biza.io",
+    "domain": "https://biza.io/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:01:54.669020+00:00"
+  },
+  {
+    "company_name": "Cascade",
+    "domain": "https://www.cascade.app/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:02:09.988516+00:00"
+  },
+  {
+    "company_name": "Coassemble",
+    "domain": "https://coassemble.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:02:21.515202+00:00"
+  },
+  {
+    "company_name": "Dataweavers",
+    "domain": "https://www.dataweavers.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:02:27.360451+00:00"
+  },
+  {
+    "company_name": "Drawboard",
+    "domain": "https://www.drawboard.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:02:32.411273+00:00"
+  },
+  {
+    "company_name": "EatClub",
+    "domain": "https://eatclub.com.au/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:02:39.176671+00:00"
+  },
+  {
+    "company_name": "Edrolo",
+    "domain": "https://edrolo.com.au/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:02:43.865591+00:00"
+  },
+  {
+    "company_name": "Employment Hero",
+    "domain": "https://employmenthero.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:02:48.737387+00:00"
+  },
+  {
+    "company_name": "etrainu",
+    "domain": "https://www.etrainu.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:02:53.923771+00:00"
+  },
+  {
+    "company_name": "Find-Me Technologies",
+    "domain": "https://istaysafe.com.au/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:03:05.216014+00:00"
+  },
+  {
+    "company_name": "Flippa",
+    "domain": "https://flippa.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:03:10.927005+00:00"
+  },
+  {
+    "company_name": "Fleet Space Technologies",
+    "domain": "https://fleetspace.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:03:16.357991+00:00"
+  },
+  {
+    "company_name": "Abra",
+    "domain": "http://www.abra.com",
+    "vc_source": "Carthonacapital",
+    "scraped_at": "2026-03-28T07:04:13.201329+00:00"
+  },
+  {
+    "company_name": "Airtrading",
+    "domain": "https://airtrading.com/",
+    "vc_source": "Carthonacapital",
+    "scraped_at": "2026-03-28T07:04:13.209238+00:00"
+  },
+  {
+    "company_name": "Ajust",
+    "domain": "https://www.ajust.com.au/",
+    "vc_source": "Carthonacapital",
+    "scraped_at": "2026-03-28T07:04:13.217862+00:00"
+  },
+  {
+    "company_name": "Aption",
+    "domain": "https://aption.com/",
+    "vc_source": "Carthonacapital",
+    "scraped_at": "2026-03-28T07:04:13.225485+00:00"
+  },
+  {
+    "company_name": "Briefcase",
+    "domain": "https://briefcase.au/",
+    "vc_source": "Carthonacapital",
+    "scraped_at": "2026-03-28T07:04:13.233869+00:00"
+  },
+  {
+    "company_name": "Buildpass",
+    "domain": "https://www.buildpass.ai/",
+    "vc_source": "Carthonacapital",
+    "scraped_at": "2026-03-28T07:04:13.242599+00:00"
+  },
+  {
+    "company_name": "Cherre",
+    "domain": "https://cherre.com/",
+    "vc_source": "Carthonacapital",
+    "scraped_at": "2026-03-28T07:04:13.261269+00:00"
+  },
+  {
+    "company_name": "Cnaught",
+    "domain": "https://www.cnaught.com/",
+    "vc_source": "Carthonacapital",
+    "scraped_at": "2026-03-28T07:04:13.278521+00:00"
+  },
+  {
+    "company_name": "Coverright",
+    "domain": "http://www.coverright.com",
+    "vc_source": "Carthonacapital",
+    "scraped_at": "2026-03-28T07:04:13.287582+00:00"
+  },
+  {
+    "company_name": "Credible",
+    "domain": "https://www.credible.com/",
+    "vc_source": "Carthonacapital",
+    "scraped_at": "2026-03-28T07:04:13.295204+00:00"
+  },
+  {
+    "company_name": "Daedalean",
+    "domain": "https://www.daedalean.ai/",
+    "vc_source": "Carthonacapital",
+    "scraped_at": "2026-03-28T07:04:13.302153+00:00"
+  },
+  {
+    "company_name": "Deduce",
+    "domain": "https://www.deduce.com/",
+    "vc_source": "Carthonacapital",
+    "scraped_at": "2026-03-28T07:04:13.308986+00:00"
+  },
+  {
+    "company_name": "Deferit",
+    "domain": "https://deferit.com.au",
+    "vc_source": "Carthonacapital",
+    "scraped_at": "2026-03-28T07:04:13.316809+00:00"
+  },
+  {
+    "company_name": "Driva",
+    "domain": "https://www.driva.com.au/",
+    "vc_source": "Carthonacapital",
+    "scraped_at": "2026-03-28T07:04:13.323563+00:00"
+  },
+  {
+    "company_name": "Hubblenetwork",
+    "domain": "https://hubblenetwork.com/",
+    "vc_source": "Carthonacapital",
+    "scraped_at": "2026-03-28T07:04:13.331865+00:00"
+  },
+  {
+    "company_name": "Joseflegal",
+    "domain": "https://joseflegal.com/",
+    "vc_source": "Carthonacapital",
+    "scraped_at": "2026-03-28T07:04:13.348106+00:00"
+  },
+  {
+    "company_name": "Layerpowered",
+    "domain": "https://www.layerpowered.com/",
+    "vc_source": "Carthonacapital",
+    "scraped_at": "2026-03-28T07:04:13.354669+00:00"
+  },
+  {
+    "company_name": "Lendus",
+    "domain": "https://www.lendus.com.au/",
+    "vc_source": "Carthonacapital",
+    "scraped_at": "2026-03-28T07:04:13.362037+00:00"
+  },
+  {
+    "company_name": "Canva",
+    "domain": "https://www.canva.com",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.568775+00:00"
+  },
+  {
+    "company_name": "Figma",
+    "domain": "https://www.figma.com",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.577500+00:00"
+  },
+  {
+    "company_name": "Gong",
+    "domain": "https://www.gong.io",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.592494+00:00"
+  },
+  {
+    "company_name": "Cultureamp",
+    "domain": "https://www.cultureamp.com",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.599432+00:00"
+  },
+  {
+    "company_name": "Reejig",
+    "domain": "https://www.reejig.com",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.621681+00:00"
+  },
+  {
+    "company_name": "Snyk",
+    "domain": "https://snyk.io",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.644235+00:00"
+  },
+  {
+    "company_name": "Burnbot",
+    "domain": "https://burnbot.com/",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.822290+00:00"
+  },
+  {
+    "company_name": "Kimia",
+    "domain": "https://kimia.ai/",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.829919+00:00"
+  },
+  {
+    "company_name": "Harrison",
+    "domain": "https://harrison.ai",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.835950+00:00"
+  },
+  {
+    "company_name": "Adora.so",
+    "domain": "https://adora.so/",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.850174+00:00"
+  },
+  {
+    "company_name": "Inquisitive",
+    "domain": "https://www.inquisitive.com",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.858404+00:00"
+  },
+  {
+    "company_name": "Human",
+    "domain": "https://www.human.health",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.865483+00:00"
+  },
+  {
+    "company_name": "Talkdesk",
+    "domain": "https://www.talkdesk.com",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.881030+00:00"
+  },
+  {
+    "company_name": "Fl0",
+    "domain": "https://www.fl0.com",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.890994+00:00"
+  },
+  {
+    "company_name": "Morsemicro",
+    "domain": "https://www.morsemicro.com",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.899691+00:00"
+  },
+  {
+    "company_name": "Mryum",
+    "domain": "https://mryum.com",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.908313+00:00"
+  },
+  {
+    "company_name": "Chime",
+    "domain": "https://www.chime.com",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.914916+00:00"
+  },
+  {
+    "company_name": "Cipherstash",
+    "domain": "https://www.cipherstash.com",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.927402+00:00"
+  },
+  {
+    "company_name": "Pynhq",
+    "domain": "https://www.pynhq.com",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.934645+00:00"
+  },
+  {
+    "company_name": "Arena-ai",
+    "domain": "https://arena-ai.com/",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.941268+00:00"
+  },
+  {
+    "company_name": "Inventia",
+    "domain": "https://inventia.life",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.948352+00:00"
+  },
+  {
+    "company_name": "Qwilr",
+    "domain": "https://qwilr.com",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.955329+00:00"
+  },
+  {
+    "company_name": "Zeroco",
+    "domain": "https://www.zeroco.com.au",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.963302+00:00"
+  },
+  {
+    "company_name": "Strongcompute",
+    "domain": "https://strongcompute.com",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.971048+00:00"
+  },
+  {
+    "company_name": "Arinexgroup",
+    "domain": "https://arinexgroup.com/",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.980430+00:00"
+  },
+  {
+    "company_name": "Ridezoomo",
+    "domain": "https://www.ridezoomo.com",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:03.989188+00:00"
+  },
+  {
+    "company_name": "Metaoptima",
+    "domain": "https://www.metaoptima.com",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:04.003789+00:00"
+  },
+  {
+    "company_name": "Tonal",
+    "domain": "https://www.tonal.com",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:04.010529+00:00"
+  },
+  {
+    "company_name": "Beapplied",
+    "domain": "https://www.beapplied.com",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:04.018759+00:00"
+  },
+  {
+    "company_name": "Archistar",
+    "domain": "https://www.archistar.ai/homepage/",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:04.027496+00:00"
+  },
+  {
+    "company_name": "Work180",
+    "domain": "https://work180.com",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:04.035911+00:00"
+  },
+  {
+    "company_name": "Augustrobotics",
+    "domain": "http://www.augustrobotics.com",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:04.043048+00:00"
+  },
+  {
+    "company_name": "Movus",
+    "domain": "https://www.movus.com.au/welcome/",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:04.048982+00:00"
+  },
+  {
+    "company_name": "Tonkean",
+    "domain": "https://tonkean.com",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:04.055511+00:00"
+  },
+  {
+    "company_name": "Dooly",
+    "domain": "https://www.dooly.ai",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:04.062588+00:00"
+  },
+  {
+    "company_name": "Intensivate",
+    "domain": "https://intensivate.com",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:04.068836+00:00"
+  },
+  {
+    "company_name": "Nexhealth",
+    "domain": "https://www.nexhealth.com",
+    "vc_source": "Skipcapital",
+    "scraped_at": "2026-03-28T07:05:04.076561+00:00"
+  },
+  {
+    "company_name": "Businessautomationworks",
+    "domain": "https://businessautomationworks.com.au/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:27.667278+00:00"
+  },
+  {
+    "company_name": "Umwelt",
+    "domain": "https://www.umwelt.com.au/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:27.682587+00:00"
+  },
+  {
+    "company_name": "Blastone",
+    "domain": "https://www.blastone.com.au/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:27.699901+00:00"
+  },
+  {
+    "company_name": "Questas",
+    "domain": "https://www.questas.com.au/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:27.715420+00:00"
+  },
+  {
+    "company_name": "Criticalarc",
+    "domain": "https://criticalarc.com/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:27.729900+00:00"
+  },
+  {
+    "company_name": "Digitalmatter",
+    "domain": "https://www.digitalmatter.com/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:27.763333+00:00"
+  },
+  {
+    "company_name": "Orbitremit",
+    "domain": "https://www.orbitremit.com/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:27.776606+00:00"
+  },
+  {
+    "company_name": "Habit",
+    "domain": "https://www.habit.health/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:27.793323+00:00"
+  },
+  {
+    "company_name": "Fatzebra",
+    "domain": "https://www.fatzebra.com/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:27.807749+00:00"
+  },
+  {
+    "company_name": "Cyclotek",
+    "domain": "https://www.cyclotek.com/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:27.824308+00:00"
+  },
+  {
+    "company_name": "Permaconn",
+    "domain": "https://permaconn.com/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:27.841014+00:00"
+  },
+  {
+    "company_name": "Biopak",
+    "domain": "https://www.biopak.com/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:27.853401+00:00"
+  },
+  {
+    "company_name": "Orikan",
+    "domain": "https://orikan.com/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:27.867403+00:00"
+  },
+  {
+    "company_name": "Seatosummit",
+    "domain": "https://seatosummit.com.au/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:27.894869+00:00"
+  },
+  {
+    "company_name": "Mantelgroup",
+    "domain": "https://mantelgroup.com.au/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:27.908465+00:00"
+  },
+  {
+    "company_name": "Penten",
+    "domain": "https://www.penten.com/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:27.920553+00:00"
+  },
+  {
+    "company_name": "Openwayfood",
+    "domain": "https://openwayfood.com.au/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:27.934379+00:00"
+  },
+  {
+    "company_name": "Educationperfect",
+    "domain": "https://www.educationperfect.com/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:27.952905+00:00"
+  },
+  {
+    "company_name": "Plenti",
+    "domain": "https://www.plenti.com.au/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:27.968563+00:00"
+  },
+  {
+    "company_name": "Madman",
+    "domain": "https://www.madman.com.au/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:27.983306+00:00"
+  },
+  {
+    "company_name": "Totaralearning",
+    "domain": "https://www.totaralearning.com/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:27.997352+00:00"
+  },
+  {
+    "company_name": "Monson",
+    "domain": "https://www.monson.com.au/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.007913+00:00"
+  },
+  {
+    "company_name": "Probegroup",
+    "domain": "https://www.probegroup.com.au/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.020581+00:00"
+  },
+  {
+    "company_name": "Zenithpartners",
+    "domain": "https://www.zenithpartners.com.au/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.033018+00:00"
+  },
+  {
+    "company_name": "Automicgroup",
+    "domain": "https://www.automicgroup.com.au/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.048522+00:00"
+  },
+  {
+    "company_name": "Universalstore",
+    "domain": "https://www.universalstore.com/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.060663+00:00"
+  },
+  {
+    "company_name": "Ascenderhcm",
+    "domain": "https://www.ascenderhcm.com/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.072686+00:00"
+  },
+  {
+    "company_name": "App",
+    "domain": "https://www.app.com.au/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.084719+00:00"
+  },
+  {
+    "company_name": "Globalstudypartners",
+    "domain": "https://www.globalstudypartners.com/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.254759+00:00"
+  },
+  {
+    "company_name": "Quadpay",
+    "domain": "https://www.quadpay.com/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.280365+00:00"
+  },
+  {
+    "company_name": "Mysalegroup",
+    "domain": "https://www.mysalegroup.com",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.295327+00:00"
+  },
+  {
+    "company_name": "Earnd",
+    "domain": "https://www.earnd.co/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.309434+00:00"
+  },
+  {
+    "company_name": "Rokt",
+    "domain": "https://www.rokt.com/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.324228+00:00"
+  },
+  {
+    "company_name": "Stilmarkgroup",
+    "domain": "https://www.stilmarkgroup.com",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.338873+00:00"
+  },
+  {
+    "company_name": "Patricks",
+    "domain": "https://www.patricks.com.au",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.356261+00:00"
+  },
+  {
+    "company_name": "Sonder",
+    "domain": "https://www.sonder.io",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.373038+00:00"
+  },
+  {
+    "company_name": "Fluentcommerce",
+    "domain": "https://fluentcommerce.com/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.390002+00:00"
+  },
+  {
+    "company_name": "Bgumedia",
+    "domain": "https://bgumedia.com",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.407778+00:00"
+  },
+  {
+    "company_name": "Shinedrink",
+    "domain": "https://shinedrink.com",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.422706+00:00"
+  },
+  {
+    "company_name": "Calreply",
+    "domain": "http://www.calreply.com/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.437438+00:00"
+  },
+  {
+    "company_name": "Shazam",
+    "domain": "https://www.shazam.com/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.453050+00:00"
+  },
+  {
+    "company_name": "Hit100",
+    "domain": "https://www.hit100.com.au/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.468592+00:00"
+  },
+  {
+    "company_name": "Whitebay.beer",
+    "domain": "https://whitebay.beer",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.497945+00:00"
+  },
+  {
+    "company_name": "Vendorpanel",
+    "domain": "https://www.vendorpanel.com/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.511383+00:00"
+  },
+  {
+    "company_name": "Flarehr",
+    "domain": "https://www.flarehr.com/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.525161+00:00"
+  },
+  {
+    "company_name": "Jobgetter",
+    "domain": "https://www.jobgetter.com/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.539485+00:00"
+  },
+  {
+    "company_name": "Legalvision",
+    "domain": "https://legalvision.com.au/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.553979+00:00"
+  },
+  {
+    "company_name": "Datafr.ee",
+    "domain": "https://datafr.ee",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.568459+00:00"
+  },
+  {
+    "company_name": "Canva",
+    "domain": "https://www.canva.com/en_au/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.581891+00:00"
+  },
+  {
+    "company_name": "Imagebrief",
+    "domain": "http://www.imagebrief.com/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.598662+00:00"
+  },
+  {
+    "company_name": "Siteminder",
+    "domain": "https://www.siteminder.com/",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.614061+00:00"
+  },
+  {
+    "company_name": "Nectar",
+    "domain": "https://nectarandco.com",
+    "vc_source": "Fivevcapital",
+    "scraped_at": "2026-03-28T07:05:28.782844+00:00"
+  },
+  {
+    "company_name": "Greencollar",
+    "domain": "https://greencollar.com.au/",
+    "vc_source": "Tidalvc",
+    "scraped_at": "2026-03-28T07:08:58.547112+00:00"
+  },
+  {
+    "company_name": "Zerolatencyvr",
+    "domain": "https://zerolatencyvr.com/",
+    "vc_source": "Tidalvc",
+    "scraped_at": "2026-03-28T07:08:58.553959+00:00"
+  },
+  {
+    "company_name": "Inferencesolutions",
+    "domain": "https://www.inferencesolutions.com/",
+    "vc_source": "Tidalvc",
+    "scraped_at": "2026-03-28T07:08:58.561098+00:00"
+  },
+  {
+    "company_name": "Societyone",
+    "domain": "https://www.societyone.com.au/",
+    "vc_source": "Tidalvc",
+    "scraped_at": "2026-03-28T07:08:58.570454+00:00"
+  },
+  {
+    "company_name": "Instaclustr",
+    "domain": "https://www.instaclustr.com/",
+    "vc_source": "Tidalvc",
+    "scraped_at": "2026-03-28T07:08:58.577913+00:00"
+  },
+  {
+    "company_name": "Zip",
+    "domain": "https://zip.co/",
+    "vc_source": "Tidalvc",
+    "scraped_at": "2026-03-28T07:08:58.584421+00:00"
+  },
+  {
+    "company_name": "Stackla",
+    "domain": "https://stackla.com/",
+    "vc_source": "Tidalvc",
+    "scraped_at": "2026-03-28T07:08:58.592333+00:00"
+  },
+  {
+    "company_name": "Wego",
+    "domain": "https://www.wego.com.au/",
+    "vc_source": "Tidalvc",
+    "scraped_at": "2026-03-28T07:08:58.598414+00:00"
+  },
+  {
+    "company_name": "Profitpeak",
+    "domain": "https://www.profitpeak.io/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.539483+00:00"
+  },
+  {
+    "company_name": "Haast",
+    "domain": "https://www.haast.io/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.546988+00:00"
+  },
+  {
+    "company_name": "Brainfi.sh",
+    "domain": "https://www.brainfi.sh/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.554937+00:00"
+  },
+  {
+    "company_name": "Appetise",
+    "domain": "https://appetise.io/en-au",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.565184+00:00"
+  },
+  {
+    "company_name": "Beamible",
+    "domain": "https://beamible.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.583410+00:00"
+  },
+  {
+    "company_name": "Meetmodo",
+    "domain": "https://www.meetmodo.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.599291+00:00"
+  },
+  {
+    "company_name": "Curiousthing",
+    "domain": "https://curiousthing.io/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.607196+00:00"
+  },
+  {
+    "company_name": "Layerlicensing",
+    "domain": "https://www.layerlicensing.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.616103+00:00"
+  },
+  {
+    "company_name": "Bookanartist",
+    "domain": "https://bookanartist.co/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.624419+00:00"
+  },
+  {
+    "company_name": "Llamalife",
+    "domain": "https://llamalife.co/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.633005+00:00"
+  },
+  {
+    "company_name": "Dataro",
+    "domain": "https://dataro.io/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.642734+00:00"
+  },
+  {
+    "company_name": "Milestonepay",
+    "domain": "https://milestonepay.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.652570+00:00"
+  },
+  {
+    "company_name": "Notiv",
+    "domain": "https://www.notiv.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.662174+00:00"
+  },
+  {
+    "company_name": "Amber",
+    "domain": "https://www.amber.com.au",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.670943+00:00"
+  },
+  {
+    "company_name": "Valiant.finance",
+    "domain": "https://valiant.finance",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.682387+00:00"
+  },
+  {
+    "company_name": "Airtasker",
+    "domain": "https://www.airtasker.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.692018+00:00"
+  },
+  {
+    "company_name": "Go1",
+    "domain": "https://www.go1.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.700929+00:00"
+  },
+  {
+    "company_name": "Sendle",
+    "domain": "https://www.sendle.com",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.709837+00:00"
+  },
+  {
+    "company_name": "Ignitionapp",
+    "domain": "https://www.ignitionapp.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.717383+00:00"
+  },
+  {
+    "company_name": "Bluechilli",
+    "domain": "https://www.bluechilli.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.724924+00:00"
+  },
+  {
+    "company_name": "Giggedin",
+    "domain": "https://www.giggedin.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.732569+00:00"
+  },
+  {
+    "company_name": "Moneyball",
+    "domain": "https://moneyball.com.au/#/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.740555+00:00"
+  },
+  {
+    "company_name": "Shopwings",
+    "domain": "https://shopwings.com.au/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.747765+00:00"
+  },
+  {
+    "company_name": "Zapalago",
+    "domain": "https://www.zapalago.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.755820+00:00"
+  },
+  {
+    "company_name": "Getswift",
+    "domain": "https://getswift.co",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.762792+00:00"
+  },
+  {
+    "company_name": "Topmeapp",
+    "domain": "https://topmeapp.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.780412+00:00"
+  },
+  {
+    "company_name": "Withwine",
+    "domain": "http://www.withwine.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.791390+00:00"
+  },
+  {
+    "company_name": "Thesafetycompass",
+    "domain": "https://thesafetycompass.com.au/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.800773+00:00"
+  },
+  {
+    "company_name": "Fanspot",
+    "domain": "https://fanspot.com.au/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.810247+00:00"
+  },
+  {
+    "company_name": "Beta.unscrabble",
+    "domain": "https://beta.unscrabble.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.827328+00:00"
+  },
+  {
+    "company_name": "Responsight",
+    "domain": "https://www.responsight.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.835383+00:00"
+  },
+  {
+    "company_name": "Propellholdings",
+    "domain": "https://propellholdings.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.842543+00:00"
+  },
+  {
+    "company_name": "Arnnet",
+    "domain": "https://www.arnnet.com.au/article/645186/responsight-launches-new-partner-program/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.982453+00:00"
+  },
+  {
+    "company_name": "Startupdaily",
+    "domain": "http://www.startupdaily.net/2018/08/brisbane-startup-go1-raises-10-million-series-round-led-seek/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:26.993217+00:00"
+  },
+  {
+    "company_name": "Smartcompany",
+    "domain": "https://www.smartcompany.com.au/startupsmart/news-analysis/delivery-startup-sendle-australia-post-price-guarantee/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:27.004731+00:00"
+  },
+  {
+    "company_name": "Afr",
+    "domain": "http://www.afr.com/technology/coles-eyes-amazonfresh-threat-and-partners-with-airtasker-for-realtime-deliveries-20171205-gzz3dl",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:27.013575+00:00"
+  },
+  {
+    "company_name": "Sbs",
+    "domain": "http://www.sbs.com.au/news/article/2017/10/05/giggedin-new-player-live-music",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:27.031591+00:00"
+  },
+  {
+    "company_name": "Theaustralian",
+    "domain": "http://www.theaustralian.com.au/business/technology/sendle-shipshape-with-first-partnership/news-story/07afba2d889d6d9eee7c0ca6312f722b",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:27.050121+00:00"
+  },
+  {
+    "company_name": "Medium",
+    "domain": "https://medium.com/full-circle-vc/were-meeting-better-with-notiv-com-6dbe36700f58",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:27.118234+00:00"
+  },
+  {
+    "company_name": "Practiceignition",
+    "domain": "https://www.practiceignition.com/blog/professional-marketing-brochures",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:27.168099+00:00"
+  },
+  {
+    "company_name": "Ruby6",
+    "domain": "http://ruby6.com.au/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:09:27.457194+00:00"
+  },
+  {
+    "company_name": "Contentedai",
+    "domain": "https://www.contentedai.com/",
+    "vc_source": "Shearwater",
+    "scraped_at": "2026-03-28T07:09:52.344165+00:00"
+  },
+  {
+    "company_name": "Lyka",
+    "domain": "https://lyka.com.au/",
+    "vc_source": "Shearwater",
+    "scraped_at": "2026-03-28T07:09:52.384706+00:00"
+  },
+  {
+    "company_name": "Lokol",
+    "domain": "https://lokol.ai/",
+    "vc_source": "Shearwater",
+    "scraped_at": "2026-03-28T07:09:52.432032+00:00"
+  },
+  {
+    "company_name": "Factory.app",
+    "domain": "https://www.factory.app/",
+    "vc_source": "Shearwater",
+    "scraped_at": "2026-03-28T07:09:52.470738+00:00"
+  },
+  {
+    "company_name": "Zabidou",
+    "domain": "https://zabidou.com/",
+    "vc_source": "Shearwater",
+    "scraped_at": "2026-03-28T07:09:52.511704+00:00"
+  },
+  {
+    "company_name": "Sitemate",
+    "domain": "https://sitemate.com/",
+    "vc_source": "Shearwater",
+    "scraped_at": "2026-03-28T07:09:52.548483+00:00"
+  },
+  {
+    "company_name": "Evenbetter",
+    "domain": "https://www.evenbetter.ai/",
+    "vc_source": "Shearwater",
+    "scraped_at": "2026-03-28T07:09:52.595603+00:00"
+  },
+  {
+    "company_name": "Vivi",
+    "domain": "https://www.vivi.io/",
+    "vc_source": "Shearwater",
+    "scraped_at": "2026-03-28T07:09:52.632139+00:00"
+  },
+  {
+    "company_name": "Capitalbrief",
+    "domain": "https://www.capitalbrief.com/",
+    "vc_source": "Shearwater",
+    "scraped_at": "2026-03-28T07:09:52.698626+00:00"
+  },
+  {
+    "company_name": "Runn",
+    "domain": "https://www.runn.io/",
+    "vc_source": "Shearwater",
+    "scraped_at": "2026-03-28T07:09:52.754936+00:00"
+  },
+  {
+    "company_name": "Evorra",
+    "domain": "https://evorra.com/",
+    "vc_source": "Shearwater",
+    "scraped_at": "2026-03-28T07:09:52.832044+00:00"
+  },
+  {
+    "company_name": "Kepleranalytics",
+    "domain": "https://kepleranalytics.com/",
+    "vc_source": "Shearwater",
+    "scraped_at": "2026-03-28T07:09:52.871062+00:00"
+  },
+  {
+    "company_name": "Buildxact",
+    "domain": "https://www.buildxact.com.au/",
+    "vc_source": "Shearwater",
+    "scraped_at": "2026-03-28T07:09:52.905473+00:00"
+  },
+  {
+    "company_name": "Zeroco",
+    "domain": "https://www.zeroco.com.au/",
+    "vc_source": "Shearwater",
+    "scraped_at": "2026-03-28T07:09:52.936059+00:00"
+  },
+  {
+    "company_name": "Clearcalcs",
+    "domain": "https://clearcalcs.com/",
+    "vc_source": "Shearwater",
+    "scraped_at": "2026-03-28T07:09:52.982226+00:00"
+  },
+  {
+    "company_name": "Gpnvaccines",
+    "domain": "https://gpnvaccines.com/",
+    "vc_source": "Shearwater",
+    "scraped_at": "2026-03-28T07:09:53.060613+00:00"
+  },
+  {
+    "company_name": "Fuel50",
+    "domain": "https://www.fuel50.com/",
+    "vc_source": "Shearwater",
+    "scraped_at": "2026-03-28T07:09:53.140198+00:00"
+  },
+  {
+    "company_name": "Livepreso",
+    "domain": "https://livepreso.com/",
+    "vc_source": "Shearwater",
+    "scraped_at": "2026-03-28T07:09:53.178804+00:00"
+  },
+  {
+    "company_name": "Diffuse-energy",
+    "domain": "https://www.diffuse-energy.com/",
+    "vc_source": "Shearwater",
+    "scraped_at": "2026-03-28T07:09:53.211905+00:00"
+  },
+  {
+    "company_name": "Earlytrade",
+    "domain": "https://www.earlytrade.com/",
+    "vc_source": "Shearwater",
+    "scraped_at": "2026-03-28T07:09:53.252505+00:00"
+  },
+  {
+    "company_name": "Audiencerepublic",
+    "domain": "https://www.audiencerepublic.com/",
+    "vc_source": "Shearwater",
+    "scraped_at": "2026-03-28T07:09:53.283962+00:00"
+  },
+  {
+    "company_name": "Playground.xyz",
+    "domain": "https://playground.xyz/",
+    "vc_source": "Shearwater",
+    "scraped_at": "2026-03-28T07:09:53.316726+00:00"
+  },
+  {
+    "company_name": "Academy Xi",
+    "domain": "https://academyxi.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.046173+00:00"
+  },
+  {
+    "company_name": "Applied",
+    "domain": "https://www.beapplied.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.064710+00:00"
+  },
+  {
+    "company_name": "Change Foods",
+    "domain": "https://www.changefoods.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.075383+00:00"
+  },
+  {
+    "company_name": "Conserving Beauty",
+    "domain": "https://www.conservingbeauty.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.084593+00:00"
+  },
+  {
+    "company_name": "Driven",
+    "domain": "https://home.hellodriven.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.105056+00:00"
+  },
+  {
+    "company_name": "Evrnu",
+    "domain": "https://www.evrnu.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.111730+00:00"
+  },
+  {
+    "company_name": "FlyORO",
+    "domain": "https://www.flyoro.co/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.118617+00:00"
+  },
+  {
+    "company_name": "Foremind",
+    "domain": "https://foremind.com.au/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.125160+00:00"
+  },
+  {
+    "company_name": "Full Cycle",
+    "domain": "https://fullcyclebioplastics.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.133505+00:00"
+  },
+  {
+    "company_name": "Future Super",
+    "domain": "https://www.futuresuper.com.au/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.142176+00:00"
+  },
+  {
+    "company_name": "GlamCorner",
+    "domain": "https://www.glamcorner.com.au/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.151932+00:00"
+  },
+  {
+    "company_name": "Goterra",
+    "domain": "https://goterra.com.au/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.159846+00:00"
+  },
+  {
+    "company_name": "Great Wrap",
+    "domain": "https://www.greatwrap.co/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.168593+00:00"
+  },
+  {
+    "company_name": "Like Family",
+    "domain": "https://likefamily.com.au/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.183550+00:00"
+  },
+  {
+    "company_name": "Loop+",
+    "domain": "https://www.loopplus.com.au/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.190635+00:00"
+  },
+  {
+    "company_name": "Mindset",
+    "domain": "https://www.mindsethealth.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.198949+00:00"
+  },
+  {
+    "company_name": "Music Health",
+    "domain": "https://www.musichealth.ai/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.221845+00:00"
+  },
+  {
+    "company_name": "Perx Health",
+    "domain": "https://perxhealth.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.234836+00:00"
+  },
+  {
+    "company_name": "Project Indi",
+    "domain": "https://projectindi.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.242500+00:00"
+  },
+  {
+    "company_name": "Seer Medical",
+    "domain": "https://seermedical.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.256761+00:00"
+  },
+  {
+    "company_name": "Switch Automation",
+    "domain": "https://www.switchautomation.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.269663+00:00"
+  },
+  {
+    "company_name": "Trace",
+    "domain": "https://www.our-trace.com/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.282527+00:00"
+  },
+  {
+    "company_name": "Work180",
+    "domain": "https://work180.com/en-au",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.290510+00:00"
+  },
+  {
+    "company_name": "Who Gives a Crap",
+    "domain": "https://au.whogivesacrap.org/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.298324+00:00"
+  },
+  {
+    "company_name": "Your Grocer",
+    "domain": "https://www.yourgrocer.com.au/",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.306645+00:00"
+  },
+  {
+    "company_name": "Our-trace",
+    "domain": "https://www.our-trace.com/brand/giant-leap?utm_source=badge&utm_medium=client&utm_campaign=impact",
+    "vc_source": "Com",
+    "scraped_at": "2026-03-28T07:10:17.332304+00:00"
+  },
+  {
+    "company_name": "Get in touch",
+    "domain": "https://airtable.com/shr4uSXKSJYoRxePn",
+    "vc_source": "Aura",
+    "scraped_at": "2026-03-28T07:10:40.697033+00:00"
+  },
+  {
+    "company_name": "Catapult",
+    "domain": "https://www.catapult.com/",
+    "vc_source": "Aura",
+    "scraped_at": "2026-03-28T07:10:40.934502+00:00"
+  },
+  {
+    "company_name": "Superestate",
+    "domain": "https://www.superestate.com.au/index.html",
+    "vc_source": "Aura",
+    "scraped_at": "2026-03-28T07:10:40.943725+00:00"
+  },
+  {
+    "company_name": "Foodbomb",
+    "domain": "https://www.foodbomb.com.au/",
+    "vc_source": "Aura",
+    "scraped_at": "2026-03-28T07:10:40.952594+00:00"
+  },
+  {
+    "company_name": "Bookwell",
+    "domain": "https://www.bookwell.com.au/",
+    "vc_source": "Aura",
+    "scraped_at": "2026-03-28T07:10:40.962008+00:00"
+  },
+  {
+    "company_name": "Tradegecko",
+    "domain": "https://quickbooks.intuit.com/quickbooks-commerce/",
+    "vc_source": "Aura",
+    "scraped_at": "2026-03-28T07:10:40.971222+00:00"
+  },
+  {
+    "company_name": "MC Payments",
+    "domain": "https://www.mcpayment.id/",
+    "vc_source": "Aura",
+    "scraped_at": "2026-03-28T07:10:40.980926+00:00"
+  },
+  {
+    "company_name": "Scannable",
+    "domain": "http://www.scannable.io/",
+    "vc_source": "Aura",
+    "scraped_at": "2026-03-28T07:10:40.990385+00:00"
+  },
+  {
+    "company_name": "Tixel",
+    "domain": "http://www.tixel.com/",
+    "vc_source": "Aura",
+    "scraped_at": "2026-03-28T07:10:40.999873+00:00"
+  },
+  {
+    "company_name": "JigSpace",
+    "domain": "https://www.jig.space",
+    "vc_source": "Aura",
+    "scraped_at": "2026-03-28T07:10:41.009338+00:00"
+  },
+  {
+    "company_name": "Zenphi",
+    "domain": "https://zenphi.com/",
+    "vc_source": "Aura",
+    "scraped_at": "2026-03-28T07:10:41.038275+00:00"
+  },
+  {
+    "company_name": "Harvest B",
+    "domain": "https://www.harvestb.io/",
+    "vc_source": "Aura",
+    "scraped_at": "2026-03-28T07:10:41.066344+00:00"
+  },
+  {
+    "company_name": "Ynomia",
+    "domain": "https://ynomia.io/",
+    "vc_source": "Aura",
+    "scraped_at": "2026-03-28T07:10:41.085358+00:00"
+  },
+  {
+    "company_name": "Integrated",
+    "domain": "http://www.integratedportfoliosolutions.com.au/",
+    "vc_source": "Aura",
+    "scraped_at": "2026-03-28T07:10:41.094622+00:00"
+  },
+  {
+    "company_name": "Gamurs",
+    "domain": "https://gamurs.group/",
+    "vc_source": "Aura",
+    "scraped_at": "2026-03-28T07:10:41.103780+00:00"
+  },
+  {
+    "company_name": "Shippit",
+    "domain": "https://shippit.com/",
+    "vc_source": "Aura",
+    "scraped_at": "2026-03-28T07:10:41.112792+00:00"
+  },
+  {
+    "company_name": "GPS Innovation",
+    "domain": "https://gpsi.com.au/",
+    "vc_source": "Aura",
+    "scraped_at": "2026-03-28T07:10:41.122107+00:00"
+  },
+  {
+    "company_name": "Lannock Strata Finance",
+    "domain": "https://www.lannock.com.au/",
+    "vc_source": "Aura",
+    "scraped_at": "2026-03-28T07:10:41.132071+00:00"
+  },
+  {
+    "company_name": "AI\u00a0Builders Club",
+    "domain": "https://www.thebuilderclub.org/",
+    "vc_source": "Aura",
+    "scraped_at": "2026-03-28T07:10:41.228319+00:00"
+  },
+  {
+    "company_name": "Jumar Bioincubator, VIC",
+    "domain": "https://www.jumarbio.com/?__hstc=180586360.51522b1945ee5d558dd3a4342e161f5a.1774681849138.1774681849138.1774681849138.1&__hssc=180586360.1.1774681849138&__hsfp=b77a8b03fb18940904bb17dbd12ff92b",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:06.668843+00:00"
+  },
+  {
+    "company_name": "Azaneo",
+    "domain": "https://azaneo.au/",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:06.809474+00:00"
+  },
+  {
+    "company_name": "Calumino",
+    "domain": "https://calumino.com/",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:06.822305+00:00"
+  },
+  {
+    "company_name": "Clarity Pharmaceuticals",
+    "domain": "https://www.claritypharmaceuticals.com",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:06.827604+00:00"
+  },
+  {
+    "company_name": "Crest Robotics",
+    "domain": "https://crestrobotics.co/",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:06.845034+00:00"
+  },
+  {
+    "company_name": "CruxML",
+    "domain": "https://cruxml.com.au/",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:06.853262+00:00"
+  },
+  {
+    "company_name": "Deneb Space",
+    "domain": "https://www.denebspace.com.au/",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:06.860498+00:00"
+  },
+  {
+    "company_name": "Emergentia",
+    "domain": "https://www.emergentia.tech/",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:06.867995+00:00"
+  },
+  {
+    "company_name": "Extraterrestrial Power",
+    "domain": "https://www.extraterrestrialpower.com",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:06.874510+00:00"
+  },
+  {
+    "company_name": "Gega Elements",
+    "domain": "https://www.gegaelements.com/",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:06.882360+00:00"
+  },
+  {
+    "company_name": "Gelion Technologies",
+    "domain": "https://www.gelion.com",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:06.888632+00:00"
+  },
+  {
+    "company_name": "Invertigro",
+    "domain": "https://www.invertigro.com",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:06.897834+00:00"
+  },
+  {
+    "company_name": "LeoLabs",
+    "domain": "https://leolabs.space",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:06.906286+00:00"
+  },
+  {
+    "company_name": "Mawson Rovers",
+    "domain": "https://mawsonrovers.com",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:06.918551+00:00"
+  },
+  {
+    "company_name": "MP Space",
+    "domain": "https://www.mpspace.io/",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:06.934745+00:00"
+  },
+  {
+    "company_name": "Navbit",
+    "domain": "https://navbit.com/",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:06.943764+00:00"
+  },
+  {
+    "company_name": "Newera Bio",
+    "domain": "https://www.newera.bio/",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:06.953862+00:00"
+  },
+  {
+    "company_name": "Osara Health",
+    "domain": "https://www.canceraid.com/",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:06.965378+00:00"
+  },
+  {
+    "company_name": "Pending.AI",
+    "domain": "https://pending.ai",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:06.972703+00:00"
+  },
+  {
+    "company_name": "Platypus Vision",
+    "domain": "https://www.platypusvision.com/",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:06.980365+00:00"
+  },
+  {
+    "company_name": "Prospection",
+    "domain": "https://www.prospection.com/",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:06.995515+00:00"
+  },
+  {
+    "company_name": "Quantum Motion",
+    "domain": "https://quantummotion.com/",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:07.010719+00:00"
+  },
+  {
+    "company_name": "RUX Energy",
+    "domain": "https://ruxenergy.com/",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:07.016998+00:00"
+  },
+  {
+    "company_name": "SpeeDx",
+    "domain": "https://plexpcr.com",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:07.029423+00:00"
+  },
+  {
+    "company_name": "Spiral Blue",
+    "domain": "https://spiralblue.space/",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:07.036493+00:00"
+  },
+  {
+    "company_name": "Starbound Space Solutions",
+    "domain": "https://www.starboundsolutions.com/",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:07.045470+00:00"
+  },
+  {
+    "company_name": "Sustinent",
+    "domain": "https://sustinent.com/",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:07.054809+00:00"
+  },
+  {
+    "company_name": "Telemattica",
+    "domain": "https://www.telemattica.com",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:07.069607+00:00"
+  },
+  {
+    "company_name": "TernaryNet",
+    "domain": "https://www.ternarynet.com/",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:07.075821+00:00"
+  },
+  {
+    "company_name": "VXB Aerospace",
+    "domain": "https://www.vxbaerospace.com/",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:07.082643+00:00"
+  },
+  {
+    "company_name": "X-Centric Sciences",
+    "domain": "https://www.xcentric.tech/",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:07.088596+00:00"
+  },
+  {
+    "company_name": "Xefco",
+    "domain": "https://www.xefco.com",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:07.095100+00:00"
+  },
+  {
+    "company_name": "Zendir",
+    "domain": "https://zendir.io/",
+    "vc_source": "Cicadainnovations",
+    "scraped_at": "2026-03-28T07:11:07.102073+00:00"
   }
 ]
