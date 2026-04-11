@@ -1,11 +1,13 @@
 # src/harvester/state.py
 """Harvest checkpoint state management."""
+
 import json
 import shutil
 from datetime import datetime, timezone
 from pathlib import Path
 
 STATE_FILE = Path("data/harvest_state.json")
+
 
 def load_state() -> tuple[set[str], set[str], dict]:
     """Return (completed_vcs, failed_vcs, vc_patterns). Cold start if file missing or corrupt."""
@@ -24,7 +26,12 @@ def load_state() -> tuple[set[str], set[str], dict]:
 
 def mark_failed(slug: str) -> None:
     """Add slug to failed_vcs. Removes from completed_vcs. Does NOT delete vc_patterns entry."""
-    data = {"completed_vcs": [], "failed_vcs": [], "vc_patterns": {}, "last_updated": ""}
+    data = {
+        "completed_vcs": [],
+        "failed_vcs": [],
+        "vc_patterns": {},
+        "last_updated": "",
+    }
     if STATE_FILE.exists():
         try:
             existing = json.loads(STATE_FILE.read_text())
@@ -40,6 +47,8 @@ def mark_failed(slug: str) -> None:
     if slug in data.get("completed_vcs", []):
         data["completed_vcs"].remove(slug)
     data["last_updated"] = datetime.now(timezone.utc).isoformat()
+    if STATE_FILE.parent:
+        STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
     tmp = STATE_FILE.with_suffix(".tmp")
     tmp.write_text(json.dumps(data, indent=2))
     shutil.move(str(tmp), str(STATE_FILE))
@@ -47,7 +56,12 @@ def mark_failed(slug: str) -> None:
 
 def clear_vc(slug: str) -> None:
     """Remove a VC from both completed and failed sets AND from vc_patterns. Allows full re-scrape."""
-    data = {"completed_vcs": [], "failed_vcs": [], "vc_patterns": {}, "last_updated": ""}
+    data = {
+        "completed_vcs": [],
+        "failed_vcs": [],
+        "vc_patterns": {},
+        "last_updated": "",
+    }
     if STATE_FILE.exists():
         try:
             existing = json.loads(STATE_FILE.read_text())
@@ -64,13 +78,21 @@ def clear_vc(slug: str) -> None:
     if slug in data.get("vc_patterns", {}):
         del data["vc_patterns"][slug]
     data["last_updated"] = datetime.now(timezone.utc).isoformat()
+    if STATE_FILE.parent:
+        STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
     tmp = STATE_FILE.with_suffix(".tmp")
     tmp.write_text(json.dumps(data, indent=2))
     shutil.move(str(tmp), str(STATE_FILE))
 
+
 def mark_completed(slug: str) -> None:
     """Add slug to completed_vcs atomically. Removes from failed_vcs on success."""
-    data = {"completed_vcs": [], "failed_vcs": [], "vc_patterns": {}, "last_updated": ""}
+    data = {
+        "completed_vcs": [],
+        "failed_vcs": [],
+        "vc_patterns": {},
+        "last_updated": "",
+    }
     if STATE_FILE.exists():
         try:
             existing = json.loads(STATE_FILE.read_text())
@@ -86,9 +108,12 @@ def mark_completed(slug: str) -> None:
     if slug in data["failed_vcs"]:
         data["failed_vcs"].remove(slug)
     data["last_updated"] = datetime.now(timezone.utc).isoformat()
+    if STATE_FILE.parent:
+        STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
     tmp = STATE_FILE.with_suffix(".tmp")
     tmp.write_text(json.dumps(data, indent=2))
     shutil.move(str(tmp), str(STATE_FILE))
+
 
 def append_and_dedupe(new_companies: list[dict], output_path: str) -> None:
     """Load existing output, merge, dedupe by domain, write atomically."""
@@ -106,6 +131,8 @@ def append_and_dedupe(new_companies: list[dict], output_path: str) -> None:
         if c["domain"] not in seen_domains:
             seen_domains.add(c["domain"])
             existing.append(c)
+    if p.parent:
+        p.parent.mkdir(parents=True, exist_ok=True)
     tmp = p.with_suffix(".tmp")
     tmp.write_text(json.dumps(existing, indent=2))
     shutil.move(str(tmp), str(p))
@@ -141,8 +168,15 @@ def cache_vc_pattern(vc_key: str, pattern: dict) -> None:
     slug_regex = pattern.get("slug_regex")
     detail_url_template = pattern.get("detail_url_template")
     if not slug_regex or not detail_url_template:
-        raise ValueError("cache_vc_pattern requires slug_regex and detail_url_template to both be non-null")
-    data = {"completed_vcs": [], "failed_vcs": [], "vc_patterns": {}, "last_updated": ""}
+        raise ValueError(
+            "cache_vc_pattern requires slug_regex and detail_url_template to both be non-null"
+        )
+    data = {
+        "completed_vcs": [],
+        "failed_vcs": [],
+        "vc_patterns": {},
+        "last_updated": "",
+    }
     if STATE_FILE.exists():
         try:
             existing = json.loads(STATE_FILE.read_text())
@@ -159,6 +193,8 @@ def cache_vc_pattern(vc_key: str, pattern: dict) -> None:
         "probed_at": datetime.now(timezone.utc).isoformat(),
     }
     data["last_updated"] = datetime.now(timezone.utc).isoformat()
+    if STATE_FILE.parent:
+        STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
     tmp = STATE_FILE.with_suffix(".tmp")
     tmp.write_text(json.dumps(data, indent=2))
     shutil.move(str(tmp), str(STATE_FILE))
@@ -166,7 +202,12 @@ def cache_vc_pattern(vc_key: str, pattern: dict) -> None:
 
 def clear_vc_pattern(vc_key: str) -> None:
     """Remove vc_key from vc_patterns (used by force-restart)."""
-    data = {"completed_vcs": [], "failed_vcs": [], "vc_patterns": {}, "last_updated": ""}
+    data = {
+        "completed_vcs": [],
+        "failed_vcs": [],
+        "vc_patterns": {},
+        "last_updated": "",
+    }
     if STATE_FILE.exists():
         try:
             existing = json.loads(STATE_FILE.read_text())
@@ -179,6 +220,8 @@ def clear_vc_pattern(vc_key: str) -> None:
     if vc_key in data.get("vc_patterns", {}):
         del data["vc_patterns"][vc_key]
     data["last_updated"] = datetime.now(timezone.utc).isoformat()
+    if STATE_FILE.parent:
+        STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
     tmp = STATE_FILE.with_suffix(".tmp")
     tmp.write_text(json.dumps(data, indent=2))
     shutil.move(str(tmp), str(STATE_FILE))

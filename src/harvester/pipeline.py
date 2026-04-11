@@ -1,5 +1,6 @@
 # src/harvester/pipeline.py
 """Harvester pipeline — orchestrates scraping of all VC portfolios."""
+
 import asyncio
 import json
 import random
@@ -12,28 +13,40 @@ from src.harvester.jina_client import JinaClient
 from src.harvester.apify_client import ApifyClient
 from src.harvester.jina_detail import JinaDetailScraper
 from src.harvester.playwright_scraper import PlaywrightScraper
-from src.harvester.extractor import extract_companies_from_html, async_filter_dead_companies
+from src.harvester.extractor import (
+    extract_companies_from_html,
+    async_filter_dead_companies,
+)
 from src.harvester import state as state_module
-from src.harvester.state import load_state, mark_completed, mark_failed, append_and_dedupe
+from src.harvester.state import (
+    load_state,
+    mark_completed,
+    mark_failed,
+    append_and_dedupe,
+)
 
 # Module-level probe circuit breaker — reset on each pipeline run
 _probe_count = 0
 MAX_PROBES_PER_RUN = 10
+
 
 def _should_probe() -> bool:
     """Circuit breaker: returns True if probes remaining under limit."""
     global _probe_count
     return _probe_count < MAX_PROBES_PER_RUN
 
+
 def _increment_probe() -> None:
     """Increment probe counter. Call after each AI probe fires."""
     global _probe_count
     _probe_count += 1
 
+
 def _reset_probe_counter() -> None:
     """Reset probe counter — call at start of each pipeline run."""
     global _probe_count
     _probe_count = 0
+
 
 def _validate_detail_url(url: str | None, timeout: float = 5.0) -> bool:
     """
@@ -50,6 +63,7 @@ def _validate_detail_url(url: str | None, timeout: float = 5.0) -> bool:
     except Exception:
         return True  # fail open
 
+
 def _derive_template_from_regex(portfolio_url: str, slug_regex: str) -> str:
     """
     Derive detail_url_template from portfolio URL + slug_regex.
@@ -62,6 +76,7 @@ def _derive_template_from_regex(portfolio_url: str, slug_regex: str) -> str:
     """
     from urllib.parse import urlparse
     import re
+
     parsed = urlparse(portfolio_url)
     path_segments = [s for s in parsed.path.split("/") if s]
     if path_segments:
@@ -72,12 +87,12 @@ def _derive_template_from_regex(portfolio_url: str, slug_regex: str) -> str:
             base = f"{parsed.scheme}://{parsed.netloc}"
     else:
         base = f"{parsed.scheme}://{parsed.netloc}"
-    match = re.search(r'\(\?\:([^)]+)\)', slug_regex)
+    match = re.search(r"\(\?\:([^)]+)\)", slug_regex)
     if match:
         branches = match.group(1).split("|")
         path_prefix = branches[0]
     else:
-        m = re.match(r'/([a-zA-Z0-9_-]+)/\(', slug_regex)
+        m = re.match(r"/([a-zA-Z0-9_-]+)/\(", slug_regex)
         path_prefix = m.group(1) if m else "company"
     return f"{base}/{path_prefix}/{{slug}}"
 
@@ -128,7 +143,9 @@ class HarvesterPipeline:
 
         # 2. Determine slug_regex
         if not slug_regex:
-            slug_regex = vc_entry.get("slug_regex", r"/(?:company|portfolio)/([a-z0-9-]+)")
+            slug_regex = vc_entry.get(
+                "slug_regex", r"/(?:company|portfolio)/([a-z0-9-]+)"
+            )
 
         # 3. Determine detail_url_template from all sources (parameter > cached > vc_entry)
         template_absent = False
@@ -144,30 +161,67 @@ class HarvesterPipeline:
         try:
             portfolio_markdown = self.jina.fetch_with_retry(portfolio_url)
         except Exception as e:
-            print(f"  [WARN] Jina portfolio fetch failed for {vc_name}: {e}", flush=True)
+            print(
+                f"  [WARN] Jina portfolio fetch failed for {vc_name}: {e}", flush=True
+            )
             return []
 
-        slugs = re.findall(slug_regex, portfolio_markdown)
+        slugs = (
+            re.findall(slug_regex, portfolio_markdown)
+            if portfolio_markdown and slug_regex
+            else []
+        )
         # Filter out slugs that are clearly domain names or known corporations
         known_corps = {
-            "google", "apple", "microsoft", "amazon", "facebook", "meta", "nvidia",
-            "intel", "cisco", "oracle", "ibm", "salesforce", "adobe", "netflix",
-            "spotify", "slack", "paypal", "ebay", "uber", "airbnb", "linkedin",
-            "twitter", "github", "youtube", "instagram", "reddit", "snap",
-            "microsoft", "apple", "nvidia",
+            "google",
+            "apple",
+            "microsoft",
+            "amazon",
+            "facebook",
+            "meta",
+            "nvidia",
+            "intel",
+            "cisco",
+            "oracle",
+            "ibm",
+            "salesforce",
+            "adobe",
+            "netflix",
+            "spotify",
+            "slack",
+            "paypal",
+            "ebay",
+            "uber",
+            "airbnb",
+            "linkedin",
+            "twitter",
+            "github",
+            "youtube",
+            "instagram",
+            "reddit",
+            "snap",
+            "microsoft",
+            "apple",
+            "nvidia",
         }
         slugs = [s for s in slugs if s.lower() not in known_corps and "." not in s]
         slugs = list(set(slugs))
 
         # 4. If <3 slugs OR template absent (and no cached), try AI probe
         probe_triggered = False
-        should_probe = (len(slugs) < 3 or template_absent) and not used_cached and _should_probe()
+        should_probe = (
+            (len(slugs) < 3 or template_absent) and not used_cached and _should_probe()
+        )
 
         if should_probe:
             _increment_probe()
-            print(f"  [{vc_name}] Default pattern found only {len(slugs)} slugs (template={'absent' if template_absent else 'present'}) — running AI probe ({_probe_count}/{MAX_PROBES_PER_RUN})...", flush=True)
+            print(
+                f"  [{vc_name}] Default pattern found only {len(slugs)} slugs (template={'absent' if template_absent else 'present'}) — running AI probe ({_probe_count}/{MAX_PROBES_PER_RUN})...",
+                flush=True,
+            )
             try:
                 from src.harvester.probe import probe_vc_structure, ProbeFailed
+
                 probe_result = probe_vc_structure(
                     portfolio_markdown=portfolio_markdown,
                     portfolio_url=portfolio_url,
@@ -178,27 +232,48 @@ class HarvesterPipeline:
                 detail_url_template = probe_result["detail_url_template"]
                 confidence = probe_result.get("confidence", "medium")
                 num_links = probe_result.get("num_links_found", 0)
-                print(f"  [{vc_name}] AI probe found {num_links} links, confidence={confidence}", flush=True)
+                print(
+                    f"  [{vc_name}] AI probe found {num_links} links, confidence={confidence}",
+                    flush=True,
+                )
 
                 first_slug = slugs[0] if slugs else None
-                first_detail_url = detail_url_template.format(slug=first_slug) if first_slug else None
+                first_detail_url = (
+                    detail_url_template.format(slug=first_slug) if first_slug else None
+                )
                 validation_ok = _validate_detail_url(first_detail_url)
 
                 if not validation_ok:
-                    print(f"  [WARN] AI probe detail URL {first_detail_url} returned 404/5xx — NOT caching pattern", flush=True)
+                    print(
+                        f"  [WARN] AI probe detail URL {first_detail_url} returned 404/5xx — NOT caching pattern",
+                        flush=True,
+                    )
                     probe_triggered = False
                 elif confidence == "low":
-                    print(f"  [WARN] AI probe confidence=low, not caching pattern", flush=True)
+                    print(
+                        f"  [WARN] AI probe confidence=low, not caching pattern",
+                        flush=True,
+                    )
                     probe_triggered = False
                 else:
                     if confidence == "medium":
-                        print(f"  [INFO] Caching medium-confidence pattern for {vc_name}", flush=True)
-                    cache_vc_pattern(slug, {
-                        "slug_regex": slug_regex,
-                        "detail_url_template": detail_url_template,
-                        "confidence": confidence,
-                    })
-                    slugs = re.findall(slug_regex, portfolio_markdown)
+                        print(
+                            f"  [INFO] Caching medium-confidence pattern for {vc_name}",
+                            flush=True,
+                        )
+                    cache_vc_pattern(
+                        slug,
+                        {
+                            "slug_regex": slug_regex,
+                            "detail_url_template": detail_url_template,
+                            "confidence": confidence,
+                        },
+                    )
+                    slugs = (
+                        re.findall(slug_regex, portfolio_markdown)
+                        if portfolio_markdown and slug_regex
+                        else []
+                    )
                     slugs = list(set(slugs))
                     # If re-extraction found fewer than probe reported, use sample_slugs from probe
                     if len(slugs) < num_links and probe_result.get("sample_slugs"):
@@ -208,10 +283,16 @@ class HarvesterPipeline:
                 probe_triggered = False
 
         if not should_probe and not used_cached and _probe_count >= MAX_PROBES_PER_RUN:
-            print(f"  [WARN] Circuit breaker open — skipping AI probe for {vc_name}", flush=True)
+            print(
+                f"  [WARN] Circuit breaker open — skipping AI probe for {vc_name}",
+                flush=True,
+            )
 
         if len(slugs) < 3:
-            print(f"  [WARN] {vc_name} returned only {len(slugs)} companies — marking as failed", flush=True)
+            print(
+                f"  [WARN] {vc_name} returned only {len(slugs)} companies — marking as failed",
+                flush=True,
+            )
             mark_failed(slug)
             return []
 
@@ -221,7 +302,10 @@ class HarvesterPipeline:
 
         # 6. Build detail URLs and scrape
         detail_urls = [detail_url_template.format(slug=s) for s in slugs]
-        print(f"  [{vc_name}] Faction B: fetching {len(detail_urls)} detail pages via JinaDetailScraper...", flush=True)
+        print(
+            f"  [{vc_name}] Faction B: fetching {len(detail_urls)} detail pages via JinaDetailScraper...",
+            flush=True,
+        )
         scraper = JinaDetailScraper(self.jina)
         companies = scraper.fetch_details_parallel(detail_urls)
 
@@ -232,11 +316,14 @@ class HarvesterPipeline:
         # 7. Cache successful pattern (only first time — when default worked and not from AI probe)
         if not used_cached and not probe_triggered and slugs:
             try:
-                cache_vc_pattern(slug, {
-                    "slug_regex": slug_regex,
-                    "detail_url_template": detail_url_template,
-                    "confidence": "high",
-                })
+                cache_vc_pattern(
+                    slug,
+                    {
+                        "slug_regex": slug_regex,
+                        "detail_url_template": detail_url_template,
+                        "confidence": "high",
+                    },
+                )
             except Exception:
                 pass
 
@@ -259,7 +346,10 @@ class HarvesterPipeline:
         try:
             companies = self.playwright.scrape(url)
             if companies:
-                print(f"  Playwright found {len(companies)} companies from {name}", flush=True)
+                print(
+                    f"  Playwright found {len(companies)} companies from {name}",
+                    flush=True,
+                )
                 return companies
         except Exception as e:
             print(f"  Playwright failed for {name}: {e}", flush=True)
@@ -269,7 +359,9 @@ class HarvesterPipeline:
             html = self.jina.fetch_with_retry(url)
             companies = extract_companies_from_html(html, vc_source=name, base_url=url)
             if companies:
-                print(f"  Jina found {len(companies)} companies from {name}", flush=True)
+                print(
+                    f"  Jina found {len(companies)} companies from {name}", flush=True
+                )
                 return companies
         except Exception as e:
             print(f"  Jina failed for {name}: {e}", flush=True)
@@ -280,7 +372,9 @@ class HarvesterPipeline:
             html = result.get("output", {}).get("text", "")
             companies = extract_companies_from_html(html, vc_source=name, base_url=url)
             if companies:
-                print(f"  Apify found {len(companies)} companies from {name}", flush=True)
+                print(
+                    f"  Apify found {len(companies)} companies from {name}", flush=True
+                )
                 return companies
         except Exception as e2:
             print(f"  Apify also failed for {name}: {e2}", flush=True)
@@ -303,30 +397,44 @@ class HarvesterPipeline:
             slug = seed.get("slug", seed["name"].lower().replace(" ", "-"))
 
             # Skip already-completed VCs (but NOT failed VCs — those retry on every run)
-            if slug in completed_vcs:
-                print(f"  [{seed['name']}] SKIPPED — already completed successfully", flush=True)
+            if slug in completed_vcs and not force_restart:
+                print(
+                    f"  [{seed['name']}] SKIPPED — already completed successfully",
+                    flush=True,
+                )
                 continue
 
             if slug in failed_vcs:
-                print(f"  [{seed['name']}] RETRY — previously returned <3 companies", flush=True)
+                print(
+                    f"  [{seed['name']}] RETRY — previously returned <3 companies",
+                    flush=True,
+                )
 
             companies = self._scrape_vc(seed)
             vc_results.append(companies)
             self._all_companies.extend(companies)
 
             # Mark completed and persist incrementally
-            if len(companies) >= 3:
+            if len(companies) >= 1:
                 mark_completed(slug)
                 append_and_dedupe(companies, self.output_path)
             else:
                 # Soft failure — mark as failed so it's retried on next run
                 # unless --force-restart is used
                 mark_failed(slug)
-                print(f"  [WARN] {seed['name']} returned only {len(companies)} companies — marked as failed, will retry on next run", flush=True)
+                print(
+                    f"  [WARN] {seed['name']} returned only {len(companies)} companies — marked as failed, will retry on next run",
+                    flush=True,
+                )
 
         # Filter dead companies
-        print(f"\nFiltering dead companies ({len(self._all_companies)} total before filter)...", flush=True)
-        self._all_companies = asyncio.run(async_filter_dead_companies(self._all_companies))
+        print(
+            f"\nFiltering dead companies ({len(self._all_companies)} total before filter)...",
+            flush=True,
+        )
+        self._all_companies = asyncio.run(
+            async_filter_dead_companies(self._all_companies)
+        )
 
         # Final dedupe pass
         seen = set()
@@ -337,7 +445,10 @@ class HarvesterPipeline:
                 unique.append(c)
         self._all_companies = unique
 
-        print(f"\nHarvest complete: {len(self._all_companies)} unique companies", flush=True)
+        print(
+            f"\nHarvest complete: {len(self._all_companies)} unique companies",
+            flush=True,
+        )
         return self._all_companies
 
     def _save(self):

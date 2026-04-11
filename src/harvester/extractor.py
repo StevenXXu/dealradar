@@ -1,5 +1,6 @@
 # src/harvester/extractor.py
 """Extract company names and domains from VC portfolio HTML pages."""
+
 import asyncio
 import re
 import json
@@ -17,9 +18,7 @@ from src.harvester.apify_client import ApifyClient
 
 
 def extract_companies_from_html(
-    html: str,
-    vc_source: str,
-    base_url: str = ""
+    html: str, vc_source: str, base_url: str = ""
 ) -> list[dict[str, Any]]:
     """
     Parse VC portfolio HTML or Markdown and extract company name + domain pairs.
@@ -48,10 +47,7 @@ def extract_companies_from_html(
 
 
 def _extract_from_soup(
-    soup: BeautifulSoup,
-    vc_source: str,
-    base_url: str,
-    seen_domains: set
+    soup: BeautifulSoup, vc_source: str, base_url: str, seen_domains: set
 ) -> list[dict[str, Any]]:
     """Extract company links from BeautifulSoupparsed HTML."""
     companies = []
@@ -71,26 +67,25 @@ def _extract_from_soup(
         if is_excluded_domain(domain):
             continue
         seen_domains.add(domain)
-        companies.append({
-            "company_name": text[:200],
-            "domain": href,
-            "stage": detect_stage_from_context(a_tag) or "Unknown",
-            "vc_source": vc_source,
-            "scraped_at": datetime.now(timezone.utc).isoformat(),
-        })
+        companies.append(
+            {
+                "company_name": text[:200],
+                "domain": href,
+                "stage": detect_stage_from_context(a_tag) or "Unknown",
+                "vc_source": vc_source,
+                "scraped_at": datetime.now(timezone.utc).isoformat(),
+            }
+        )
     return companies
 
 
 def _extract_from_markdown(
-    text: str,
-    vc_source: str,
-    base_url: str,
-    seen_domains: set
+    text: str, vc_source: str, base_url: str, seen_domains: set
 ) -> list[dict[str, Any]]:
     """Extract company links from Markdown text [name](url) format."""
     companies = []
     # Match markdown links: [text](url) but exclude image links ![...](...)
-    for match in re.finditer(r'\[(?!!)([^\]]+)\]\((https?://[^)]+)\)', text):
+    for match in re.finditer(r"\[(?!!)([^\]]+)\]\((https?://[^)]+)\)", text):
         name = match.group(1).strip()
         url = match.group(2).strip()
         if not name or len(name) < 2:
@@ -101,13 +96,15 @@ def _extract_from_markdown(
         if is_excluded_domain(domain):
             continue
         seen_domains.add(domain)
-        companies.append({
-            "company_name": name[:200],
-            "domain": url,
-            "stage": "Unknown",
-            "vc_source": vc_source,
-            "scraped_at": datetime.now(timezone.utc).isoformat(),
-        })
+        companies.append(
+            {
+                "company_name": name[:200],
+                "domain": url,
+                "stage": "Unknown",
+                "vc_source": vc_source,
+                "scraped_at": datetime.now(timezone.utc).isoformat(),
+            }
+        )
     return companies
 
 
@@ -130,25 +127,48 @@ def is_excluded_domain(domain: str) -> bool:
     # Major tech/public companies that are not early-stage startups
     major_corporations = {
         # Big Tech
-        "google.com", "youtube.com", "blog.google", "play.google",
-        "apple.com", "icloud.com",
-        "microsoft.com", "windows.com", "azure.com", "github.com",
-        "amazon.com", "aws.amazon.com", "alexa.amazon.com",
-        "facebook.com", "meta.com", "instagram.com", "whatsapp.com", "oculus.com",
-        "twitter.com", "x.com",
+        "google.com",
+        "youtube.com",
+        "blog.google",
+        "play.google",
+        "apple.com",
+        "icloud.com",
+        "microsoft.com",
+        "windows.com",
+        "azure.com",
+        "github.com",
+        "amazon.com",
+        "aws.amazon.com",
+        "alexa.amazon.com",
+        "facebook.com",
+        "meta.com",
+        "instagram.com",
+        "whatsapp.com",
+        "oculus.com",
+        "twitter.com",
+        "x.com",
         "linkedin.com",
-        "netflix.com", "spotify.com",
-        "nvidia.com", "nvidia.dev",
-        "cisco.com", "webex.com",
-        "salesforce.com", "slack.com", "tableau.com",
-        "adobe.com", "omnichannel.com",
-        "ibm.com", "cloud.ibm.com",
+        "netflix.com",
+        "spotify.com",
+        "nvidia.com",
+        "nvidia.dev",
+        "cisco.com",
+        "webex.com",
+        "salesforce.com",
+        "slack.com",
+        "tableau.com",
+        "adobe.com",
+        "omnichannel.com",
+        "ibm.com",
+        "cloud.ibm.com",
         "oracle.com",
         "intel.com",
-        "paypal.com", "venmo.com",
+        "paypal.com",
+        "venmo.com",
         "ebay.com",
         "reddit.com",
-        "snap.com", "snapchat.com",
+        "snap.com",
+        "snapchat.com",
         "pinterest.com",
         "tumblr.com",
         "flickr.com",
@@ -160,22 +180,28 @@ def is_excluded_domain(domain: str) -> bool:
         "qq.com",
         "weibo.com",
         "tencent.com",
-        "alibaba.com", "alibaba.net",
+        "alibaba.com",
+        "alibaba.net",
         "163.com",
         "sina.com.cn",
         "sohu.com",
         "ifeng.com",
         # Major public companies in VC portfolios
         "klarna.com",
-        "airbnb.com", "airbnb.co.uk", "airbnb.eu",
-        "uber.com", "uber Eats",
+        "airbnb.com",
+        "airbnb.co.uk",
+        "airbnb.eu",
+        "uber.com",
+        "uber Eats",
         "doordash.com",
         "instacart.com",
         "lyft.com",
         "shopify.com",
         "stripe.com",
-        "squareup.com", "block.xyz",
-        "snowflake.com", "snowflake.net",
+        "squareup.com",
+        "block.xyz",
+        "snowflake.com",
+        "snowflake.net",
         "mongodb.com",
         "atlassian.com",
         "atlassian.net",
@@ -202,27 +228,53 @@ def is_excluded_domain(domain: str) -> bool:
         "etsy.com",
         "snap.com",
         # Social / reference
-        "twitter.com", "linkedin.com", "facebook.com", "instagram.com",
-        "youtube.com", "crunchbase.com", "pitchbook.com",
-        "wikipedia.org", "github.com",
+        "twitter.com",
+        "linkedin.com",
+        "facebook.com",
+        "instagram.com",
+        "youtube.com",
+        "crunchbase.com",
+        "pitchbook.com",
+        "wikipedia.org",
+        "github.com",
         # Job boards / HR
-        "indeed.com", "linkedin.com", "glassdoor.com", "getro.com",
-        "lever.co", "greenhouse.io", "workday.com", "icims.com",
-        "sap.com", "workday.com",
+        "indeed.com",
+        "linkedin.com",
+        "glassdoor.com",
+        "getro.com",
+        "lever.co",
+        "greenhouse.io",
+        "workday.com",
+        "icims.com",
+        "sap.com",
+        "workday.com",
         # Navigation / misc noise
-        "mail.google.com", "drive.google.com", "calendar.google.com",
-        "chrome.google.com", "store.google.com",
-        "support.google.com", "maps.google.com",
-        "adobe.com", "stock.adobe.com",
-        "teams.microsoft.com", "office.microsoft.com",
-        "amazon.com", "smile.amazon.com",
+        "mail.google.com",
+        "drive.google.com",
+        "calendar.google.com",
+        "chrome.google.com",
+        "store.google.com",
+        "support.google.com",
+        "maps.google.com",
+        "adobe.com",
+        "stock.adobe.com",
+        "teams.microsoft.com",
+        "office.microsoft.com",
+        "amazon.com",
+        "smile.amazon.com",
         "aws.amazon.com",
         "窟.com",  # etc
     }
     excluded = {
-        "twitter.com", "linkedin.com", "facebook.com", "instagram.com",
-        "youtube.com", "crunchbase.com", "pitchbook.com",
-        "wikipedia.org", "github.com",
+        "twitter.com",
+        "linkedin.com",
+        "facebook.com",
+        "instagram.com",
+        "youtube.com",
+        "crunchbase.com",
+        "pitchbook.com",
+        "wikipedia.org",
+        "github.com",
     }
     netloc = urlparse(domain).netloc.replace("www.", "").lower()
     # Check exact match
@@ -238,11 +290,22 @@ def is_excluded_domain(domain: str) -> bool:
 def detect_stage_from_context(a_tag) -> str | None:
     """Attempt to detect funding stage from surrounding context."""
     parent_text = a_tag.parent.get_text() if a_tag.parent else ""
-    grandparent_text = a_tag.parent.parent.get_text() if a_tag.parent and a_tag.parent.parent else ""
+    grandparent_text = (
+        a_tag.parent.parent.get_text() if a_tag.parent and a_tag.parent.parent else ""
+    )
     combined = parent_text + " " + grandparent_text
-    stage_match = re.search(r"\b(Seed|Series\s+[A-Z]|Angel|Pre-Seed|Post-Seed)\b", combined, re.I)
+    stage_match = re.search(
+        r"\b(Seed|Series\s+[A-Z]|Angel|Pre-?Seed|Post-?Seed|Growth|Series\s+[A-Z]\+)\b",
+        combined,
+        re.I,
+    )
     if stage_match:
-        return stage_match.group(0).strip()
+        stage = stage_match.group(0).strip().title()
+        stage = stage.replace("Preseed", "Pre-Seed").replace("Pre Seed", "Pre-Seed")
+        stage = stage.replace("Postseed", "Post-Seed").replace("Post Seed", "Post-Seed")
+        if stage.lower().startswith("series "):
+            stage = "Series " + stage.split()[-1].upper()
+        return stage
     return None
 
 
@@ -253,6 +316,7 @@ def filter_dead_companies(companies: list[dict], jina_client: JinaClient) -> lis
     are kept (marked as alive — we can't prove they're dead).
     """
     import time
+
     alive = []
     for company in companies:
         attempts = 0
@@ -262,7 +326,10 @@ def filter_dead_companies(companies: list[dict], jina_client: JinaClient) -> lis
             try:
                 content = jina_client.fetch(company["domain"], timeout=15)
                 content_lower = content.lower()
-                if any(signal in content_lower for signal in ["acquired by", "ipo'd", "gone public", "shut down"]):
+                if any(
+                    signal in content_lower
+                    for signal in ["acquired by", "ipo'd", "gone public", "shut down"]
+                ):
                     print(f"  [FILTERED] {company['company_name']} — acquired/IPO'd")
                     break  # Dead, don't add
                 if "404" in content_lower and "not found" in content_lower:
@@ -274,7 +341,7 @@ def filter_dead_companies(companies: list[dict], jina_client: JinaClient) -> lis
                 last_error = e
                 attempts += 1
                 if attempts < max_attempts:
-                    wait = (2 ** attempts) + random.uniform(1, 3)
+                    wait = (2**attempts) + random.uniform(1, 3)
                     time.sleep(wait)
         if attempts == max_attempts:
             # Couldn't confirm dead — keep as alive
@@ -299,6 +366,7 @@ async def async_filter_dead_companies(
     timeout = aiohttp.ClientTimeout(total=5)
 
     async with aiohttp.ClientSession(connector=connector, timeout=timeout) as session:
+
         async def check_company(company: dict) -> tuple[dict, bool]:
             try:
                 async with session.head(company["domain"]) as resp:
