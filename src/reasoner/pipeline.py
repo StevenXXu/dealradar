@@ -1,5 +1,6 @@
 # src/reasoner/pipeline.py
 """AI Reasoner pipeline — enriches raw companies with AI signal analysis."""
+
 import json
 import time
 from datetime import date
@@ -11,6 +12,7 @@ from src.reasoner.signals import SignalDetector
 from src.reasoner.funding_clock import FundingClock, estimate_monthly_burn
 from src.reasoner.summarizer import Summarizer
 from src.commander.supabase_pusher import SupabasePusher
+from src.reasoner.enrichment_sources import search_crunchbase_url, search_careers_url
 
 
 class ReasonerPipeline:
@@ -40,19 +42,41 @@ class ReasonerPipeline:
     def process_company(self, company: dict, idx: int, total: int) -> dict:
         """Enrich a single company with AI analysis."""
         domain = company["domain"]
-        print(f"  [{idx}/{total}] Processing: {company['company_name']} ({domain})...", flush=True)
+        print(
+            f"  [{idx}/{total}] Processing: {company['company_name']} ({domain})...",
+            flush=True,
+        )
 
         try:
             # Pace: one call every 5s to avoid exhausting Jina's free tier (~10-20 req/min)
             time.sleep(5)
             raw_text = self.jina.fetch_with_retry(domain)
+
+            # Fetch Crunchbase data
+            crunchbase_url = search_crunchbase_url(company["company_name"])
+            if crunchbase_url:
+                time.sleep(2)
+                cb_text = self.jina.fetch_with_retry(crunchbase_url)
+                if cb_text:
+                    raw_text += "\n\n--- CRUNCHBASE DATA ---\n" + cb_text
+
+            # Fetch Careers data
+            careers_url = search_careers_url(company["company_name"], domain)
+            if careers_url:
+                time.sleep(2)
+                careers_text = self.jina.fetch_with_retry(careers_url)
+                if careers_text:
+                    raw_text += "\n\n--- CAREERS/JOBS DATA ---\n" + careers_text
+
         except Exception as e:
-            print(f"  [WARN] Failed to fetch {domain}: {e}")
+            print(f"  [WARN] Failed to fetch {domain} or its enrichment sources: {e}")
             raw_text = ""
 
         # Step 1: Summarize
         try:
-            one_liner, model_name = self.summarizer.summarize(raw_text, self.model_chain)
+            one_liner, model_name = self.summarizer.summarize(
+                raw_text, self.model_chain
+            )
         except Exception:
             one_liner = "Unable to generate summary"
             model_name = "unknown"
@@ -88,11 +112,17 @@ class ReasonerPipeline:
         # Step 5: Funding clock
         last_raise = signal_data.get("last_raise_amount_usd")
         months_since = signal_data.get("months_since_raise")
+        headcount = signal_data.get("headcount")
+
         funding_clock = None
         if last_raise and months_since:
             days_since = months_since * 30
-            clock = FundingClock(last_raise_amount=last_raise, days_since_raise=days_since)
-            burn = estimate_monthly_burn(headcount=None, sector=signal_data.get("sector"))
+            clock = FundingClock(
+                last_raise_amount=last_raise, days_since_raise=days_since
+            )
+            burn = estimate_monthly_burn(
+                headcount=headcount, sector=signal_data.get("sector")
+            )
             funding_clock = clock.predict_funding_date(burn)
 
         enriched = {
@@ -102,7 +132,9 @@ class ReasonerPipeline:
             "signal_score": score,
             "funding_clock": funding_clock.isoformat() if funding_clock else None,
             "tags": tags,
-            "last_raise_amount": f"${last_raise/1_000_000:.0f}M" if last_raise else "Unknown",
+            "last_raise_amount": f"${last_raise / 1_000_000:.0f}M"
+            if last_raise
+            else "Unknown",
             "last_raise_date": signal_data.get("last_raise_date"),
             "ai_model_used": model_name,
             "source_citation": domain,
@@ -111,7 +143,9 @@ class ReasonerPipeline:
         try:
             self.supabase_pusher.push_company(enriched)
         except Exception as e:
-            print(f"  [WARN] Supabase push failed for {company.get('company_name', domain)}: {e}")
+            print(
+                f"  [WARN] Supabase push failed for {company.get('company_name', domain)}: {e}"
+            )
         return enriched
 
     def run(self) -> list[dict]:
@@ -129,4 +163,6 @@ class ReasonerPipeline:
         Path(self.output_path).parent.mkdir(parents=True, exist_ok=True)
         with open(self.output_path, "w") as f:
             json.dump(self._enriched, f, indent=2)
-        print(f"\nEnrichment complete: {len(self._enriched)} companies. Saved to {self.output_path}")
+        print(
+            f"\nEnrichment complete: {len(self._enriched)} companies. Saved to {self.output_path}"
+        )
