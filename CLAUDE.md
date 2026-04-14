@@ -123,3 +123,11 @@ Available gstack skills:
 - `/guard` — Full safety mode
 - `/unfreeze` — Remove edit restrictions
 - `/gstack-upgrade` — Upgrade gstack
+
+### Running Background Workers (Celery & Redis)
+1. Ensure Redis is running (`redis-server` or via Docker: `docker run -d -p 6379:6379 redis`)
+2. Start the Celery worker from the project root:
+```bash
+python -m celery -A src.worker.celery_app worker --loglevel=info -P solo
+```
+*(Note: Use `-P solo` on Windows to avoid process spawning issues.)*

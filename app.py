@@ -1,5 +1,6 @@
 # app.py
 """DealRadar Dashboard — FastAPI backend."""
+
 import asyncio
 import json
 import re
@@ -9,11 +10,33 @@ import threading
 import time
 from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends, HTTPException, Security
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from src.supabase.client import SupabaseClient
 from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 
 app = FastAPI(title="DealRadar Dashboard")
+
+security = HTTPBearer()
+
+
+def get_supabase():
+    return SupabaseClient()
+
+
+def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    """Verify Clerk/Supabase JWT and extract tenant context."""
+    token = credentials.credentials
+    # In Phase 1, we validate the JWT signature (omitted for brevity)
+    # and extract the user's tenant_id.
+    # For now, we mock the tenant_id retrieval.
+    # In production, verify JWT using PyJWT and Supabase JWT Secret.
+    return {
+        "user_id": "mock_user_id",
+        "tenant_id": "default",  # Fallback to default tenant
+    }
+
 
 BASE_DIR = Path(__file__).parent
 CONFIG_PATH = BASE_DIR / "config" / "vc_seeds.json"
@@ -24,6 +47,7 @@ templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 
 # ─── VC Seed CRUD ───────────────────────────────────────────────────────
 
+
 def _read_vc_seeds() -> list[dict]:
     if not CONFIG_PATH.exists():
         return []
@@ -33,26 +57,31 @@ def _read_vc_seeds() -> list[dict]:
         print(f"[WARN] Failed to read vc_seeds.json: {e}")
         return []
 
+
 def _write_vc_seeds(seeds: list[dict]) -> None:
     tmp = CONFIG_PATH.with_suffix(".tmp")
     tmp.write_text(json.dumps(seeds, indent=2))
     shutil.move(str(tmp), str(CONFIG_PATH))
 
+
 @app.get("/api/vc-seeds")
 def list_vc_seeds():
     return _read_vc_seeds()
+
 
 @app.post("/api/vc-seeds")
 def add_vc_seed(seed: dict):
     slug = seed.get("slug") or seed.get("name", "").lower().replace(" ", "-")
     if not slug:
         from fastapi import HTTPException
+
         raise HTTPException(status_code=400, detail="name or slug required")
     with _vc_lock:
         seeds = _read_vc_seeds()
         seeds.append({**seed, "slug": slug})
         _write_vc_seeds(seeds)
     return {"slug": slug}
+
 
 @app.put("/api/vc-seeds/{slug}")
 def update_vc_seed(slug: str, seed: dict):
@@ -66,9 +95,11 @@ def update_vc_seed(slug: str, seed: dict):
                 break
         if not found:
             from fastapi import HTTPException
+
             raise HTTPException(status_code=404, detail="slug not found")
         _write_vc_seeds(seeds)
     return {"slug": slug}
+
 
 @app.delete("/api/vc-seeds/{slug}")
 def delete_vc_seed(slug: str):
@@ -77,7 +108,9 @@ def delete_vc_seed(slug: str):
         _write_vc_seeds(seeds)
     return {"ok": True}
 
+
 # ─── State & Stats ─────────────────────────────────────────────────────
+
 
 @app.get("/api/state")
 def get_state():
@@ -89,26 +122,55 @@ def get_state():
     except Exception:
         return {"completed_vcs": [], "failed_vcs": [], "last_updated": None}
 
+
 @app.post("/api/state/clear/{slug}")
 def clear_vc_state(slug: str):
     """Clear a VC from completed/failed state so it re-scrapes on next run."""
     from src.harvester.state import clear_vc
+
     clear_vc(slug)
     return {"ok": True, "slug": slug}
 
+
 @app.get("/api/companies")
-def get_companies():
-    count = 0
-    last_updated = None
-    if ENRICHED_PATH.exists():
-        try:
-            companies = json.loads(ENRICHED_PATH.read_text())
-            count = len(companies)
-            if companies:
-                last_updated = companies[0].get("scraped_at")
-        except Exception:
-            pass
-    return {"count": count, "last_updated": last_updated}
+def get_companies(tenant: dict = Depends(verify_token)):
+    client = get_supabase()
+    try:
+        # We fetch default tenant UUID if tenant_id='default'
+        t_id = tenant["tenant_id"]
+        if t_id == "default":
+            # Just grab the default tenant UUID
+            t_res = (
+                client._client.table("tenants")
+                .select("id")
+                .eq("slug", "default")
+                .execute()
+            )
+            if t_res.data:
+                t_id = t_res.data[0]["id"]
+
+        res = (
+            client._client.table("companies")
+            .select("id", count="exact")
+            .eq("tenant_id", t_id)
+            .execute()
+        )
+        count = res.count if res.count is not None else len(res.data)
+
+        latest = (
+            client._client.table("companies")
+            .select("updated_at")
+            .eq("tenant_id", t_id)
+            .order("updated_at", desc=True)
+            .limit(1)
+            .execute()
+        )
+        last_updated = latest.data[0]["updated_at"] if latest.data else None
+
+        return {"count": count, "last_updated": last_updated}
+    except Exception as e:
+        return {"count": 0, "last_updated": None, "error": str(e)}
+
 
 # ─── Subprocess Management ──────────────────────────────────────────────
 
@@ -117,6 +179,7 @@ _process_lock = threading.Lock()
 _vc_lock = threading.Lock()
 _process_start_time = None
 _vc_start_times: dict[str, float] = {}  # vc_name -> start time
+
 
 def _parse_stdout_line(line: str) -> dict | None:
     """Map stdout lines to SSE event data."""
@@ -148,126 +211,165 @@ def _parse_stdout_line(line: str) -> dict | None:
             elapsed = 0
             if vc_name in _vc_start_times:
                 elapsed = int(time.time() - _vc_start_times.pop(vc_name))
-            return {"vc": vc_name, "status": "done", "companies": int(m.group(1)), "elapsed": elapsed}
+            return {
+                "vc": vc_name,
+                "status": "done",
+                "companies": int(m.group(1)),
+                "elapsed": elapsed,
+            }
     # Harvest complete: N unique companies
     if "Harvest complete" in line:
         m = re.search(r"Harvest complete: (\d+)", line)
         if m:
-            return {"vc": "system", "status": "harvest_complete", "total": int(m.group(1)), "elapsed": 0}
+            return {
+                "vc": "system",
+                "status": "harvest_complete",
+                "total": int(m.group(1)),
+                "elapsed": 0,
+            }
     return {"vc": "system", "status": "info", "message": line, "elapsed": 0}
+
+
+import os
+import redis
+from celery.result import AsyncResult
+from src.worker.tasks import run_pipeline
+
+redis_url = os.environ.get("REDIS_URL", "redis://localhost:6379/0")
+redis_client = redis.Redis.from_url(redis_url, decode_responses=True)
+
 
 @app.post("/api/run/start")
 def start_run():
-    global _process, _process_start_time
-    with _process_lock:
-        if _process is not None and _process.poll() is None:
+    current_task_id = redis_client.get("latest_pipeline_task")
+    if current_task_id:
+        task = AsyncResult(current_task_id)
+        if not task.ready():
             return {"error": "already running"}
-        _process_start_time = time.time()
-        _process = subprocess.Popen(
-            ["python", "run.py", "--phase=all"],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True,
-            cwd=str(BASE_DIR),
-        )
-    return {"ok": True, "pid": _process.pid}
+
+    task = run_pipeline.delay(force_restart=False)
+    redis_client.set("latest_pipeline_task", task.id)
+    redis_client.set("pipeline_start_time", str(time.time()))
+    return {"ok": True, "task_id": task.id}
+
 
 @app.get("/api/run/status")
 def get_run_status():
-    global _process
-    if _process is None:
-        return {"running": False, "pid": None}
-    poll = _process.poll()
-    return {"running": poll is None, "pid": _process.pid if poll is None else None}
+    current_task_id = redis_client.get("latest_pipeline_task")
+    if not current_task_id:
+        return {"running": False, "task_id": None}
+    task = AsyncResult(current_task_id)
+    return {"running": not task.ready(), "task_id": current_task_id}
+
 
 @app.post("/api/run/cancel")
 def cancel_run():
-    global _process
-    with _process_lock:
-        if _process is not None and _process.poll() is None:
-            _process.terminate()
-            _process = None
+    current_task_id = redis_client.get("latest_pipeline_task")
+    if current_task_id:
+        task = AsyncResult(current_task_id)
+        if not task.ready():
+            task.revoke(terminate=True)
+            redis_client.publish(f"task_logs:{current_task_id}", "event: done\n")
             return {"ok": True}
-        _process = None
-        return {"ok": True}
+    return {"ok": True}
 
-# ─── SSE Stream ────────────────────────────────────────────────────────
-
-def _kill_process():
-    """Kill the subprocess due to timeout."""
-    global _process
-    with _process_lock:
-        if _process is not None and _process.poll() is None:
-            _process.terminate()
-            _process = None
 
 @app.get("/api/run/stream")
 def stream_run():
     async def event_generator():
-        global _process, _process_start_time
-
-        # Start 30-minute timeout timer
-        timer = threading.Timer(30 * 60, _kill_process)
-
-        with _process_lock:
-            p = _process
-
-        if p is None:
+        current_task_id = redis_client.get("latest_pipeline_task")
+        if not current_task_id:
             yield "event: done\ndata: {}\n\n".encode()
             return
 
+        task = AsyncResult(current_task_id)
+        if task.ready():
+            # If already done, just return done event
+            duration = int(
+                time.time()
+                - float(redis_client.get("pipeline_start_time") or time.time())
+            )
+            total = 0
+            if ENRICHED_PATH.exists():
+                try:
+                    data = json.loads(ENRICHED_PATH.read_text())
+                    total = len(data)
+                except Exception:
+                    pass
+            yield f"event: done\ndata: {json.dumps({'total': total, 'duration': duration})}\n\n".encode()
+            return
+
+        pubsub = redis_client.pubsub()
+        channel = f"task_logs:{current_task_id}"
+        pubsub.subscribe(channel)
+
         try:
-            timer.start()
-            while True:
-                with _process_lock:
-                    p_local = _process
-
-                if p_local is None:
-                    break
-
-                poll = p_local.poll()
-                if poll is not None:
-                    # Drain remaining stdout
-                    try:
-                        remaining = p_local.stdout.read()
-                        for line in remaining.splitlines(keepends=True):
-                            parsed = _parse_stdout_line(line)
-                            if parsed:
-                                yield f"event: progress\ndata: {json.dumps(parsed)}\n\n".encode()
-                    except Exception:
-                        pass
-                    # Send done with total + duration
-                    duration = int(time.time() - (_process_start_time or time.time()))
+            # Yield any existing history first
+            history = redis_client.lrange(f"{channel}:history", 0, -1)
+            for line in history:
+                if line == "event: done\n":
+                    duration = int(
+                        time.time()
+                        - float(redis_client.get("pipeline_start_time") or time.time())
+                    )
                     total = 0
-                    try:
-                        if ENRICHED_PATH.exists():
+                    if ENRICHED_PATH.exists():
+                        try:
                             data = json.loads(ENRICHED_PATH.read_text())
                             total = len(data)
-                    except Exception:
-                        pass
+                        except Exception:
+                            pass
                     yield f"event: done\ndata: {json.dumps({'total': total, 'duration': duration})}\n\n".encode()
-                    _process = None
-                    break
+                    return
+                parsed = _parse_stdout_line(line)
+                if parsed:
+                    yield f"event: progress\ndata: {json.dumps(parsed)}\n\n".encode()
 
-                # Read available stdout
-                line = await asyncio.to_thread(p_local.stdout.readline)
-                if line:
+            while not task.ready():
+                message = pubsub.get_message(
+                    ignore_subscribe_messages=True, timeout=0.5
+                )
+                if message:
+                    line = message["data"]
+                    if line == "event: done\n":
+                        break
                     parsed = _parse_stdout_line(line)
                     if parsed:
                         yield f"event: progress\ndata: {json.dumps(parsed)}\n\n".encode()
                 else:
-                    time.sleep(0.5)
+                    await asyncio.sleep(0.5)
+
         finally:
-            timer.cancel()
+            pubsub.unsubscribe()
+            pubsub.close()
+
+        # Send final done message
+        duration = int(
+            time.time() - float(redis_client.get("pipeline_start_time") or time.time())
+        )
+        total = 0
+        if ENRICHED_PATH.exists():
+            try:
+                data = json.loads(ENRICHED_PATH.read_text())
+                total = len(data)
+            except Exception:
+                pass
+        yield f"event: done\ndata: {json.dumps({'total': total, 'duration': duration})}\n\n".encode()
+
+    from fastapi.responses import StreamingResponse
 
     return StreamingResponse(event_generator(), media_type="text/event-stream")
 
+
 # ─── Dashboard UI ───────────────────────────────────────────────────────
+
 
 @app.get("/", response_class=HTMLResponse)
 def dashboard():
     return templates.TemplateResponse("index.html", {"request": {}})
 
+
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="127.0.0.1", port=8000)
