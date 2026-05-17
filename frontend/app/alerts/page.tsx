@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useAuth } from "@clerk/nextjs";
+import { fetchTenantAlerts, updateTenantAlerts } from "@/lib/api";
 
 export default function AlertsPage() {
   const { getToken } = useAuth();
@@ -16,16 +17,9 @@ export default function AlertsPage() {
     async function loadAlerts() {
       try {
         const token = await getToken({ template: "supabase" });
-        const res = await fetch("http://localhost:8000/api/tenant/alerts", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (res.ok) {
-          const data = await res.json();
-          if (data.slack_webhook_url) setSlackUrl(data.slack_webhook_url);
-          if (data.custom_webhook_url) setCustomUrl(data.custom_webhook_url);
-        }
+        const data = await fetchTenantAlerts(token || undefined);
+        if (data.slack_webhook_url) setSlackUrl(data.slack_webhook_url);
+        if (data.custom_webhook_url) setCustomUrl(data.custom_webhook_url);
       } catch (e) {
         console.error("Failed to load alerts config", e);
       } finally {
@@ -39,26 +33,19 @@ export default function AlertsPage() {
     e.preventDefault();
     setSaving(true);
     setMessage("");
-    
+
     try {
       const token = await getToken({ template: "supabase" });
-      const res = await fetch("http://localhost:8000/api/tenant/alerts", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
+      const { ok } = await updateTenantAlerts(
+        {
           slack_webhook_url: slackUrl,
           custom_webhook_url: customUrl,
-        }),
-      });
-      
-      if (res.ok) {
-        setMessage("Settings saved successfully!");
-      } else {
-        setMessage("Failed to save settings.");
-      }
+        },
+        token || undefined,
+      );
+      setMessage(
+        ok ? "Settings saved successfully!" : "Failed to save settings.",
+      );
     } catch (e) {
       console.error(e);
       setMessage("An error occurred while saving.");

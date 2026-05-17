@@ -1,159 +1,243 @@
 "use client";
 import { useEffect, useState, useCallback, useMemo } from "react";
-import { supabase } from "@/lib/supabase";
 import { Company } from "@/lib/types";
+import {
+  fetchCompaniesList,
+  fetchCompaniesSummary,
+  CompaniesSummaryResponse,
+} from "@/lib/api";
 import { DealCard } from "@/components/DealCard";
-import { FilterSidebar, Filters, REGIONS, SECTORS, FUNDING_STAGES } from "@/components/FilterSidebar";
+import {
+  FilterSidebar,
+  Filters,
+  REGIONS,
+  SECTORS,
+  FUNDING_STAGES,
+} from "@/components/FilterSidebar";
 import { StatsBar } from "@/components/StatsBar";
 
 type ViewMode = "grid" | "list";
 const PAGE_SIZE = 50;
 
+const EMPTY_SUMMARY: CompaniesSummaryResponse = {
+  facets: { regions: {}, sectors: {}, funding_stages: {} },
+  stats: { total: 0, hot_count: 0, avg_score: 0, new_this_week: 0 },
+};
+
+// Normalize the LLM-emitted free-form sector strings into the small
+// set of canonical buckets the sidebar exposes. Backend returns the
+// raw sector field as-is (does not know about these buckets), so this
+// mapping stays client-side. Same logic as the prior implementation —
+// keeping it here means the backend can stay agnostic.
+function normalizeSector(s: string | null | undefined): string {
+  if (!s) return "Other";
+  const lower = s.toLowerCase();
+  if (
+    lower.includes("ai") ||
+    lower.includes("artificial intelligence") ||
+    lower.includes("generative") ||
+    lower.includes("llm") ||
+    lower.includes("llmops") ||
+    lower.includes("machine learning") ||
+    lower.includes("machine intelligence")
+  )
+    return "AI";
+  if (
+    lower.includes("fintech") ||
+    lower.includes("financial") ||
+    lower.includes("banking") ||
+    lower.includes("payment") ||
+    lower.includes("insurtech") ||
+    lower.includes("wealth") ||
+    lower.includes("crypto") ||
+    lower.includes("trading platform")
+  )
+    return "Fintech";
+  if (
+    lower.includes("health") ||
+    lower.includes("medtech") ||
+    lower.includes("medical") ||
+    lower.includes("biotech") ||
+    lower.includes("pharma") ||
+    lower.includes("telemed") ||
+    lower.includes("diagnostic")
+  )
+    return "Health";
+  if (
+    lower.includes("ecommerce") ||
+    lower.includes("e-commerce") ||
+    lower.includes("retail") ||
+    lower.includes("shop") ||
+    lower.includes("marketplace")
+  )
+    return "E-commerce";
+  if (
+    lower.includes("saas") ||
+    lower.includes("software") ||
+    lower.includes("cloud") ||
+    lower.includes("paas") ||
+    lower.includes("iaas") ||
+    lower.includes("api") ||
+    lower.includes("platform") ||
+    lower.includes("tool") ||
+    lower.includes("automation") ||
+    lower.includes("productivity")
+  )
+    return "SaaS";
+  if (
+    lower.includes("energy") ||
+    lower.includes("climate") ||
+    lower.includes("carbon") ||
+    lower.includes("renewable") ||
+    lower.includes("solar") ||
+    lower.includes("sustainab")
+  )
+    return "Climate Tech";
+  if (
+    lower.includes("robot") ||
+    lower.includes("drone") ||
+    lower.includes("autonom") ||
+    lower.includes("industrial") ||
+    lower.includes("manufactur")
+  )
+    return "Robotics";
+  if (
+    lower.includes("cyber") ||
+    lower.includes("security") ||
+    lower.includes("privacy") ||
+    lower.includes("fraud")
+  )
+    return "Security";
+  if (
+    lower.includes("educat") ||
+    lower.includes("edtech") ||
+    lower.includes("learn") ||
+    lower.includes("training")
+  )
+    return "EdTech";
+  if (
+    lower.includes("real estate") ||
+    lower.includes("proptech") ||
+    lower.includes("property")
+  )
+    return "PropTech";
+  if (
+    lower.includes("logistics") ||
+    lower.includes("supply chain") ||
+    lower.includes("delivery") ||
+    lower.includes("shipping") ||
+    lower.includes("transport")
+  )
+    return "Logistics";
+  return "Other";
+}
+
+const DEFAULT_FILTERS: Filters = {
+  region: "All Regions",
+  sector: "All Sectors",
+  fundingStage: "All Stages",
+  minScore: 0,
+  search: "",
+};
+
+// Combine filters + page into a single query state so React 19's
+// set-state-in-effect rule doesn't flag a cascading setPage(0) on
+// filter change. Updating filters atomically resets the page, which
+// is also what the user expects (filter change shouldn't strand them
+// on an out-of-range page).
+interface QueryState {
+  filters: Filters;
+  page: number;
+}
+
 export default function DiscoveryDashboard() {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [view, setView] = useState<ViewMode>("grid");
-  const [page, setPage] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [schemaHasRegion, setSchemaHasRegion] = useState(false);
-
-  const [filters, setFilters] = useState<Filters>({
-    region: "All Regions",
-    sector: "All Sectors",
-    fundingStage: "All Stages",
-    minScore: 0,
-    search: "",
+  const [summary, setSummary] = useState<CompaniesSummaryResponse>(EMPTY_SUMMARY);
+  const [query, setQuery] = useState<QueryState>({
+    filters: DEFAULT_FILTERS,
+    page: 0,
   });
+  const { filters, page } = query;
 
-  // Build filter counts from full dataset (for filter sidebar)
-  const [allCompanies, setAllCompanies] = useState<Company[]>([]);
-
-  // Detect if region/funding_stage columns exist
+  // Summary (facets + header stats) — global, no filters, fetched once
+  // per mount. Cheap on the backend (single tenant scan, aggregated
+  // in Python). Re-fetch on demand could be added if data freshness
+  // matters more than a stable sidebar.
   useEffect(() => {
-    supabase
-      .from("companies")
-      .select("region", { count: "exact", head: true })
-      .then(({ error }) => {
-        setSchemaHasRegion(!error);
-      });
+    fetchCompaniesSummary().then(setSummary);
   }, []);
 
-  // Fetch all companies for filter counts (safe, won't fail if columns missing)
+  // Main list fetch — re-runs on any filter or page change.
+  // Standard fetch-driven-by-URL-state pattern: the setLoading +
+  // .then(setData) is the canonical way to bind an async call to a
+  // declarative dep array. The React 19 lint rule flags it but no
+  // cleaner equivalent exists without pulling in SWR/React Query.
   useEffect(() => {
-    // Always request region + sector + funding_stage — if columns don't exist the query fails gracefully
-    supabase
-      .from("companies")
-      .select("region, sector, funding_stage, signal_score, created_at", { count: "exact" })
-      .then(({ data, error }) => {
-        if (!error && data) {
-          setAllCompanies((data as unknown) as Company[]);
-        }
-      });
-  }, [schemaHasRegion]);
-
-  // Main companies query
-  useEffect(() => {
+    let cancelled = false;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
-    setPage(0);
-
-    const from = 0;
-    let query = supabase
-      .from("companies")
-      .select("*", { count: "exact" })
-      .order("signal_score", { ascending: false })
-      .range(from, from + PAGE_SIZE - 1);
-
-    if (filters.sector !== "All Sectors") {
-      query = query.eq("sector", filters.sector);
-    }
-    if (filters.minScore > 0) {
-      query = query.gte("signal_score", filters.minScore);
-    }
-    if (filters.region !== "All Regions" && schemaHasRegion) {
-      query = query.eq("region", filters.region);
-    }
-    if (filters.fundingStage !== "All Stages" && schemaHasRegion) {
-      query = query.eq("funding_stage", filters.fundingStage);
-    }
-    if (filters.search.trim()) {
-      const search = filters.search.trim();
-      query = query.or(
-        `company_name.ilike.%${search}%,domain.ilike.%${search}%,one_liner.ilike.%${search}%`
-      );
-    }
-
-    query.then(({ data, count, error }) => {
-      if (error) {
-        console.error("Failed to fetch companies:", error);
-        setCompanies([]);
-        setTotalCount(0);
-      } else {
-        setCompanies((data || []) as Company[]);
-        setTotalCount(count || 0);
+    fetchCompaniesList(query.filters, query.page, PAGE_SIZE).then((data) => {
+      if (cancelled) return;
+      if (data.error) {
+        console.error("Failed to fetch companies:", data.error);
       }
+      setCompanies(data.items);
+      setTotalCount(data.total);
       setLoading(false);
     });
-  }, [filters.region, filters.sector, filters.fundingStage, filters.minScore, filters.search, schemaHasRegion]);
+    return () => {
+      cancelled = true;
+    };
+  }, [query]);
 
-  // Normalize sector strings to match filter keys
-  function normalizeSector(s: string | null | undefined): string {
-    if (!s) return "Other";
-    const lower = s.toLowerCase();
-    if (lower.includes("ai") || lower.includes("artificial intelligence") || lower.includes("generative") || lower.includes("llm") || lower.includes("llmops") || lower.includes("machine learning") || lower.includes("machine intelligence")) return "AI";
-    if (lower.includes("fintech") || lower.includes("financial") || lower.includes("banking") || lower.includes("payment") || lower.includes("insurtech") || lower.includes("wealth") || lower.includes("crypto") || lower.includes("trading platform")) return "Fintech";
-    if (lower.includes("health") || lower.includes("medtech") || lower.includes("medical") || lower.includes("biotech") || lower.includes("pharma") || lower.includes("telemed") || lower.includes("diagnostic")) return "Health";
-    if (lower.includes("ecommerce") || lower.includes("e-commerce") || lower.includes("retail") || lower.includes("shop") || lower.includes("marketplace")) return "E-commerce";
-    if (lower.includes("saas") || lower.includes("software") || lower.includes("cloud") || lower.includes("paas") || lower.includes("iaas") || lower.includes("api") || lower.includes("platform") || lower.includes("tool") || lower.includes("automation") || lower.includes("productivity")) return "SaaS";
-    if (lower.includes("energy") || lower.includes("climate") || lower.includes("carbon") || lower.includes("renewable") || lower.includes("solar") || lower.includes("sustainab")) return "Climate Tech";
-    if (lower.includes("robot") || lower.includes("drone") || lower.includes("autonom") || lower.includes("industrial") || lower.includes("manufactur")) return "Robotics";
-    if (lower.includes("cyber") || lower.includes("security") || lower.includes("privacy") || lower.includes("fraud")) return "Security";
-    if (lower.includes("educat") || lower.includes("edtech") || lower.includes("learn") || lower.includes("training")) return "EdTech";
-    if (lower.includes("real estate") || lower.includes("proptech") || lower.includes("property")) return "PropTech";
-    if (lower.includes("logistics") || lower.includes("supply chain") || lower.includes("delivery") || lower.includes("shipping") || lower.includes("transport")) return "Logistics";
-    return "Other";
-  }
-
-  // Compute filter counts from allCompanies
+  // Sidebar counts: derive sector buckets from raw sector facets using
+  // normalizeSector; regions and funding_stages come through directly.
   const counts = useMemo(() => {
     const region: Record<string, number> = {};
     const sector: Record<string, number> = {};
     const stage: Record<string, number> = {};
 
-    REGIONS.forEach((r) => { region[r] = 0; });
-    SECTORS.forEach((s) => { sector[s] = 0; });
-    FUNDING_STAGES.forEach((s) => { stage[s] = 0; });
-
-    allCompanies.forEach((c) => {
-      if (c.sector) {
-        const norm = normalizeSector(c.sector);
-        sector[norm] = (sector[norm] || 0) + 1;
-      }
-      if (c.region) region[c.region] = (region[c.region] || 0) + 1;
-      if ((c as Company & { funding_stage?: string }).funding_stage) {
-        const s = (c as Company & { funding_stage: string }).funding_stage;
-        stage[s] = (stage[s] || 0) + 1;
-      }
+    REGIONS.forEach((r) => {
+      region[r] = summary.facets.regions[r] || 0;
     });
+    SECTORS.forEach((s) => {
+      sector[s] = 0;
+    });
+    FUNDING_STAGES.forEach((s) => {
+      stage[s] = summary.facets.funding_stages[s] || 0;
+    });
+    for (const [raw, n] of Object.entries(summary.facets.sectors)) {
+      const bucket = normalizeSector(raw);
+      sector[bucket] = (sector[bucket] || 0) + n;
+    }
     return { region, sector, stage };
-  }, [allCompanies]);
+  }, [summary]);
 
-  // Compute stats
-  const stats = useMemo(() => {
-    const total = allCompanies.length;
-    const hotCount = allCompanies.filter((c) => c.signal_score >= 30).length;
-    const avgScore = total > 0
-      ? allCompanies.reduce((sum, c) => sum + c.signal_score, 0) / total
-      : 0;
-    const oneWeekAgo = new Date();
-    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-    const newThisWeek = allCompanies.filter((c) => new Date(c.created_at) >= oneWeekAgo).length;
-    return { total, hotCount, avgScore, newThisWeek };
-  }, [allCompanies]);
+  // Stats now come straight from the backend.
+  const stats = {
+    total: summary.stats.total,
+    hotCount: summary.stats.hot_count,
+    avgScore: summary.stats.avg_score,
+    newThisWeek: summary.stats.new_this_week,
+  };
 
   const totalPages = Math.ceil(totalCount / PAGE_SIZE);
 
+  // Filter change resets the page. Inline search updates also go
+  // through this so a typing user doesn't get stranded on page 7.
   const handleFilterChange = useCallback((newFilters: Filters) => {
-    setFilters(newFilters);
+    setQuery({ filters: newFilters, page: 0 });
+  }, []);
+
+  const updateSearch = useCallback((search: string) => {
+    setQuery((q) => ({ filters: { ...q.filters, search }, page: 0 }));
+  }, []);
+
+  const goToPage = useCallback((p: number) => {
+    setQuery((q) => ({ ...q, page: p }));
   }, []);
 
   return (
@@ -193,12 +277,12 @@ export default function DiscoveryDashboard() {
                 type="text"
                 placeholder="Search companies, domains, keywords..."
                 value={filters.search}
-                onChange={(e) => setFilters((f) => ({ ...f, search: e.target.value }))}
+                onChange={(e) => updateSearch(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
               {filters.search && (
                 <button
-                  onClick={() => setFilters((f) => ({ ...f, search: "" }))}
+                  onClick={() => updateSearch("")}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
                   ✕
@@ -257,7 +341,7 @@ export default function DiscoveryDashboard() {
                   🏷️ {filters.sector}
                 </span>
               )}
-              {filters.fundingStage !== "All Stages" && schemaHasRegion && (
+              {filters.fundingStage !== "All Stages" && (
                 <span className="inline-flex items-center gap-1 text-xs bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 px-2 py-1 rounded-full">
                   📊 {filters.fundingStage}
                 </span>
@@ -303,9 +387,7 @@ export default function DiscoveryDashboard() {
                 Try adjusting your filters to see more results.
               </p>
               <button
-                onClick={() =>
-                  setFilters({ region: "All Regions", sector: "All Sectors", fundingStage: "All Stages", minScore: 0, search: "" })
-                }
+                onClick={() => handleFilterChange(DEFAULT_FILTERS)}
                 className="text-sm text-blue-600 hover:underline dark:text-blue-400"
               >
                 Clear all filters
@@ -339,7 +421,7 @@ export default function DiscoveryDashboard() {
               </p>
               <div className="flex gap-2">
                 <button
-                  onClick={() => setPage((p) => Math.max(0, p - 1))}
+                  onClick={() => goToPage(Math.max(0, page - 1))}
                   disabled={page === 0}
                   className="px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded text-sm disabled:opacity-40 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                 >
@@ -355,7 +437,7 @@ export default function DiscoveryDashboard() {
                   return (
                     <button
                       key={pageNum}
-                      onClick={() => setPage(pageNum)}
+                      onClick={() => goToPage(pageNum)}
                       className={`px-3 py-1.5 rounded text-sm transition-colors ${
                         page === pageNum
                           ? "bg-blue-600 text-white"
@@ -367,7 +449,7 @@ export default function DiscoveryDashboard() {
                   );
                 })}
                 <button
-                  onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+                  onClick={() => goToPage(Math.min(totalPages - 1, page + 1))}
                   disabled={page >= totalPages - 1}
                   className="px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded text-sm disabled:opacity-40 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                 >
