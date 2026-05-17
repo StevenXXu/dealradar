@@ -116,7 +116,9 @@ class HarvesterPipeline:
 
     def _load_seeds(self, path: str) -> list[dict]:
         with open(path) as f:
-            return json.load(f)
+            raw = f.read()
+        raw = re.sub(r"^\s*//.*$", "", raw, flags=re.MULTILINE)
+        return json.loads(raw)
 
     def _scrape_faction_b(
         self,
