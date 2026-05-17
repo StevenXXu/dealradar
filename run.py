@@ -18,7 +18,7 @@ from src.commander.history import (
     archive_enriched, load_latest_history, detect_raises,
     should_suppress_alert, record_alert_fired, purge_old_alerts,
 )
-from src.commander.alerts import check_serpapi, send_raise_alert_email
+from src.commander.alerts import check_serpapi, send_raise_alert_email, send_webhook_alert
 
 
 def run_harvest(output_path: str = "data/raw_companies.json", force_restart: bool = False):
@@ -157,14 +157,16 @@ def run_alerts(raise_events: list[dict]) -> dict:
             except Exception as e:
                 print(f"  [ERROR] Failed to update Notion for {event['company_name']}: {e}")
 
-        # 4. Send email if corroborated
+        # 4. Send email/webhooks if corroborated
         if has_news:
-            sent = send_raise_alert_email(event)
-            if sent:
+            email_sent = send_raise_alert_email(event)
+            webhook_sent = send_webhook_alert(event)
+            
+            if email_sent or webhook_sent:
                 record_alert_fired(domain, event["company_name"])
                 results["alerts_sent"] += 1
             else:
-                print(f"  [DEGRADED] Email send failed for {event['company_name']} — Notion tag only")
+                print(f"  [DEGRADED] Notifications failed for {event['company_name']} — Notion tag only")
                 results["alerts_degraded"] += 1
         else:
             print(f"  [DEGRADED] No SerpAPI corroboration for {event['company_name']} — Notion tag only")
