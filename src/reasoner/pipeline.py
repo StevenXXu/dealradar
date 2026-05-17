@@ -11,6 +11,7 @@ from src.reasoner.models import ModelChain
 from src.reasoner.signals import SignalDetector
 from src.reasoner.funding_clock import FundingClock, estimate_monthly_burn
 from src.reasoner.summarizer import Summarizer
+from src.reasoner.gatekeeper import FilterChain, default_chain
 from src.commander.supabase_pusher import SupabasePusher
 from src.reasoner.enrichment_sources import search_crunchbase_url, search_careers_url
 
@@ -24,6 +25,7 @@ class ReasonerPipeline:
         output_path: str = "data/enriched_companies.json",
         jina_client: JinaClient | None = None,
         model_chain: ModelChain | None = None,
+        gatekeeper: FilterChain | None = None,
     ):
         self.raw_companies_path = raw_companies_path
         self.output_path = output_path
@@ -32,6 +34,13 @@ class ReasonerPipeline:
         self.model_chain = model_chain or ModelChain()
         self.signals = SignalDetector()
         self.summarizer = Summarizer()
+        # Pre-LLM filter chain — see src/reasoner/gatekeeper.py.
+        # Default drops obvious garbage company names and already-enriched
+        # domains so re-runs do not re-pay LLM costs. Pass an explicit
+        # FilterChain (including an empty one) to override.
+        self.gatekeeper = (
+            gatekeeper if gatekeeper is not None else default_chain(output_path)
+        )
         self._enriched = []
         self.supabase_pusher = SupabasePusher()
 
@@ -149,15 +158,54 @@ class ReasonerPipeline:
         return enriched
 
     def run(self) -> list[dict]:
-        """Process all companies."""
-        self._enriched = []
-        total = len(self.companies)
-        for idx, company in enumerate(self.companies, 1):
+        """Apply the gatekeeper, then process the passers.
+
+        Prior enrichment is preserved: the saved output is the union
+        of (previously enriched, newly enriched). This lets the
+        AlreadyEnrichedFilter dedupe correctly across runs without
+        wiping the file each time.
+
+        Gatekeeper skippers are intentionally NOT written anywhere:
+          - they don't belong in 'enriched' output
+          - the GarbageNameFilter is pure-Python so re-rejecting them
+            on the next run costs effectively nothing
+        """
+        previous = self._load_previous_enriched()
+        passers, _skippers = self.gatekeeper.apply(self.companies)
+        print(self.gatekeeper.format_summary(), flush=True)
+
+        # Start with prior enrichment so this run augments rather than
+        # replaces. AlreadyEnrichedFilter ensures `passers` and
+        # `previous` are disjoint by domain, so no dedupe is needed.
+        self._enriched = list(previous)
+
+        total = len(passers)
+        for idx, company in enumerate(passers, 1):
             enriched = self.process_company(company, idx, total)
             self._enriched.append(enriched)
 
         self._save()
         return self._enriched
+
+    def _load_previous_enriched(self) -> list[dict]:
+        """Read the existing enriched_companies.json so re-runs can
+        augment rather than replace. Returns [] if the file is
+        missing or unreadable; the pipeline must succeed on first
+        run when there's nothing to carry forward."""
+        path = Path(self.output_path)
+        if not path.exists():
+            return []
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError) as e:
+            print(
+                f"[Reasoner] Could not read previous enrichment at {path}: {e}",
+                flush=True,
+            )
+            return []
+        if not isinstance(data, list):
+            return []
+        return data
 
     def _save(self):
         Path(self.output_path).parent.mkdir(parents=True, exist_ok=True)

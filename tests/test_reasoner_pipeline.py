@@ -76,3 +76,87 @@ def test_pipeline_uses_last_raise_date_from_signal_data():
     assert "signal_data" in last_raise_line, (
         f"last_raise_date line does not use signal_data: {last_raise_line!r}"
     )
+
+
+# ─── Gatekeeper integration ─────────────────────────────────────────
+
+
+def test_run_drops_garbage_named_companies_before_llm(tmp_path):
+    """The gatekeeper must reject 'Website'/'Read More' style extractor
+    failures before any expensive LLM call is made. Verifies via a
+    mock that process_company is not invoked for skipped rows."""
+    raw_file = tmp_path / "raw.json"
+    raw_file.write_text(
+        json.dumps(
+            [
+                {"company_name": "Website", "domain": "https://x.com", "vc_source": "VC"},
+                {"company_name": "Read More", "domain": "https://y.com", "vc_source": "VC"},
+                {"company_name": "Canvas", "domain": "https://canvas.co", "vc_source": "VC"},
+            ]
+        )
+    )
+    out_file = tmp_path / "enriched.json"  # does not exist yet → empty seen set
+
+    pipeline = ReasonerPipeline(
+        raw_companies_path=str(raw_file), output_path=str(out_file)
+    )
+    # Stub process_company so we can assert call count without doing real IO
+    pipeline.process_company = MagicMock(
+        side_effect=lambda c, idx, total: {**c, "signal_score": 0}
+    )
+
+    result = pipeline.run()
+
+    # Only the real company should reach the LLM step
+    assert pipeline.process_company.call_count == 1
+    assert pipeline.process_company.call_args[0][0]["company_name"] == "Canvas"
+    # Output should contain just the processed passer
+    assert len(result) == 1
+    assert result[0]["company_name"] == "Canvas"
+
+
+def test_run_preserves_previous_enrichment_across_runs(tmp_path):
+    """A second run must keep the first run's enrichment in the output
+    even when the second run processes zero new companies. Without
+    this, the AlreadyEnrichedFilter would short-circuit run() to write
+    an empty file and wipe production data on every re-run."""
+    raw_file = tmp_path / "raw.json"
+    raw_file.write_text(
+        json.dumps(
+            [
+                {"company_name": "Canvas", "domain": "https://canvas.co", "vc_source": "VC"},
+            ]
+        )
+    )
+    out_file = tmp_path / "enriched.json"
+    # Seed an existing enrichment record for the same domain
+    out_file.write_text(
+        json.dumps(
+            [
+                {
+                    "company_name": "Canvas",
+                    "domain": "https://canvas.co",
+                    "vc_source": "VC",
+                    "signal_score": 42,
+                    "sector": "Design",
+                }
+            ]
+        )
+    )
+
+    pipeline = ReasonerPipeline(
+        raw_companies_path=str(raw_file), output_path=str(out_file)
+    )
+    pipeline.process_company = MagicMock()  # must NOT be called
+
+    result = pipeline.run()
+
+    # AlreadyEnrichedFilter should drop the only raw entry
+    assert pipeline.process_company.call_count == 0
+    # The previously-enriched record must still be in the output
+    assert len(result) == 1
+    assert result[0]["signal_score"] == 42
+    # And the on-disk file must still have it (not be wiped)
+    saved = json.loads(out_file.read_text())
+    assert len(saved) == 1
+    assert saved[0]["signal_score"] == 42
