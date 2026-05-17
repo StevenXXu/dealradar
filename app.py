@@ -10,6 +10,7 @@ import threading
 import time
 from pathlib import Path
 
+from pydantic import BaseModel
 from fastapi import FastAPI, Depends, HTTPException, Security
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from src.supabase.client import SupabaseClient
@@ -26,15 +27,27 @@ def get_supabase():
 
 
 def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
-    """Verify Clerk/Supabase JWT and extract tenant context."""
-    token = credentials.credentials
-    # In Phase 1, we validate the JWT signature (omitted for brevity)
-    # and extract the user's tenant_id.
-    # For now, we mock the tenant_id retrieval.
-    # In production, verify JWT using PyJWT and Supabase JWT Secret.
+    """Resolve the caller's tenant context.
+
+    WARNING — UNAUTHENTICATED. The HTTPBearer dependency only checks
+    that *some* Bearer token is present in the Authorization header;
+    the token value is never validated. Any caller that supplies any
+    string will be authorized as the default tenant.
+
+    This is intentional placeholder behaviour for the single-tenant
+    pivot (one fund, internal use only). It MUST be replaced before:
+      - exposing the API on any non-loopback interface
+      - onboarding a second tenant
+      - allowing untrusted users to hit /api/run/* or /api/vc-seeds
+
+    Suggested next step (per single-tenant plan): swap to a shared API
+    key check against an env-var DEALRADAR_API_KEY, then layer Clerk
+    JWT validation only when multi-tenancy becomes a real requirement.
+    """
+    _ = credentials.credentials  # presence enforced by HTTPBearer
     return {
-        "user_id": "mock_user_id",
-        "tenant_id": "default",  # Fallback to default tenant
+        "user_id": "single_tenant_user",
+        "tenant_id": "default",
     }
 
 
@@ -171,6 +184,49 @@ def get_companies(tenant: dict = Depends(verify_token)):
     except Exception as e:
         return {"count": 0, "last_updated": None, "error": str(e)}
 
+
+
+# ─── Tenant Alerts ───────────────────────────────────────────────────────
+
+class AlertConfig(BaseModel):
+    slack_webhook_url: str | None = None
+    custom_webhook_url: str | None = None
+
+@app.get("/api/tenant/alerts")
+def get_tenant_alerts(tenant: dict = Depends(verify_token)):
+    client = get_supabase()
+    try:
+        t_id = tenant["tenant_id"]
+        if t_id == "default":
+            t_res = client._client.table("tenants").select("id").eq("slug", "default").execute()
+            if t_res.data:
+                t_id = t_res.data[0]["id"]
+        
+        res = client._client.table("tenants").select("slack_webhook_url, custom_webhook_url").eq("id", t_id).execute()
+        if res.data:
+            return res.data[0]
+        return {}
+    except Exception as e:
+        return {"error": str(e)}
+
+@app.put("/api/tenant/alerts")
+def update_tenant_alerts(config: AlertConfig, tenant: dict = Depends(verify_token)):
+    client = get_supabase()
+    try:
+        t_id = tenant["tenant_id"]
+        if t_id == "default":
+            t_res = client._client.table("tenants").select("id").eq("slug", "default").execute()
+            if t_res.data:
+                t_id = t_res.data[0]["id"]
+                
+        client._client.table("tenants").update({
+            "slack_webhook_url": config.slack_webhook_url,
+            "custom_webhook_url": config.custom_webhook_url
+        }).eq("id", t_id).execute()
+        
+        return {"ok": True}
+    except Exception as e:
+        return {"error": str(e)}
 
 # ─── Subprocess Management ──────────────────────────────────────────────
 

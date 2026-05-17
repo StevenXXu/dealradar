@@ -7,7 +7,10 @@ import sys
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 # Must import after path setup
-from app import app, _read_vc_seeds, _write_vc_seeds, CONFIG_PATH
+from app import app, verify_token
+
+app.dependency_overrides[verify_token] = lambda: {"user_id": "test", "tenant_id": "default"}
+, _read_vc_seeds, _write_vc_seeds, CONFIG_PATH
 
 client = TestClient(app)
 
@@ -42,9 +45,22 @@ def test_delete_vc_seed(tmp_path, monkeypatch):
     assert len(data) == 0
 
 def test_get_companies_empty(tmp_path, monkeypatch):
-    """GET /api/companies returns 0 when file doesn't exist."""
-    monkeypatch.setattr("app.ENRICHED_PATH", tmp_path / "nonexistent.json")
-    response = client.get("/api/companies")
+    """GET /api/companies returns 0 on Supabase empty or error."""
+    class MockSupabase:
+        class _client:
+            class table:
+                def __init__(self, name): pass
+                def select(self, *args, **kwargs): return self
+                def eq(self, *args, **kwargs): return self
+                def order(self, *args, **kwargs): return self
+                def limit(self, *args, **kwargs): return self
+                def execute(self):
+                    class Res:
+                        count = 0
+                        data = []
+                    return Res()
+    monkeypatch.setattr("app.get_supabase", lambda: MockSupabase())
+    response = client.get("/api/companies", headers={"Authorization": "Bearer DUMMY"})
     assert response.status_code == 200
     assert response.json()["count"] == 0
 

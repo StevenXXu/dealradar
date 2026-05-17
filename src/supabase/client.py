@@ -48,6 +48,7 @@ class SupabaseClient:
                     "ai_model_used": company.get("ai_model_used"),
                     "source_url": company.get("source_url"),
                     "updated_at": datetime.now(timezone.utc).isoformat(),
+                    "tenant_id": company.get("tenant_id"),
                 },
                 on_conflict="domain",
                 ignore_duplicates=False,
@@ -74,6 +75,7 @@ class SupabaseClient:
                     "website_url": institution.get("website_url"),
                     "tier": institution.get("tier", 3),
                     "portfolio_url": institution.get("portfolio_url"),
+                    "tenant_id": institution.get("tenant_id"),
                 },
                 on_conflict="name",
             ).execute()
@@ -91,6 +93,7 @@ class SupabaseClient:
                     "content": signal.get("content", {}),
                     "signal_score": signal.get("signal_score", 0),
                     "status": signal.get("status", "pending"),
+                    "tenant_id": signal.get("tenant_id"),
                 }
             ).execute()
             return result.data[0] if result.data else {}
