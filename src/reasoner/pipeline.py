@@ -6,12 +6,15 @@ import time
 from datetime import date
 from pathlib import Path
 
+import os
+
 from src.harvester.jina_client import JinaClient
 from src.reasoner.models import ModelChain
 from src.reasoner.signals import SignalDetector
 from src.reasoner.funding_clock import FundingClock, estimate_monthly_burn
 from src.reasoner.summarizer import Summarizer
 from src.reasoner.gatekeeper import FilterChain, default_chain
+from src.reasoner.investment_scorer import InvestmentScorer
 from src.commander.supabase_pusher import SupabasePusher
 from src.reasoner.enrichment_sources import search_crunchbase_url, search_careers_url
 
@@ -26,6 +29,8 @@ class ReasonerPipeline:
         jina_client: JinaClient | None = None,
         model_chain: ModelChain | None = None,
         gatekeeper: FilterChain | None = None,
+        investment_scorer: InvestmentScorer | None = None,
+        investment_score_threshold: int | None = None,
     ):
         self.raw_companies_path = raw_companies_path
         self.output_path = output_path
@@ -41,6 +46,28 @@ class ReasonerPipeline:
         self.gatekeeper = (
             gatekeeper if gatekeeper is not None else default_chain(output_path)
         )
+        # Six-dimensional investment scoring — opt-in via the
+        # INVESTMENT_SCORING_ENABLED env var because it adds 2-3 LLM
+        # calls per company. Gated by a signal_score threshold so we
+        # only spend LLM budget on companies the rule-based layer
+        # already flagged as worth a closer look.
+        if investment_scorer is not None:
+            self.investment_scorer = investment_scorer
+        elif os.getenv("INVESTMENT_SCORING_ENABLED", "false").lower() in (
+            "1",
+            "true",
+            "yes",
+            "on",
+        ):
+            self.investment_scorer = InvestmentScorer(model_chain=self.model_chain)
+        else:
+            self.investment_scorer = None
+        if investment_score_threshold is not None:
+            self.investment_score_threshold = investment_score_threshold
+        else:
+            self.investment_score_threshold = int(
+                os.getenv("INVESTMENT_SCORE_THRESHOLD", "30")
+            )
         self._enriched = []
         self.supabase_pusher = SupabasePusher()
 
@@ -148,6 +175,39 @@ class ReasonerPipeline:
             "ai_model_used": model_name,
             "source_citation": domain,
         }
+
+        # Step 6: Six-dimensional investment scoring (opt-in).
+        # Gated by signal_score threshold so we only spend the extra
+        # LLM calls on companies the rule-based layer already flagged.
+        if (
+            self.investment_scorer is not None
+            and score >= self.investment_score_threshold
+        ):
+            try:
+                inv = self.investment_scorer.score(
+                    company_name=company.get("company_name", ""),
+                    product_description=one_liner,
+                    industry=signal_data.get("sector", ""),
+                    # dealradar doesn't extract revenue_growth pre-LLM;
+                    # financial dim falls back to neutral when None.
+                    revenue_growth=None,
+                    # raw_text is the Jina + Crunchbase + Careers concat
+                    # — the careers section in particular surfaces team
+                    # background, so passing the whole blob lets the
+                    # LLM cite specific signals.
+                    team_context=raw_text[:8000] if raw_text else "",
+                    dealradar_endorsed=bool(company.get("dealradar_endorsed", False)),
+                )
+                enriched["investment_score"] = inv.total
+                enriched["investment_breakdown"] = inv.breakdown.as_dict()
+                enriched["investment_analysis"] = inv.analysis
+                enriched["investment_reasons"] = inv.reasons
+                enriched["investment_endorsement_bonus"] = inv.endorsement_bonus
+            except Exception as e:
+                print(
+                    f"  [WARN] Investment scoring failed for {company.get('company_name', domain)}: {e}",
+                    flush=True,
+                )
 
         try:
             self.supabase_pusher.push_company(enriched)
