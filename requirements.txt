@@ -4,6 +4,8 @@ fastapi>=0.115.0
 uvicorn[standard]>=0.30.0
 # Used by app.py for the legacy templates/index.html dashboard.
 jinja2>=3.1.0
+# Used by src/harvester/extractor.py for parallel dead-domain probes.
+aiohttp>=3.9.0
 beautifulsoup4>=4.12.0
 lxml>=4.9.0
 notion-client>=2.0.0

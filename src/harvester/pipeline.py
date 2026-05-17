@@ -18,6 +18,7 @@ from src.harvester.extractor import (
     async_filter_dead_companies,
 )
 from src.harvester import state as state_module
+from src.harvester.email_capture import EmailCapture
 from src.harvester.state import (
     load_state,
     mark_completed,
@@ -106,12 +107,19 @@ class HarvesterPipeline:
         jina_client: JinaClient | None = None,
         apify_client: ApifyClient | None = None,
         output_path: str = "data/raw_companies.json",
+        email_capture: EmailCapture | None = None,
     ):
         self.vc_seeds = self._load_seeds(vc_seeds_path)
         self.jina = jina_client or JinaClient()
         self.apify = apify_client or ApifyClient()
         self.playwright = PlaywrightScraper()
         self.output_path = output_path
+        # Second harvester input: email-sourced deals. Constructed
+        # eagerly so misconfigured credentials surface on init, not on
+        # first run() call. When EMAIL_USER/PASSWORD are unset the
+        # instance reports configured=False and capture_new_emails()
+        # short-circuits to [].
+        self.email_capture = email_capture or EmailCapture()
         self._all_companies = []
 
     def _load_seeds(self, path: str) -> list[dict]:
@@ -428,6 +436,23 @@ class HarvesterPipeline:
                     f"  [WARN] {seed['name']} returned only {len(companies)} companies — marked as failed, will retry on next run",
                     flush=True,
                 )
+
+        # Second input: pull deal emails from the configured inbox.
+        # Folded in BEFORE dead-company filtering and final dedup so
+        # email-sourced rows go through the same pruning as VC-sourced.
+        # If no EMAIL_USER is set in env this returns [] without IO.
+        if self.email_capture.configured:
+            print("\nPolling email inbox for new deal emails...", flush=True)
+            email_companies = self.email_capture.capture_new_emails()
+            if email_companies:
+                print(
+                    f"  Email capture found {len(email_companies)} new deal emails",
+                    flush=True,
+                )
+                self._all_companies.extend(email_companies)
+                append_and_dedupe(email_companies, self.output_path)
+            else:
+                print("  Email capture: no new deal emails", flush=True)
 
         # Filter dead companies
         print(
