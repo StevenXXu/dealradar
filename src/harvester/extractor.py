@@ -46,16 +46,183 @@ def extract_companies_from_html(
     return companies
 
 
+# Generic link texts that show up where a real company name should
+# be. When the <a> inner text is one of these, we know the link IS
+# the company's external site (so the domain is good) but the link
+# text itself is useless as a company name — we need to look at the
+# surrounding DOM or derive from the URL instead.
+#
+# Conservative exact-match set. Adding fuzzy/substring matching here
+# is too aggressive — 'Read AI' is a real company. The gatekeeper
+# (src/reasoner/gatekeeper.py:GarbageNameFilter) is the safety net
+# for anything that still slips through.
+_GENERIC_LINK_TEXTS: frozenset[str] = frozenset(
+    {
+        "website",
+        "read more",
+        "learn more",
+        "view more",
+        "see more",
+        "show more",
+        "visit",
+        "visit site",
+        "visit website",
+        "go to website",
+        "home",
+        "homepage",
+        "about",
+        "about us",
+        "contact",
+        "more info",
+        "more information",
+        "details",
+        "view",
+        "view all",
+        "click here",
+        "here",
+        "link",
+        "more",
+        "->",
+        "→",
+        "»",
+    }
+)
+
+
+def _is_generic_link_text(text: str) -> bool:
+    return text.strip().lower() in _GENERIC_LINK_TEXTS
+
+
+_NAME_FLAVORED_TOKENS: frozenset[str] = frozenset({"name", "title", "brand"})
+
+
+def _class_signals_company_name(cls) -> bool:
+    """True if any class token equals one of the name-flavored words,
+    splitting on whitespace/hyphen/underscore. Matches 'company-name'
+    and 'portfolio_title' without matching 'filename' or 'subtitle'.
+    BeautifulSoup passes a list of class strings here.
+    """
+    if not cls:
+        return False
+    if isinstance(cls, (list, tuple)):
+        joined = " ".join(cls)
+    else:
+        joined = str(cls)
+    tokens = re.split(r"[\s\-_]+", joined.lower())
+    return any(t in _NAME_FLAVORED_TOKENS for t in tokens)
+
+
+def _find_name_near_link(a_tag, max_levels: int = 3) -> str | None:
+    """Walk up to `max_levels` parents looking for a heading or
+    'name'/'title' class element that names the company. Common
+    portfolio-page pattern:
+
+        <div class="portfolio-item">
+          <h3 class="company-name">Acme AI</h3>
+          <p>Cross-border treasury</p>
+          <a href="https://acme.ai">Website</a>
+        </div>
+
+    Returns the first non-empty, non-generic candidate found.
+    """
+    NAME_TAGS = ("h1", "h2", "h3", "h4", "h5", "h6")
+
+    node = a_tag.parent
+    for _ in range(max_levels):
+        if node is None:
+            break
+
+        for h in node.find_all(NAME_TAGS, limit=3):
+            candidate = h.get_text(strip=True)
+            if candidate and not _is_generic_link_text(candidate) and len(candidate) > 2:
+                return candidate[:200]
+
+        # data-* and title attributes on the parent container
+        for attr in ("data-name", "data-title", "data-company", "title", "aria-label"):
+            value = node.get(attr) if hasattr(node, "get") else None
+            if value and not _is_generic_link_text(value) and len(value) > 2:
+                return value.strip()[:200]
+
+        # Elements with name/title-flavored classes inside the container.
+        # Uses a function matcher rather than a regex because BS4 hands
+        # the class attribute as a list of tokens — 'company-name' must
+        # split on hyphen before token comparison.
+        for el in node.find_all(class_=_class_signals_company_name, limit=3):
+            candidate = el.get_text(strip=True)
+            if candidate and not _is_generic_link_text(candidate) and len(candidate) > 2:
+                return candidate[:200]
+
+        # img alt text inside the same container (logo alt)
+        img = node.find("img", alt=True)
+        if img and img.get("alt"):
+            alt = img["alt"].strip()
+            if alt and not _is_generic_link_text(alt) and len(alt) > 2:
+                return alt[:200]
+
+        node = node.parent
+
+    return None
+
+
+def _derive_name_from_url(url: str) -> str | None:
+    """Last-resort: turn 'https://www.acme-ai.com/about' into 'Acme Ai'.
+    Returns None if the host is in the excluded-domain list (generic
+    webmail, social, infra) or yields nothing usable.
+
+    Does NOT go through extract_domain_from_url, which prepends the
+    scheme back into its return value — that helper is the wrong
+    primitive when we want just the host string.
+    """
+    try:
+        parsed = urlparse(url)
+    except Exception:
+        return None
+    host = (parsed.netloc or "").lower()
+    if not host:
+        return None
+    if host.startswith("www."):
+        host = host[4:]
+    # Reuse the existing exclusion list (operates on the helper's
+    # 'scheme://host/' form, so reconstitute it).
+    if is_excluded_domain(f"https://{host}/"):
+        return None
+    base = host.split(".")[0]
+    cleaned = re.sub(r"[^a-zA-Z0-9]+", " ", base).strip()
+    if len(cleaned) <= 2:
+        return None
+    return cleaned.title()
+
+
+def _resolve_company_name(text: str, a_tag, url: str) -> str | None:
+    """Decide the company_name for a link.
+
+    Cases that need the DOM/URL fallback:
+      - empty link text (e.g. <a><img alt="Acme"/></a>)
+      - single-character text ('→', '»' — common portfolio affordances)
+      - text in the curated generic-link-text set ('Website', etc.)
+
+    Anything else is treated as a real name and used verbatim. Returns
+    None when no usable name can be derived — the caller drops the row.
+    """
+    text = (text or "").strip()
+    needs_fallback = (
+        not text
+        or len(text) < 2
+        or _is_generic_link_text(text)
+    )
+    if needs_fallback:
+        return _find_name_near_link(a_tag) or _derive_name_from_url(url)
+    return text[:200]
+
+
 def _extract_from_soup(
     soup: BeautifulSoup, vc_source: str, base_url: str, seen_domains: set
 ) -> list[dict[str, Any]]:
-    """Extract company links from BeautifulSoupparsed HTML."""
+    """Extract company links from BeautifulSoup-parsed HTML."""
     companies = []
     for a_tag in soup.find_all("a", href=True):
         href = a_tag["href"]
         text = a_tag.get_text(strip=True)
-        if not text or len(text) < 2:
-            continue
         if not href.startswith("http"):
             if base_url:
                 href = urljoin(base_url, href)
@@ -66,10 +233,18 @@ def _extract_from_soup(
             continue
         if is_excluded_domain(domain):
             continue
+
+        name = _resolve_company_name(text, a_tag, href)
+        if not name:
+            # Generic link text + no DOM hint + URL didn't yield a
+            # usable name (excluded domain). Drop rather than emit
+            # 'Website' as the company name.
+            continue
+
         seen_domains.add(domain)
         companies.append(
             {
-                "company_name": text[:200],
+                "company_name": name,
                 "domain": href,
                 "stage": detect_stage_from_context(a_tag) or "Unknown",
                 "vc_source": vc_source,
@@ -82,19 +257,30 @@ def _extract_from_soup(
 def _extract_from_markdown(
     text: str, vc_source: str, base_url: str, seen_domains: set
 ) -> list[dict[str, Any]]:
-    """Extract company links from Markdown text [name](url) format."""
+    """Extract company links from Markdown text [name](url) format.
+
+    Markdown is flat — no surrounding DOM to inspect. If the link text
+    is generic ('Website') we can only fall back to a URL-derived
+    name, then drop the row if even that fails.
+    """
     companies = []
-    # Match markdown links: [text](url) but exclude image links ![...](...)
     for match in re.finditer(r"\[(?!!)([^\]]+)\]\((https?://[^)]+)\)", text):
         name = match.group(1).strip()
         url = match.group(2).strip()
-        if not name or len(name) < 2:
-            continue
         domain = extract_domain_from_url(url)
         if not domain or domain in seen_domains:
             continue
         if is_excluded_domain(domain):
             continue
+
+        if not name or len(name) < 2:
+            continue
+        if _is_generic_link_text(name):
+            derived = _derive_name_from_url(url)
+            if not derived:
+                continue
+            name = derived
+
         seen_domains.add(domain)
         companies.append(
             {
