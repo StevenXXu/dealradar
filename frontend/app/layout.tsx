@@ -57,6 +57,12 @@ export default function RootLayout({
                 Signals
               </Link>
               <Link
+                href="/alerts"
+                className="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              >
+                Alerts
+              </Link>
+              <Link
                 href="/submit"
                 className="text-sm font-medium bg-blue-600 text-white px-4 py-1.5 rounded-lg hover:bg-blue-700 transition-colors"
               >

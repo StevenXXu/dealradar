@@ -32,22 +32,18 @@ export default function DiscoveryDashboard() {
   useEffect(() => {
     supabase
       .from("companies")
-      .select("region, sector, funding_stage, signal_score", { count: "exact", head: true })
+      .select("region", { count: "exact", head: true })
       .then(({ error }) => {
-        if (!error) {
-          setSchemaHasRegion(true);
-        }
+        setSchemaHasRegion(!error);
       });
   }, []);
 
   // Fetch all companies for filter counts (safe, won't fail if columns missing)
   useEffect(() => {
-    const fields = schemaHasRegion
-      ? "region, sector, funding_stage, signal_score"
-      : "sector, signal_score";
+    // Always request region + sector + funding_stage — if columns don't exist the query fails gracefully
     supabase
       .from("companies")
-      .select(fields, { count: "exact" })
+      .select("region, sector, funding_stage, signal_score, created_at", { count: "exact" })
       .then(({ data, error }) => {
         if (!error && data) {
           setAllCompanies((data as unknown) as Company[]);
@@ -99,6 +95,24 @@ export default function DiscoveryDashboard() {
     });
   }, [filters.region, filters.sector, filters.fundingStage, filters.minScore, filters.search, schemaHasRegion]);
 
+  // Normalize sector strings to match filter keys
+  function normalizeSector(s: string | null | undefined): string {
+    if (!s) return "Other";
+    const lower = s.toLowerCase();
+    if (lower.includes("ai") || lower.includes("artificial intelligence") || lower.includes("generative") || lower.includes("llm") || lower.includes("llmops") || lower.includes("machine learning") || lower.includes("machine intelligence")) return "AI";
+    if (lower.includes("fintech") || lower.includes("financial") || lower.includes("banking") || lower.includes("payment") || lower.includes("insurtech") || lower.includes("wealth") || lower.includes("crypto") || lower.includes("trading platform")) return "Fintech";
+    if (lower.includes("health") || lower.includes("medtech") || lower.includes("medical") || lower.includes("biotech") || lower.includes("pharma") || lower.includes("telemed") || lower.includes("diagnostic")) return "Health";
+    if (lower.includes("ecommerce") || lower.includes("e-commerce") || lower.includes("retail") || lower.includes("shop") || lower.includes("marketplace")) return "E-commerce";
+    if (lower.includes("saas") || lower.includes("software") || lower.includes("cloud") || lower.includes("paas") || lower.includes("iaas") || lower.includes("api") || lower.includes("platform") || lower.includes("tool") || lower.includes("automation") || lower.includes("productivity")) return "SaaS";
+    if (lower.includes("energy") || lower.includes("climate") || lower.includes("carbon") || lower.includes("renewable") || lower.includes("solar") || lower.includes("sustainab")) return "Climate Tech";
+    if (lower.includes("robot") || lower.includes("drone") || lower.includes("autonom") || lower.includes("industrial") || lower.includes("manufactur")) return "Robotics";
+    if (lower.includes("cyber") || lower.includes("security") || lower.includes("privacy") || lower.includes("fraud")) return "Security";
+    if (lower.includes("educat") || lower.includes("edtech") || lower.includes("learn") || lower.includes("training")) return "EdTech";
+    if (lower.includes("real estate") || lower.includes("proptech") || lower.includes("property")) return "PropTech";
+    if (lower.includes("logistics") || lower.includes("supply chain") || lower.includes("delivery") || lower.includes("shipping") || lower.includes("transport")) return "Logistics";
+    return "Other";
+  }
+
   // Compute filter counts from allCompanies
   const counts = useMemo(() => {
     const region: Record<string, number> = {};
@@ -110,7 +124,10 @@ export default function DiscoveryDashboard() {
     FUNDING_STAGES.forEach((s) => { stage[s] = 0; });
 
     allCompanies.forEach((c) => {
-      if (c.sector) sector[c.sector] = (sector[c.sector] || 0) + 1;
+      if (c.sector) {
+        const norm = normalizeSector(c.sector);
+        sector[norm] = (sector[norm] || 0) + 1;
+      }
       if (c.region) region[c.region] = (region[c.region] || 0) + 1;
       if ((c as Company & { funding_stage?: string }).funding_stage) {
         const s = (c as Company & { funding_stage: string }).funding_stage;
