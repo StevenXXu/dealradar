@@ -2,11 +2,22 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useAuth } from "@clerk/nextjs";
 import { fetchTenantAlerts, updateTenantAlerts } from "@/lib/api";
 
+// Clerk's useAuth was previously used here to obtain a Bearer token
+// for the backend call. Removed for two reasons:
+//   1. The single-tenant pivot means verify_token currently accepts
+//      any Bearer string (see app.py:verify_token docstring), so a
+//      Clerk-issued token was decorative — fetchTenantAlerts already
+//      sends a DASHBOARD_BEARER placeholder when no token is passed.
+//   2. Calling useAuth() without a <ClerkProvider> in the React tree
+//      (which the project doesn't have yet) throws during Vercel's
+//      static prerender pass — broke the build at commit 1c15677.
+// When real auth ships, pass a real token here and the backend
+// will start validating it. The shape of fetchTenantAlerts /
+// updateTenantAlerts is already ready for that.
+
 export default function AlertsPage() {
-  const { getToken } = useAuth();
   const [slackUrl, setSlackUrl] = useState("");
   const [customUrl, setCustomUrl] = useState("");
   const [loading, setLoading] = useState(true);
@@ -14,20 +25,24 @@ export default function AlertsPage() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
+    let cancelled = false;
     async function loadAlerts() {
       try {
-        const token = await getToken({ template: "supabase" });
-        const data = await fetchTenantAlerts(token || undefined);
+        const data = await fetchTenantAlerts();
+        if (cancelled) return;
         if (data.slack_webhook_url) setSlackUrl(data.slack_webhook_url);
         if (data.custom_webhook_url) setCustomUrl(data.custom_webhook_url);
       } catch (e) {
         console.error("Failed to load alerts config", e);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     }
     loadAlerts();
-  }, [getToken]);
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,14 +50,10 @@ export default function AlertsPage() {
     setMessage("");
 
     try {
-      const token = await getToken({ template: "supabase" });
-      const { ok } = await updateTenantAlerts(
-        {
-          slack_webhook_url: slackUrl,
-          custom_webhook_url: customUrl,
-        },
-        token || undefined,
-      );
+      const { ok } = await updateTenantAlerts({
+        slack_webhook_url: slackUrl,
+        custom_webhook_url: customUrl,
+      });
       setMessage(
         ok ? "Settings saved successfully!" : "Failed to save settings.",
       );
