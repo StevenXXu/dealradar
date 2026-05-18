@@ -407,6 +407,107 @@ def companies_summary(tenant: dict = Depends(verify_token)):
         }
 
 
+# ─── Watchlist + monitor events ─────────────────────────────────────
+# Ports dealflow monitor.py's WATCHLIST_RULES + verified_metrics
+# ingestion endpoint to Supabase-backed persistence.
+
+
+from src.commander.watchlist import WatchlistService, VALID_MONITOR_STATES
+
+
+def get_watchlist_service() -> WatchlistService:
+    return WatchlistService()
+
+
+class WatchlistUpdate(BaseModel):
+    watchlisted: bool
+    monitor_state: str | None = None
+    notes: str | None = None
+
+
+class VerifiedMetricsIngest(BaseModel):
+    verified_metrics: dict
+    evidence_source: str | None = None
+
+
+@app.get("/api/companies/{company_id}/watchlist")
+def get_company_watchlist(
+    company_id: str, tenant: dict = Depends(verify_token)
+):
+    svc = get_watchlist_service()
+    state = svc.get_watchlist(company_id)
+    if state is None:
+        raise HTTPException(status_code=404, detail="company not found")
+    return {
+        "company_id": state.company_id,
+        "watchlisted": state.watchlisted,
+        "monitor_state": state.monitor_state,
+        "watchlist_notes": state.watchlist_notes,
+        "verified_metrics": state.verified_metrics,
+    }
+
+
+@app.put("/api/companies/{company_id}/watchlist")
+def set_company_watchlist(
+    company_id: str,
+    update: WatchlistUpdate,
+    tenant: dict = Depends(verify_token),
+):
+    if update.monitor_state is not None and update.monitor_state not in VALID_MONITOR_STATES:
+        raise HTTPException(
+            status_code=400,
+            detail=(
+                f"monitor_state must be one of {sorted(VALID_MONITOR_STATES)}, "
+                f"got {update.monitor_state!r}"
+            ),
+        )
+    svc = get_watchlist_service()
+    try:
+        state = svc.set_watchlist(
+            company_id,
+            watchlisted=update.watchlisted,
+            monitor_state=update.monitor_state,
+            notes=update.notes,
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    if state is None:
+        raise HTTPException(status_code=404, detail="company not found")
+    return {
+        "company_id": state.company_id,
+        "watchlisted": state.watchlisted,
+        "monitor_state": state.monitor_state,
+        "watchlist_notes": state.watchlist_notes,
+    }
+
+
+@app.post("/api/companies/{company_id}/verified-metrics")
+def ingest_verified_metrics(
+    company_id: str,
+    payload: VerifiedMetricsIngest,
+    tenant: dict = Depends(verify_token),
+):
+    svc = get_watchlist_service()
+    result = svc.ingest_verified_metrics(
+        company_id,
+        incoming_metrics=payload.verified_metrics,
+        evidence_source=payload.evidence_source or "api",
+    )
+    if result.get("status") == "rejected":
+        raise HTTPException(status_code=400, detail=result.get("reason", "rejected"))
+    return result
+
+
+@app.get("/api/monitor/events")
+def list_monitor_events(
+    limit: int = Query(50, ge=1, le=500),
+    company_id: str | None = None,
+    tenant: dict = Depends(verify_token),
+):
+    svc = get_watchlist_service()
+    events = svc.recent_events(limit=limit, company_id=company_id)
+    return {"events": events, "count": len(events)}
+
 
 # ─── Tenant Alerts ───────────────────────────────────────────────────────
 

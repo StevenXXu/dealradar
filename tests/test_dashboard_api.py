@@ -331,3 +331,166 @@ def test_summary_tolerates_rows_missing_optional_fields(monkeypatch):
     assert body["stats"]["total"] == 2
     assert body["facets"]["sectors"] == {"AI": 1}
     assert body["facets"]["regions"] == {}
+
+
+# ─── Watchlist + verified-metrics endpoints ──────────────────────────
+
+
+def _override_watchlist_service(monkeypatch, svc):
+    """Pin the watchlist endpoints to a specific WatchlistService.
+    Using monkeypatch (not dependency_overrides) because the endpoints
+    construct the service via a module-level factory, not Depends()."""
+    from app import get_watchlist_service  # noqa: F401 — ensure module imported
+    monkeypatch.setattr("app.get_watchlist_service", lambda: svc)
+
+
+def test_get_watchlist_returns_state(monkeypatch):
+    svc = MagicMock()
+    state = MagicMock(
+        company_id="c1",
+        watchlisted=True,
+        monitor_state="pursue",
+        watchlist_notes="hot",
+        verified_metrics={"headcount": 50},
+    )
+    svc.get_watchlist.return_value = state
+    _override_watchlist_service(monkeypatch, svc)
+
+    resp = client.get(
+        "/api/companies/c1/watchlist", headers={"Authorization": "Bearer X"}
+    )
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["company_id"] == "c1"
+    assert body["watchlisted"] is True
+    assert body["monitor_state"] == "pursue"
+    assert body["verified_metrics"] == {"headcount": 50}
+
+
+def test_get_watchlist_404_when_missing(monkeypatch):
+    svc = MagicMock()
+    svc.get_watchlist.return_value = None
+    _override_watchlist_service(monkeypatch, svc)
+
+    resp = client.get(
+        "/api/companies/missing/watchlist", headers={"Authorization": "Bearer X"}
+    )
+    assert resp.status_code == 404
+
+
+def test_put_watchlist_sets_state(monkeypatch):
+    svc = MagicMock()
+    svc.set_watchlist.return_value = MagicMock(
+        company_id="c1",
+        watchlisted=True,
+        monitor_state="monitor",
+        watchlist_notes="passive",
+    )
+    _override_watchlist_service(monkeypatch, svc)
+
+    resp = client.put(
+        "/api/companies/c1/watchlist",
+        json={"watchlisted": True, "monitor_state": "monitor", "notes": "passive"},
+        headers={"Authorization": "Bearer X"},
+    )
+    assert resp.status_code == 200
+    svc.set_watchlist.assert_called_once_with(
+        "c1", watchlisted=True, monitor_state="monitor", notes="passive"
+    )
+
+
+def test_put_watchlist_rejects_invalid_monitor_state(monkeypatch):
+    svc = MagicMock()
+    _override_watchlist_service(monkeypatch, svc)
+
+    resp = client.put(
+        "/api/companies/c1/watchlist",
+        json={"watchlisted": True, "monitor_state": "totally_invalid"},
+        headers={"Authorization": "Bearer X"},
+    )
+    assert resp.status_code == 400
+    svc.set_watchlist.assert_not_called()
+
+
+def test_put_watchlist_404_when_company_missing(monkeypatch):
+    svc = MagicMock()
+    svc.set_watchlist.return_value = None
+    _override_watchlist_service(monkeypatch, svc)
+
+    resp = client.put(
+        "/api/companies/missing/watchlist",
+        json={"watchlisted": False},
+        headers={"Authorization": "Bearer X"},
+    )
+    assert resp.status_code == 404
+
+
+def test_post_verified_metrics_emits_event(monkeypatch):
+    svc = MagicMock()
+    svc.ingest_verified_metrics.return_value = {
+        "status": "processed",
+        "company_id": "c1",
+        "triggered": True,
+        "new_verified_metric_keys": ["headcount"],
+        "audit_event": {"event_id": "evt-1", "event_type": "x"},
+    }
+    _override_watchlist_service(monkeypatch, svc)
+
+    resp = client.post(
+        "/api/companies/c1/verified-metrics",
+        json={"verified_metrics": {"headcount": 50}, "evidence_source": "manual"},
+        headers={"Authorization": "Bearer X"},
+    )
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["triggered"] is True
+    assert "headcount" in body["new_verified_metric_keys"]
+    svc.ingest_verified_metrics.assert_called_once_with(
+        "c1", incoming_metrics={"headcount": 50}, evidence_source="manual"
+    )
+
+
+def test_post_verified_metrics_rejects_missing_company(monkeypatch):
+    svc = MagicMock()
+    svc.ingest_verified_metrics.return_value = {
+        "status": "rejected",
+        "reason": "company not found",
+        "triggered": False,
+    }
+    _override_watchlist_service(monkeypatch, svc)
+
+    resp = client.post(
+        "/api/companies/missing/verified-metrics",
+        json={"verified_metrics": {"x": 1}},
+        headers={"Authorization": "Bearer X"},
+    )
+    assert resp.status_code == 400
+
+
+def test_list_monitor_events(monkeypatch):
+    svc = MagicMock()
+    svc.recent_events.return_value = [
+        {"event_id": "e1", "event_type": "x"},
+        {"event_id": "e2", "event_type": "y"},
+    ]
+    _override_watchlist_service(monkeypatch, svc)
+
+    resp = client.get(
+        "/api/monitor/events?limit=10", headers={"Authorization": "Bearer X"}
+    )
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["count"] == 2
+    assert len(body["events"]) == 2
+    svc.recent_events.assert_called_once_with(limit=10, company_id=None)
+
+
+def test_list_monitor_events_validates_limit_bounds(monkeypatch):
+    svc = MagicMock()
+    _override_watchlist_service(monkeypatch, svc)
+
+    # limit > 500 → 422
+    resp = client.get(
+        "/api/monitor/events?limit=1000", headers={"Authorization": "Bearer X"}
+    )
+    assert resp.status_code == 422
