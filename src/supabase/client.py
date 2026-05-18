@@ -139,3 +139,34 @@ class SupabaseClient:
         except Exception as e:
             print(f"[SupabaseClient] reject_signal error: {e}")
             return {}
+
+    def insert_ai_inference(self, inference: dict) -> dict:
+        """Persist a single LLM-derived inference (today: an
+        investment_score result from InvestmentScorer). The schema's
+        investment_score column is INT, so any float total is rounded
+        before insert. Returns the inserted row (empty dict on error
+        — non-fatal so a failed inference write never blocks the
+        upstream reasoner pipeline)."""
+        try:
+            score = inference.get("investment_score")
+            if score is not None:
+                score = int(round(float(score)))
+            result = (
+                self._client.table("ai_inferences")
+                .insert(
+                    {
+                        "company_id": inference["company_id"],
+                        "signal_id": inference.get("signal_id"),
+                        "logic_summary": inference.get("logic_summary"),
+                        "investment_score": score,
+                        "tags": inference.get("tags", []),
+                        "model_used": inference.get("model_used"),
+                        "tenant_id": inference.get("tenant_id"),
+                    }
+                )
+                .execute()
+            )
+            return result.data[0] if result.data else {}
+        except Exception as e:
+            print(f"[SupabaseClient] insert_ai_inference error: {e}")
+            return {}

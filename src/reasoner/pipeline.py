@@ -179,6 +179,7 @@ class ReasonerPipeline:
         # Step 6: Six-dimensional investment scoring (opt-in).
         # Gated by signal_score threshold so we only spend the extra
         # LLM calls on companies the rule-based layer already flagged.
+        inv = None
         if (
             self.investment_scorer is not None
             and score >= self.investment_score_threshold
@@ -209,12 +210,37 @@ class ReasonerPipeline:
                     flush=True,
                 )
 
+        upserted = None
         try:
-            self.supabase_pusher.push_company(enriched)
+            upserted = self.supabase_pusher.push_company(enriched)
         except Exception as e:
             print(
                 f"  [WARN] Supabase push failed for {company.get('company_name', domain)}: {e}"
             )
+
+        # When investment scoring ran AND the company upsert returned
+        # a row id, record the inference in ai_inferences. Failure
+        # here is non-fatal — the enriched.json already has the score
+        # so we never block the pipeline on a write to the audit
+        # table.
+        if inv is not None and upserted and upserted.get("id"):
+            try:
+                self.supabase_pusher.push_ai_inference(
+                    company_id=upserted["id"],
+                    investment_total=inv.total,
+                    analysis=inv.analysis,
+                    reasons=inv.reasons,
+                    breakdown=inv.breakdown.as_dict(),
+                    endorsement_bonus=inv.endorsement_bonus,
+                    model_used=inv.model_used,
+                    tenant_id=upserted.get("tenant_id"),
+                )
+            except Exception as e:
+                print(
+                    f"  [WARN] ai_inferences push failed for {company.get('company_name', domain)}: {e}",
+                    flush=True,
+                )
+
         return enriched
 
     def run(self) -> list[dict]:
