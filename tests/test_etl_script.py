@@ -1,5 +1,5 @@
 import json, pytest, os
-from scripts.etl_json_to_supabase import ETLPipeline
+from scripts.etl_json_to_supabase import run_etl
 
 def test_etl_is_idempotent(tmp_path):
     # Write minimal test data

@@ -1,5 +1,6 @@
 # src/reasoner/signals.py
 """Signal detection rules and scoring (mutually exclusive — highest wins)."""
+
 from dataclasses import dataclass
 from enum import IntEnum
 
@@ -39,7 +40,8 @@ Return a JSON object with these fields ONLY (no other text):
   "last_raise_amount_usd": number or null,
   "months_since_raise": number or null,
   "last_raise_date": "string or null",
-  "sector": "string"
+  "sector": "string",
+  "headcount": "number or null"
 }
 Be precise. Only set a field to true if there is clear evidence."""
 
@@ -60,7 +62,10 @@ Be precise. Only set a field to true if there is clear evidence."""
             return SignalScore.CFO_HIRE
 
         if last_raise_amount and months_since_raise is not None:
-            if 10_000_000 <= last_raise_amount <= 20_000_000 and months_since_raise >= 15:
+            if (
+                10_000_000 <= last_raise_amount <= 20_000_000
+                and months_since_raise >= 15
+            ):
                 return SignalScore.LAST_RAISE_10_20M_15MOS
 
         if months_since_raise is not None and months_since_raise >= 18:
@@ -91,7 +96,9 @@ Be precise. Only set a field to true if there is clear evidence."""
         """Extract all applicable tags (not mutually exclusive — can have multiple)."""
         tags = []
 
-        if valuation_over_1b or (last_raise_amount and last_raise_amount >= 100_000_000):
+        if valuation_over_1b or (
+            last_raise_amount and last_raise_amount >= 100_000_000
+        ):
             tags.append("Unicorn")
 
         if has_series_c_plus and (has_cfo_hire or has_audit_signals):
@@ -101,7 +108,10 @@ Be precise. Only set a field to true if there is clear evidence."""
             tags.append("Cross-Border Target")
 
         if last_raise_amount and months_since_raise:
-            if 10_000_000 <= last_raise_amount <= 20_000_000 and months_since_raise >= 15:
+            if (
+                10_000_000 <= last_raise_amount <= 20_000_000
+                and months_since_raise >= 15
+            ):
                 tags.append("Funding Urgency High")
 
         if robotics_supply_chain:
@@ -111,7 +121,7 @@ Be precise. Only set a field to true if there is clear evidence."""
 
     def analyze_text(self, text: str, model_chain) -> dict:
         """Use AI to extract signal flags from raw text."""
-        truncated = self._truncate_text(text, max_chars=4000)
+        truncated = self._truncate_text(text, max_chars=12000)
 
         response = model_chain.complete(
             prompt=truncated,
@@ -120,6 +130,7 @@ Be precise. Only set a field to true if there is clear evidence."""
         )
 
         import json
+
         try:
             text_response = response.text.strip()
             if text_response.startswith("```"):
@@ -130,6 +141,6 @@ Be precise. Only set a field to true if there is clear evidence."""
         except json.JSONDecodeError as e:
             raise ValueError(f"Failed to parse AI response: {e}")
 
-    def _truncate_text(self, text: str, max_chars: int = 4000) -> str:
+    def _truncate_text(self, text: str, max_chars: int = 12000) -> str:
         """Hard truncate to max_chars for token control."""
         return text[:max_chars] if len(text) > max_chars else text

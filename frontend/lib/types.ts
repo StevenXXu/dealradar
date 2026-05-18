@@ -14,6 +14,9 @@ export interface Company {
   source_url: string | null;
   created_at: string;
   updated_at: string;
+  // Enriched fields (populated by migration)
+  region: string | null;
+  funding_stage: string | null;
 }
 
 export interface Institution {

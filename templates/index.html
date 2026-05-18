@@ -67,7 +67,7 @@ async function refresh() {
   const [seeds, state, companies] = await Promise.all([
     fetch(API + '/api/vc-seeds').then(r => r.json()),
     fetch(API + '/api/state').then(r => r.json()),
-    fetch(API + '/api/companies').then(r => r.json()),
+    fetch(API + '/api/companies', { headers: { 'Authorization': 'Bearer DUMMY_TOKEN' } }).then(r => r.json()),
   ]);
   document.getElementById('statVCs').textContent = seeds.length;
   document.getElementById('statCompanies').textContent = companies.count;

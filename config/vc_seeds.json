@@ -1,9 +1,9 @@
 [
+  // ─── Australia & New Zealand ───────────────────────────────────────────────
   {
     "name": "Investible",
     "url": "https://www.investible.com/portfolio",
     "slug": "investible",
-    "faction_hint": "b",
     "detail_url_template": "https://www.investible.com/company/{slug}"
   },
   {
@@ -111,5 +111,193 @@
     "name": "Cicada",
     "url": "https://www.cicadainnovations.com/incubator/residents",
     "slug": "cicada"
+  },
+
+  // ─── United States — Tier 1: Top of Market ───────────────────────────────
+  {
+    "name": "Andreessen Horowitz",
+    "url": "https://a16z.com/portfolio/",
+    "slug": "a16z",
+    "tier": 1,
+    "region": "North America"
+  },
+  {
+    "name": "Sequoia Capital",
+    "url": "https://sequoia.com/companies/",
+    "slug": "sequoia",
+    "tier": 1,
+    "region": "North America"
+  },
+  {
+    "name": "Accel",
+    "url": "https://www.accel.com/portfolio",
+    "slug": "accel",
+    "tier": 1,
+    "region": "North America"
+  },
+  {
+    "name": "Bessemer Venture Partners",
+    "url": "https://www.bvp.com/portfolio",
+    "slug": "bessemer",
+    "tier": 1,
+    "region": "North America"
+  },
+  {
+    "name": "Greylock Partners",
+    "url": "https://www.greylock.com/portfolio/",
+    "slug": "greylock",
+    "tier": 1,
+    "region": "North America"
+  },
+  {
+    "name": "General Catalyst",
+    "url": "https://www.generalcatalyst.com/portfolio",
+    "slug": "general-catalyst",
+    "tier": 1,
+    "region": "North America"
+  },
+  {
+    "name": "Kleiner Perkins",
+    "url": "https://www.kleinerperkins.com/portfolio",
+    "slug": "kleiner-perkins",
+    "tier": 1,
+    "region": "North America"
+  },
+  {
+    "name": "New Enterprise Associates",
+    "url": "https://www.nea.com/portfolio",
+    "slug": "nea",
+    "tier": 1,
+    "region": "North America"
+  },
+  {
+    "name": "Insight Partners",
+    "url": "https://www.insightpartners.com/#companies",
+    "slug": "insight-partners",
+    "tier": 1,
+    "region": "North America"
+  },
+  {
+    "name": "Lightspeed Venture Partners",
+    "url": "https://lsvp.com/portfolio/",
+    "slug": "lightspeed",
+    "tier": 1,
+    "region": "North America"
+  },
+
+  // ─── United States — Tier 2: Elite Stage-Specific ─────────────────────────
+  {
+    "name": "Benchmark",
+    "url": "https://www.benchmark.com/companies",
+    "slug": "benchmark",
+    "tier": 2,
+    "region": "North America"
+  },
+  {
+    "name": "Founders Fund",
+    "url": "https://foundersfund.com/portfolio/",
+    "slug": "founders-fund",
+    "tier": 2,
+    "region": "North America"
+  },
+  {
+    "name": "Spark Capital",
+    "url": "https://www.sparkcapital.com/companies",
+    "slug": "spark-capital",
+    "tier": 2,
+    "region": "North America"
+  },
+  {
+    "name": "First Round Capital",
+    "url": "https://firstround.com/portfolio/",
+    "slug": "first-round",
+    "tier": 2,
+    "region": "North America"
+  },
+  {
+    "name": "Khosla Ventures",
+    "url": "https://www.khoslaventures.com/portfolio",
+    "slug": "khosla",
+    "tier": 2,
+    "region": "North America"
+  },
+  {
+    "name": "True Ventures",
+    "url": "https://trueventures.com/portfolio/",
+    "slug": "true-ventures",
+    "tier": 2,
+    "region": "North America"
+  },
+  {
+    "name": "Boldstart Ventures",
+    "url": "https://boldstart.vc/portfolio/",
+    "slug": "boldstart",
+    "tier": 2,
+    "region": "North America"
+  },
+  {
+    "name": "Founder Collective",
+    "url": "https://foundercollective.com/portfolio/",
+    "slug": "founder-collective",
+    "tier": 2,
+    "region": "North America"
+  },
+  {
+    "name": "BoxGroup",
+    "url": "https://www.boxgroup.com/portfolio",
+    "slug": "boxgroup",
+    "tier": 2,
+    "region": "North America"
+  },
+  {
+    "name": "Susa Ventures",
+    "url": "https://susa.vc/portfolio/",
+    "slug": "susa",
+    "tier": 2,
+    "region": "North America"
+  },
+  {
+    "name": "Rain Capital",
+    "url": "https://raincapital.com/portfolio/",
+    "slug": "rain-capital",
+    "tier": 2,
+    "region": "North America"
+  },
+
+  // ─── United States — Tier 3: Emerging / Regional ───────────────────────────
+  {
+    "name": "Maverick Ventures",
+    "url": "https://www.maverickventures.com/companies",
+    "slug": "maverick",
+    "tier": 3,
+    "region": "North America"
+  },
+  {
+    "name": "TTV Capital",
+    "url": "https://ttvcap.com/portfolio/",
+    "slug": "ttv",
+    "tier": 3,
+    "region": "North America"
+  },
+  {
+    "name": "Mojo Genomics",
+    "url": "https://mojoadvisors.io/portfolio",
+    "slug": "mojo",
+    "tier": 3,
+    "region": "North America"
+  },
+  {
+    "name": "Emerge",
+    "url": "https://www.emerg.vc/portfolio/",
+    "slug": "emerge",
+    "tier": 3,
+    "region": "North America"
+  },
+  {
+    "name": "GAAlyze",
+    "url": "https://gaalyze.com/portfolio/",
+    "slug": "gaalyze",
+    "tier": 3,
+    "region": "North America"
   }
 ]

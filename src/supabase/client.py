@@ -48,6 +48,7 @@ class SupabaseClient:
                     "ai_model_used": company.get("ai_model_used"),
                     "source_url": company.get("source_url"),
                     "updated_at": datetime.now(timezone.utc).isoformat(),
+                    "tenant_id": company.get("tenant_id"),
                 },
                 on_conflict="domain",
                 ignore_duplicates=False,
@@ -74,6 +75,7 @@ class SupabaseClient:
                     "website_url": institution.get("website_url"),
                     "tier": institution.get("tier", 3),
                     "portfolio_url": institution.get("portfolio_url"),
+                    "tenant_id": institution.get("tenant_id"),
                 },
                 on_conflict="name",
             ).execute()
@@ -91,6 +93,7 @@ class SupabaseClient:
                     "content": signal.get("content", {}),
                     "signal_score": signal.get("signal_score", 0),
                     "status": signal.get("status", "pending"),
+                    "tenant_id": signal.get("tenant_id"),
                 }
             ).execute()
             return result.data[0] if result.data else {}
@@ -135,4 +138,120 @@ class SupabaseClient:
             return result.data[0] if result.data else {}
         except Exception as e:
             print(f"[SupabaseClient] reject_signal error: {e}")
+            return {}
+
+    def update_company(self, company_id: str, fields: dict) -> dict:
+        """Update arbitrary columns on a single company row by id.
+        Used by WatchlistService for set_watchlist and verified_metrics
+        merges. Returns the updated row (empty dict on error/no-op)."""
+        try:
+            result = (
+                self._client.table("companies")
+                .update(fields)
+                .eq("id", company_id)
+                .execute()
+            )
+            return result.data[0] if result.data else {}
+        except Exception as e:
+            print(f"[SupabaseClient] update_company error: {e}")
+            return {}
+
+    def get_company_by_id(self, company_id: str) -> dict:
+        try:
+            result = (
+                self._client.table("companies")
+                .select("*")
+                .eq("id", company_id)
+                .limit(1)
+                .execute()
+            )
+            return result.data[0] if result.data else {}
+        except Exception as e:
+            print(f"[SupabaseClient] get_company_by_id error: {e}")
+            return {}
+
+    def insert_monitor_event(self, event: dict) -> dict:
+        """Append-only insert into monitor_events. event_id has a
+        UNIQUE constraint so re-ingesting the same canonical payload
+        is a no-op (raises a UniqueViolation that's caught and
+        treated as 'already recorded')."""
+        try:
+            result = (
+                self._client.table("monitor_events")
+                .insert(
+                    {
+                        "event_id": event["event_id"],
+                        "event_type": event["event_type"],
+                        "trigger_reason": event.get("trigger_reason"),
+                        "company_id": event.get("company_id"),
+                        "evidence_source": event.get("evidence_source"),
+                        "metric_keys": event.get("metric_keys", []),
+                        "new_verified_metrics": event.get("new_verified_metrics", {}),
+                        "tenant_id": event.get("tenant_id"),
+                    }
+                )
+                .execute()
+            )
+            return result.data[0] if result.data else {}
+        except Exception as e:
+            # UNIQUE violation on event_id is expected (idempotent
+            # re-ingest); not actually an error condition.
+            msg = str(e).lower()
+            if "unique" in msg or "duplicate" in msg or "23505" in msg:
+                return {"event_id": event["event_id"], "duplicate": True}
+            print(f"[SupabaseClient] insert_monitor_event error: {e}")
+            return {}
+
+    def list_monitor_events(
+        self,
+        company_id: str | None = None,
+        tenant_id: str | None = None,
+        limit: int = 50,
+    ) -> list[dict]:
+        try:
+            q = (
+                self._client.table("monitor_events")
+                .select("*")
+                .order("triggered_at", desc=True)
+                .limit(limit)
+            )
+            if company_id:
+                q = q.eq("company_id", company_id)
+            if tenant_id:
+                q = q.eq("tenant_id", tenant_id)
+            result = q.execute()
+            return result.data or []
+        except Exception as e:
+            print(f"[SupabaseClient] list_monitor_events error: {e}")
+            return []
+
+    def insert_ai_inference(self, inference: dict) -> dict:
+        """Persist a single LLM-derived inference (today: an
+        investment_score result from InvestmentScorer). The schema's
+        investment_score column is INT, so any float total is rounded
+        before insert. Returns the inserted row (empty dict on error
+        — non-fatal so a failed inference write never blocks the
+        upstream reasoner pipeline)."""
+        try:
+            score = inference.get("investment_score")
+            if score is not None:
+                score = int(round(float(score)))
+            result = (
+                self._client.table("ai_inferences")
+                .insert(
+                    {
+                        "company_id": inference["company_id"],
+                        "signal_id": inference.get("signal_id"),
+                        "logic_summary": inference.get("logic_summary"),
+                        "investment_score": score,
+                        "tags": inference.get("tags", []),
+                        "model_used": inference.get("model_used"),
+                        "tenant_id": inference.get("tenant_id"),
+                    }
+                )
+                .execute()
+            )
+            return result.data[0] if result.data else {}
+        except Exception as e:
+            print(f"[SupabaseClient] insert_ai_inference error: {e}")
             return {}

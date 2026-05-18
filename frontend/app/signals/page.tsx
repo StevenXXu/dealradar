@@ -2,6 +2,15 @@ import { AdminSignalTable } from "@/components/AdminSignalTable";
 import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
 
+// Force dynamic rendering. The Clerk server auth() call requires
+// runtime request context and a configured ClerkProvider chain;
+// running it during Vercel's static prerender pass throws the same
+// way /alerts did at commit 1c15677. Marking this page dynamic
+// defers auth() to request time so build succeeds even before
+// Clerk env vars are wired up. When Clerk is fully onboarded this
+// can stay as-is (dynamic) or be re-evaluated.
+export const dynamic = "force-dynamic";
+
 export default async function SignalsAdminPage() {
   // Phase 1: any authenticated user can access. Tighten to specific user emails in Phase 2.
   await auth();

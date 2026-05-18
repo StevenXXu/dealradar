@@ -1,12 +1,9 @@
-import { clerkMiddleware } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-export default clerkMiddleware(async (auth, req) => {
-  const { userId, redirectToSignIn } = await auth();
-  const isProtectedRoute = req.nextUrl.pathname.startsWith("/signals");
-  if (isProtectedRoute && !userId) {
-    await redirectToSignIn();
-  }
-});
+export default function proxy(req: NextRequest) {
+  return NextResponse.next();
+}
 
 export const config = {
   matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],

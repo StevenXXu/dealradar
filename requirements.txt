@@ -2,12 +2,25 @@
 requests>=2.31.0
 fastapi>=0.115.0
 uvicorn[standard]>=0.30.0
+# Used by app.py for the legacy templates/index.html dashboard.
+jinja2>=3.1.0
+# Used by src/harvester/extractor.py for parallel dead-domain probes.
+aiohttp>=3.9.0
 beautifulsoup4>=4.12.0
 lxml>=4.9.0
 notion-client>=2.0.0
-google-generativeai>=0.8.0
+# New Google GenAI SDK (used as `import google.genai` by src/reasoner/models.py).
+# Replaces the legacy `google-generativeai` package which is not imported anywhere.
+google-genai>=1.0.0
 openai>=1.12.0
 python-dotenv>=1.0.0
 tqdm>=4.66.0
 sendgrid>=6.12.0
 apscheduler>=3.10.0
+celery>=5.3.0
+redis>=5.0.0
+# Imported unconditionally by src/supabase/client.py
+supabase>=2.0.0
+# Imported unconditionally by src/harvester/playwright_scraper.py
+# Note: after install, run `python -m playwright install chromium` once.
+playwright>=1.40.0

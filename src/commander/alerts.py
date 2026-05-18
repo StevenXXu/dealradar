@@ -105,3 +105,69 @@ def send_raise_alert_email(raise_event: dict) -> bool:
         print(f"  [ERROR] SendGrid send failed: {e}")
         return False
 
+
+import json
+from src.supabase.client import SupabaseClient
+
+def get_tenant_webhooks(tenant_id: str | None = None) -> tuple[str | None, str | None]:
+    try:
+        client = SupabaseClient()
+        if not tenant_id or tenant_id == "default":
+            # fetch default tenant ID
+            t_res = client._client.table("tenants").select("id").eq("slug", "default").execute()
+            if t_res.data:
+                tenant_id = t_res.data[0]["id"]
+        
+        if tenant_id:
+            res = client._client.table("tenants").select("slack_webhook_url, custom_webhook_url").eq("id", tenant_id).execute()
+            if res.data:
+                return res.data[0].get("slack_webhook_url"), res.data[0].get("custom_webhook_url")
+    except Exception as e:
+        print(f"[WARN] Error fetching tenant webhooks: {e}")
+    return None, None
+
+def send_webhook_alert(raise_event: dict) -> bool:
+    tenant_id = raise_event.get("tenant_id")
+    slack_url, custom_url = get_tenant_webhooks(tenant_id)
+    
+    if not slack_url and not custom_url:
+        return False
+        
+    company = raise_event.get("company_name", "Unknown Company")
+    amount = raise_event.get("last_raise_amount", "Unknown")
+    vc = raise_event.get("vc_source", "Unknown")
+    domain = raise_event.get("domain", "")
+    
+    success = False
+    
+    if slack_url:
+        slack_payload = {
+            "text": (
+                f"🚀 *[DealRadar Alert]* {company} raised {amount}\n"
+                f"*VC Source:* {vc}\n"
+                f"*Domain:* {domain}"
+            )
+        }
+        try:
+            resp = requests.post(slack_url, json=slack_payload, timeout=5)
+            if resp.ok:
+                print(f"  [ALERT] Slack webhook sent for {company}")
+                success = True
+            else:
+                print(f"  [ERROR] Slack webhook failed: {resp.status_code}")
+        except Exception as e:
+            print(f"  [ERROR] Slack webhook error: {e}")
+            
+    if custom_url:
+        try:
+            resp = requests.post(custom_url, json=raise_event, timeout=5)
+            if resp.ok:
+                print(f"  [ALERT] Custom webhook sent for {company}")
+                success = True
+            else:
+                print(f"  [ERROR] Custom webhook failed: {resp.status_code}")
+        except Exception as e:
+            print(f"  [ERROR] Custom webhook error: {e}")
+            
+    return success
+

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { Company, Institution } from "@/lib/types";
-import { CompanyCard } from "@/components/CompanyCard";
+import { DealCard } from "@/components/DealCard";
 import Link from "next/link";
 
 export default function VCPortfolioPage() {
@@ -74,7 +74,7 @@ export default function VCPortfolioPage() {
       ) : (
         <div className="grid gap-4">
           {companies.map((company) => (
-            <CompanyCard key={company.id} company={company} />
+            <DealCard key={company.id} company={company} />
           ))}
         </div>
       )}
